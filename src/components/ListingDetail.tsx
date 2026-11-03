@@ -4,6 +4,7 @@ import { WEIGHTS } from '../config/weights';
 import { btn, Chip, ModeBadge, ScoreRing, timeAgo } from './ui';
 import { termLabel } from './ListingCard';
 import { placeLabel } from '../lib/tracker';
+import { Check, Minus, X } from 'lucide-react';
 import { useApp } from '../state/AppState';
 
 const PART_LABEL = {
@@ -11,6 +12,7 @@ const PART_LABEL = {
   role: 'Role & keywords',
   location: 'Location',
   date: 'Dates',
+  prefs: 'Preferences',
   recency: 'Recency',
 } as const;
 
@@ -111,6 +113,26 @@ export function ListingDetail({
                   />
                 </span>
                 <span className="text-right font-mono">{Math.round(match.parts[k] * 100)}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {showScore && match && match.checks.length > 0 && (
+        <section aria-label="Your preferences">
+          <h3 className="mb-2 text-sm font-semibold">Your preferences</h3>
+          <ul className="space-y-1 text-sm">
+            {match.checks.map((c) => (
+              <li key={c.key} className="flex items-center gap-2">
+                {c.state === 'match' ? (
+                  <Check size={14} className="shrink-0 text-match" aria-label="matches" />
+                ) : c.state === 'miss' ? (
+                  <X size={14} className="shrink-0 text-flag" aria-label="does not match" />
+                ) : (
+                  <Minus size={14} className="shrink-0 text-muted" aria-label="unknown" />
+                )}
+                <span className={c.state === 'match' ? '' : 'text-muted'}>{c.label}</span>
               </li>
             ))}
           </ul>

@@ -20,6 +20,9 @@ export const EMPTY_PROFILE: Profile = {
   workModes: [],
   availableFrom: null,
   availableTo: null,
+  interests: [],
+  keywords: [],
+  companySizes: [],
   paid: 'any',
   needsSponsorship: false,
 };

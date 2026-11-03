@@ -22,3 +22,6 @@ One line per decision: what, and why. Newest last.
 - **Committed sample `public/data/`** so a fresh clone renders; the deploy workflow overwrites it on every run.
 - **License**: kept MIT; copyright line set to "Shriyank Reddy Singireddy".
 - **Prettier ignores `public/data` and the lockfile**; ESLint/Prettier run on source only.
+- **Company size is curated metadata, not scraped**: `size` per company in `data/companies.json` (large for well-known big employers, startup for AI/startup categories, otherwise mid). It is approximate and labelled "(approx.)" in the UI; sample companies got hand-set sizes.
+- **Match weights changed** to add a `prefs` part (pay, size, sponsorship): skills .35, role .20, location .18, date .12, prefs .10, recency .05. Parts for preferences the user did not set are neutral (0.5).
+- **`lucide-react`** added as the single icon set for the UI.

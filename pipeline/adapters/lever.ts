@@ -33,7 +33,8 @@ export function parseLever(json: unknown, seed: CompanySeed): RawJob[] {
       text: [j.descriptionPlain ?? htmlToText(j.description ?? ''), j.additionalPlain ?? '']
         .join('\n')
         .trim(),
-      postedAt: j.createdAt ? new Date(j.createdAt).toISOString() : null,
+      companySize: seed.size ?? null,
+ postedAt: j.createdAt ? new Date(j.createdAt).toISOString() : null,
     };
   });
 }

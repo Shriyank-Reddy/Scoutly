@@ -1,4 +1,5 @@
 import type { Listing, Profile } from '../shared/types';
+import { interestHit, interestLabel } from '../shared/interests';
 import { SKILL_WEIGHT } from '../shared/skills';
 import { dateFit } from '../shared/dates';
 import { findCityByKey, minDistanceKm } from '../shared/locations';
@@ -11,15 +12,93 @@ import {
   WEIGHTS,
 } from '../config/weights';
 
+export interface Check {
+  key: string;
+  label: string;
+  state: 'match' | 'miss' | 'unknown';
+}
+
 export interface MatchResult {
   score: number; // 0..1
-  parts: { skills: number; role: number; location: number; date: number; recency: number };
+  parts: {
+    skills: number;
+    role: number;
+    location: number;
+    date: number;
+    prefs: number;
+    recency: number;
+  };
   reasons: {
-    kind: 'skills' | 'role' | 'location' | 'date' | 'recency';
+    kind: 'skills' | 'role' | 'location' | 'date' | 'recency' | 'pref';
     text: string;
     good: boolean;
   }[];
+  /** Which of the user's stated preferences this listing satisfies (shown in the detail drawer). */
+  checks: Check[];
   matchedSkills: string[];
+}
+
+const SIZE_LABEL = { startup: 'Startup', mid: 'Mid-size', large: 'Large company' } as const;
+const MODE_LABEL = { onsite: 'In person', hybrid: 'Hybrid', remote: 'Remote' } as const;
+
+/** Pay / company size / sponsorship preferences, each as a check plus a 0..1 value (only for preferences that are set). */
+export function prefChecks(l: Listing, p: Profile): { checks: Check[]; values: number[] } {
+  const checks: Check[] = [];
+  const values: number[] = [];
+  if (p.paid !== 'any') {
+    const state = l.paid === 'unknown' ? 'unknown' : l.paid === p.paid ? 'match' : 'miss';
+    const label =
+      state === 'unknown'
+        ? 'Pay not stated'
+        : l.paid === 'paid'
+          ? 'Pay stated in posting'
+          : 'Mentions unpaid';
+    checks.push({ key: 'pay', state, label });
+    values.push(state === 'match' ? 1 : state === 'miss' ? 0 : 0.4);
+  }
+  if (p.companySizes.length) {
+    const state = !l.companySize
+      ? 'unknown'
+      : p.companySizes.includes(l.companySize)
+        ? 'match'
+        : 'miss';
+    checks.push({
+      key: 'size',
+      state,
+      label: l.companySize ? `${SIZE_LABEL[l.companySize]} (approx.)` : 'Company size unknown',
+    });
+    values.push(state === 'match' ? 1 : state === 'miss' ? 0.2 : NEUTRAL);
+  }
+  if (p.needsSponsorship) {
+    const BAD = ['no-sponsorship', 'citizenship', 'clearance'];
+    const bad = l.authFlags.find((f) => BAD.includes(f.id));
+    const good = l.authFlags.some((f) => ['sponsorship-available', 'cpt-opt'].includes(f.id));
+    const state = bad ? 'miss' : good ? 'match' : 'unknown';
+    checks.push({
+      key: 'sponsor',
+      state,
+      label: bad
+        ? `Mentions: ${bad.label}`
+        : good
+          ? 'Mentions sponsorship / CPT / OPT'
+          : 'Sponsorship not stated',
+    });
+    values.push(state === 'match' ? 1 : state === 'miss' ? 0 : NEUTRAL);
+  }
+  return { checks, values };
+}
+
+/** Best interest hit for a listing (max over the chips the user selected), plus which chips matched. */
+export function interestScore(l: Listing, selected: string[]): { score: number; hits: string[] } {
+  const rest = `${l.snippet} ${l.skills.join(' ')}`;
+  const hits: string[] = [];
+  let best = 0;
+  for (const id of selected) {
+    const h = interestHit(id, l.title, rest);
+    if (h > 0) hits.push(id);
+    best = Math.max(best, h);
+  }
+  return { score: best, hits };
 }
 
 const STOP = new Set([
@@ -126,9 +205,8 @@ export function scoreListings(
   now = Date.now(),
 ): Map<string, MatchResult> {
   const bm25 = buildBm25(listings.map((l) => `${l.title} ${l.title} ${l.snippet}`));
-  const query = tokenize(
-    profile.targetRoles.length ? profile.targetRoles.join(' ') : profile.skills.join(' '),
-  );
+  const roleWords = [...profile.targetRoles, ...profile.keywords].join(' ');
+  const query = tokenize(roleWords || (profile.interests.length ? '' : profile.skills.join(' ')));
   const raw = query.length ? bm25(query) : [];
   const maxRaw = Math.max(0, ...raw);
   const mine = new Set(profile.skills);
@@ -152,9 +230,20 @@ export function scoreListings(
         good: true,
       });
 
-    const role = !query.length ? NEUTRAL : maxRaw > 0 ? raw[i] / maxRaw : 0;
-    if (query.length && role >= 0.6 && profile.targetRoles.length)
+    const signals: number[] = [];
+    const textSim = query.length && maxRaw > 0 ? raw[i] / maxRaw : 0;
+    if (query.length) signals.push(textSim);
+    const interest = interestScore(l, profile.interests);
+    if (profile.interests.length) signals.push(interest.score);
+    const role = signals.length ? signals.reduce((a, b) => a + b, 0) / signals.length : NEUTRAL;
+    if (roleWords && textSim >= 0.6)
       reasons.push({ kind: 'role', text: 'Fits your target roles', good: true });
+    if (interest.hits.length)
+      reasons.push({
+        kind: 'pref',
+        text: interest.hits.map(interestLabel).slice(0, 2).join(', '),
+        good: true,
+      });
 
     const loc = locationScore(l, profile);
     if (loc.reason) reasons.push({ kind: 'location', text: loc.reason, good: loc.good });
@@ -184,12 +273,71 @@ export function scoreListings(
         good: true,
       });
 
-    const parts = { skills, role, location: loc.value, date, recency };
+    const pc = prefChecks(l, profile);
+    const prefs = pc.values.length
+      ? pc.values.reduce((a, b) => a + b, 0) / pc.values.length
+      : NEUTRAL;
+    for (const c of pc.checks)
+      if (c.state === 'match') reasons.push({ kind: 'pref', text: c.label, good: true });
+    if (
+      profile.workModes.length &&
+      l.workMode !== 'unknown' &&
+      profile.workModes.includes(l.workMode) &&
+      l.workMode !== 'remote'
+    )
+      reasons.push({ kind: 'pref', text: MODE_LABEL[l.workMode], good: true });
+
+    const checks: Check[] = [];
+    if (profile.interests.length)
+      checks.push({
+        key: 'interest',
+        state: interest.hits.length ? 'match' : 'miss',
+        label: interest.hits.length
+          ? `Interest: ${interest.hits.map(interestLabel).join(', ')}`
+          : 'No interest chip matched',
+      });
+    if (profile.workModes.length)
+      checks.push({
+        key: 'mode',
+        state:
+          l.workMode === 'unknown'
+            ? 'unknown'
+            : profile.workModes.includes(l.workMode)
+              ? 'match'
+              : 'miss',
+        label: l.workMode === 'unknown' ? 'Work mode not stated' : MODE_LABEL[l.workMode],
+      });
+    if (profile.availableFrom && profile.availableTo)
+      checks.push({
+        key: 'dates',
+        state: fit === null ? 'unknown' : fit > 0 ? 'match' : 'miss',
+        label:
+          fit === null
+            ? 'Dates not stated'
+            : fit > 0
+              ? 'Fits your availability'
+              : 'Outside your availability',
+      });
+    if (profile.locations.length || profile.workModes.includes('remote'))
+      checks.push({
+        key: 'place',
+        state: loc.good ? 'match' : l.workMode === 'remote' ? 'unknown' : 'miss',
+        label: loc.reason ?? (l.workMode === 'remote' ? 'Remote' : 'Outside your cities'),
+      });
+    checks.push(...pc.checks);
+
+    const parts = { skills, role, location: loc.value, date, prefs, recency };
     const score = (Object.keys(WEIGHTS) as (keyof typeof WEIGHTS)[]).reduce(
       (n, k) => n + WEIGHTS[k] * parts[k],
       0,
     );
-    out.set(l.id, { score: Math.max(0, Math.min(1, score)), parts, reasons, matchedSkills });
+    out.set(l.id, {
+      score: Math.max(0, Math.min(1, score)),
+      parts,
+      reasons,
+      checks,
+      matchedSkills,
+    });
   });
   return out;
 }

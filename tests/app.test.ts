@@ -133,3 +133,21 @@ describe('resume file validation', () => {
     expect(validateResumeFile({ name: 'cv.pdf', size: 0 })).toMatch(/empty/);
   });
 });
+
+import { monthStart, monthEnd, isoToMonth } from '../src/lib/months';
+import { interestHit } from '../src/shared/interests';
+describe('months and interests', () => {
+  it('converts month pickers to inclusive date ranges', () => {
+    expect(monthStart('2027-05')).toBe('2027-05-01');
+    expect(monthEnd('2027-08')).toBe('2027-08-31');
+    expect(monthEnd('2028-02')).toBe('2028-02-29');
+    expect(monthStart('')).toBeNull();
+    expect(monthEnd('2027-13')).toBeNull();
+    expect(isoToMonth('2027-05-01')).toBe('2027-05');
+  });
+  it('matches interest keywords on whole words only', () => {
+    expect(interestHit('ai-ml', 'AI Research Intern', '')).toBe(1);
+    expect(interestHit('ai-ml', 'Intern', 'fair hiring')).toBe(0); // "ai" inside "fair" must not match
+    expect(interestHit('security', 'Intern', 'work on threat detection')).toBe(0.6);
+  });
+});

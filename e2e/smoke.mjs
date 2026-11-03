@@ -25,8 +25,8 @@ await page.getByText(/Extracted \d+ skills/).waitFor();
 await page.getByLabel('Name', { exact: true }).waitFor();
 
 await page.getByRole('link', { name: 'Profile', exact: true }).click();
-await page.getByLabel('Available from').fill('2027-05-10');
-await page.getByLabel('Available until').fill('2027-08-15');
+await page.getByLabel('Available from').fill('2027-05');
+await page.getByLabel('Available until').fill('2027-08');
 
 await page.getByRole('link', { name: 'Search', exact: true }).click();
 await page

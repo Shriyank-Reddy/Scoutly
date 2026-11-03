@@ -1,10 +1,11 @@
 // ALL matching knobs live here (documented in docs/ARCHITECTURE.md and the README).
-// The five weights must add up to 1 so the final score is a clean 0..100%.
+// The six weights must add up to 1 so the final score is a clean 0..100%.
 export const WEIGHTS = {
-  skills: 0.4, // overlap between your skills and the skills the posting mentions
-  role: 0.2, // BM25 similarity between your target roles and the title + snippet
-  location: 0.2, // preferred cities / radius / remote / work-mode fit
-  date: 0.15, // overlap of your availability window with the posting's dates
+  skills: 0.35, // overlap between your skills and the skills the posting mentions
+  role: 0.2, // BM25 on target roles + keywords, blended with your interest chips
+  location: 0.18, // preferred cities / radius / remote / work-mode fit
+  date: 0.12, // overlap of your availability window with the posting's dates
+  prefs: 0.1, // pay, company size and sponsorship / CPT preferences
   recency: 0.05, // newer postings first
 } as const;
 

@@ -4,6 +4,7 @@ export type WorkMode = 'onsite' | 'hybrid' | 'remote' | 'unknown';
 export type Season = 'spring' | 'summer' | 'fall' | 'winter';
 export type Engagement = 'co-op' | 'part-time';
 export type PaidStatus = 'paid' | 'unpaid' | 'unknown';
+export type CompanySize = 'startup' | 'mid' | 'large';
 
 export interface Place {
   city: string | null;
@@ -37,6 +38,7 @@ export interface Listing {
   snippet: string;
   skills: string[]; // canonical skill names
   authFlags: AuthFlag[];
+  companySize: CompanySize | null; // approximate, curated in data/companies.json (not from the posting)
   source: SourceName;
   sourceId: string;
 }
@@ -51,6 +53,7 @@ export interface RawJob {
   locationTexts: string[];
   remoteHint: boolean | null;
   text: string; // plain-text description
+  companySize: CompanySize | null;
   postedAt: string | null;
 }
 
@@ -69,6 +72,7 @@ export interface CompanySeed {
   source: SourceName;
   slug: string;
   category: string;
+  size?: CompanySize;
 }
 
 export interface Profile {
@@ -83,6 +87,9 @@ export interface Profile {
   workModes: ('remote' | 'hybrid' | 'onsite')[];
   availableFrom: string | null; // ISO date
   availableTo: string | null;
-  paid: 'any' | 'paid';
+  interests: string[]; // ids from src/shared/interests.ts
+  keywords: string[]; // free-text keywords
+  companySizes: CompanySize[];
+  paid: 'any' | 'paid' | 'unpaid';
   needsSponsorship: boolean;
 }

@@ -122,3 +122,66 @@ describe('recency', () => {
     expect(recencyScore(null, NOW)).toBe(0.3);
   });
 });
+
+describe('personalisation (interests, keywords, preferences)', () => {
+  const sec = mk({
+    id: 'sec',
+    title: 'Security Engineering Intern',
+    snippet: 'Threat modeling and penetration testing',
+    skills: ['Penetration Testing'],
+    companySize: 'mid',
+  });
+  const design = mk({
+    id: 'des',
+    title: 'Product Design Intern',
+    snippet: 'Figma and user research',
+    skills: ['Figma'],
+    companySize: 'large',
+  });
+  it('ranks listings matching an interest chip above others', () => {
+    expect(rank([design, sec], profile({ interests: ['security'] }))[0]).toBe('sec');
+    expect(rank([sec, design], profile({ interests: ['design'] }))[0]).toBe('des');
+  });
+  it('free-text keywords feed the role score', () => {
+    expect(rank([sec, design], profile({ keywords: ['figma'] }))[0]).toBe('des');
+  });
+  it('lists interest chips as reasons and as a preference check', () => {
+    const r = scoreListings([sec], profile({ interests: ['security', 'design'] }), NOW).get('sec')!;
+    expect(r.reasons.some((x) => x.kind === 'pref' && x.text === 'Security')).toBe(true);
+    expect(r.checks.find((c) => c.key === 'interest')).toMatchObject({ state: 'match' });
+  });
+  it('company size preference matches and misses', () => {
+    const r = scoreListings([sec, design], profile({ companySizes: ['mid'] }), NOW);
+    expect(r.get('sec')!.checks.find((c) => c.key === 'size')!.state).toBe('match');
+    expect(r.get('des')!.checks.find((c) => c.key === 'size')!.state).toBe('miss');
+    expect(r.get('sec')!.parts.prefs).toBeGreaterThan(r.get('des')!.parts.prefs);
+  });
+  it('pay preference: stated pay beats unknown beats unpaid', () => {
+    const paid = mk({ id: 'p', paid: 'paid' }),
+      unk = mk({ id: 'u' }),
+      unpaid = mk({ id: 'n', paid: 'unpaid' });
+    expect(rank([unpaid, unk, paid], profile({ paid: 'paid' }))).toEqual(['p', 'u', 'n']);
+  });
+  it('sponsorship need rewards CPT/sponsorship text and penalises "no sponsorship"', () => {
+    const ok = mk({ id: 'ok', authFlags: [{ id: 'cpt-opt', label: 'CPT/OPT', match: 'CPT' }] });
+    const bad = mk({
+      id: 'bad',
+      authFlags: [{ id: 'no-sponsorship', label: 'no sponsorship', match: 'no sponsorship' }],
+    });
+    const plain = mk({ id: 'plain' });
+    const me = profile({ needsSponsorship: true });
+    expect(rank([bad, plain, ok], me)).toEqual(['ok', 'plain', 'bad']);
+    expect(
+      scoreListings([bad], me, NOW)
+        .get('bad')!
+        .checks.find((c) => c.key === 'sponsor')!.label,
+    ).toMatch(/Mentions: no sponsorship/);
+    expect(
+      scoreListings([plain], me, NOW)
+        .get('plain')!
+        .checks.find((c) => c.key === 'sponsor')!.state,
+    ).toBe('unknown');
+  });
+  it('shows no preference checks when none are set', () =>
+    expect(scoreListings([sec], profile(), NOW).get('sec')!.checks).toEqual([]));
+});
