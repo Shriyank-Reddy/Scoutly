@@ -41,7 +41,7 @@ Nothing runs on a server. The pipeline produces JSON once a day; the browser dow
 
 **`src/shared/dates.ts`, `workmode.ts`, `authflags.ts`, `skills.ts`**: text extraction. Season/year/date ranges (never guessed), remote/hybrid/in-person, work-authorization phrases (text matches only), and a skills dictionary with aliases.
 
-**`src/lib/match.ts` + `src/config/weights.ts`**: the scoring model. Five parts in 0..1: skills 0.40, role/keywords (BM25) 0.20, location 0.20, dates 0.15, recency 0.05. Weights, neutral value and decay constants live only in `weights.ts`. Each result carries reason chips.
+**`src/lib/match.ts` + `src/config/weights.ts`**: the scoring model. Six parts in 0..1: skills 0.35, role/keywords/interests (BM25 + interest chips) 0.20, location 0.18, dates 0.12, preferences (pay, size, sponsorship) 0.10, recency 0.05. Weights, neutral value and decay constants live only in `weights.ts`. Each result carries reason chips.
 
 **`src/lib/filters.ts`**: the filter state, its round-trip to URL query params, and `applyFilters`.
 

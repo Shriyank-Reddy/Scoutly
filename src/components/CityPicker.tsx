@@ -32,7 +32,7 @@ export function CityPicker({
       {results.length > 0 && (
         <ul
           id={`${id}-list`}
-          className="absolute z-20 mt-1 max-h-64 w-full overflow-auto rounded-lg border border-line bg-surface-2 p-1 shadow-xl"
+          className="absolute z-20 mt-1 max-h-64 w-full overflow-auto rounded border border-line bg-surface-2 p-1"
         >
           {results.map((c) => (
             <li key={cityKey(c)}>
@@ -45,7 +45,7 @@ export function CityPicker({
                 }}
               >
                 {cityLabel(c)}{' '}
-                <span className="font-mono text-[11px] text-muted">
+                <span className="font-mono text-xs text-muted">
                   {c.pop >= 1000 ? `${Math.round(c.pop / 1000)}k` : c.pop}
                 </span>
               </button>

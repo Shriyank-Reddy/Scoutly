@@ -42,6 +42,7 @@ export function normalise(raw: RawJob): Listing {
     snippet: makeSnippet(text),
     skills: extractSkills(`${raw.title}\n${text}`),
     authFlags: detectAuthFlags(text),
+    companySize: raw.companySize,
     source: raw.source,
     sourceId: raw.sourceId,
   };

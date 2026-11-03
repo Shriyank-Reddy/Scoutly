@@ -5,7 +5,7 @@ import {
   filtersToParams,
   paramsToFilters,
 } from '../src/lib/filters';
-import { parseResumeText } from '../src/lib/resume';
+import { parseResumeText, validateResumeFile } from '../src/lib/resume';
 import { toCsv, newItem } from '../src/lib/tracker';
 import { mk, profile, TEMPE, SF } from './helpers';
 
@@ -40,13 +40,17 @@ describe('filters', () => {
     expect(ids({ modes: ['remote'] })).toEqual(['c']);
     expect(ids({ modes: ['onsite', 'hybrid'] })).toEqual(['a', 'b']);
   });
-  it('filters by city radius and keeps remote only when remote is selected', () => {
-    expect(ids({ city: 'Tempe|US|AZ', radius: 50 })).toEqual(['a']);
-    expect(ids({ city: 'Tempe|US|AZ', radius: 50, modes: ['remote', 'onsite'] })).toEqual([
-      'a',
-      'c',
-    ]);
-    expect(ids({ city: 'Tempe|US|AZ', radius: 3000 })).toEqual(['a', 'b']);
+  it('multi-city radius filter: any selected city, within radius', () => {
+    expect(ids({ cities: ['Tempe|US|AZ'], radius: 50 })).toEqual(['a']);
+    expect(ids({ cities: ['Tempe|US|AZ', 'San Francisco|US|CA'], radius: 50 })).toEqual(['a', 'b']);
+    expect(ids({ cities: ['Tempe|US|AZ'], radius: 3000 })).toEqual(['a', 'b']);
+  });
+  it('Remote chip adds remote postings; country chip matches by country; nothing selected = anywhere', () => {
+    expect(ids({ cities: ['Tempe|US|AZ'], radius: 50, remote: true })).toEqual(['a', 'c']);
+    expect(ids({ remote: true })).toEqual(['c']);
+    expect(ids({ countries: ['US'] })).toEqual(['a', 'b']);
+    expect(ids({ countries: ['IN'] })).toEqual([]);
+    expect(ids({})).toEqual(['a', 'b', 'c', 'd']);
   });
   it('availability filter hides known non-overlaps but never hides unknown dates', () => {
     const me = profile({ availableFrom: '2027-05-10', availableTo: '2027-08-15' });
@@ -62,7 +66,10 @@ describe('filters', () => {
       ...DEFAULT_FILTERS,
       q: 'ml',
       modes: ['remote' as const],
-      city: 'Tempe|US|AZ',
+      cities: ['Tempe|US|AZ', 'Austin|US|TX'],
+      countries: ['US', 'IN'],
+      remote: true,
+      view: 'map' as const,
       radius: 120,
       avail: true,
       sort: 'recent' as const,
@@ -121,5 +128,33 @@ describe('tracker csv', () => {
     expect(csv).toContain(`"'=HYPERLINK(""evil"")"`);
     expect(csv).toContain('"A, ""B"""');
     expect(csv).toContain('"line1\nline2"');
+  });
+});
+
+describe('resume file validation', () => {
+  it('accepts pdf/docx and rejects others, big and empty files', () => {
+    expect(validateResumeFile({ name: 'cv.PDF', size: 1000 })).toBeNull();
+    expect(validateResumeFile({ name: 'cv.docx', size: 1000 })).toBeNull();
+    expect(validateResumeFile({ name: 'cv.exe', size: 1000 })).toMatch(/PDF or DOCX/);
+    expect(validateResumeFile({ name: 'cv.pdf', size: 6 * 1024 * 1024 })).toMatch(/5 MB/);
+    expect(validateResumeFile({ name: 'cv.pdf', size: 0 })).toMatch(/empty/);
+  });
+});
+
+import { monthStart, monthEnd, isoToMonth } from '../src/lib/months';
+import { interestHit } from '../src/shared/interests';
+describe('months and interests', () => {
+  it('converts month pickers to inclusive date ranges', () => {
+    expect(monthStart('2027-05')).toBe('2027-05-01');
+    expect(monthEnd('2027-08')).toBe('2027-08-31');
+    expect(monthEnd('2028-02')).toBe('2028-02-29');
+    expect(monthStart('')).toBeNull();
+    expect(monthEnd('2027-13')).toBeNull();
+    expect(isoToMonth('2027-05-01')).toBe('2027-05');
+  });
+  it('matches interest keywords on whole words only', () => {
+    expect(interestHit('ai-ml', 'AI Research Intern', '')).toBe(1);
+    expect(interestHit('ai-ml', 'Intern', 'fair hiring')).toBe(0); // "ai" inside "fair" must not match
+    expect(interestHit('security', 'Intern', 'work on threat detection')).toBe(0.6);
   });
 });

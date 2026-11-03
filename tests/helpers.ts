@@ -20,6 +20,7 @@ export function mk(over: Partial<Listing> & { id: string }): Listing {
     snippet: 'Build things.',
     skills: [],
     authFlags: [],
+    companySize: null,
     source: 'greenhouse',
     sourceId: over.id,
     ...over,

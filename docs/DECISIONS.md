@@ -22,3 +22,8 @@ One line per decision: what, and why. Newest last.
 - **Committed sample `public/data/`** so a fresh clone renders; the deploy workflow overwrites it on every run.
 - **License**: kept MIT; copyright line set to "Shriyank Reddy Singireddy".
 - **Prettier ignores `public/data` and the lockfile**; ESLint/Prettier run on source only.
+- **Company size is curated metadata, not scraped**: `size` per company in `data/companies.json` (large for well-known big employers, startup for AI/startup categories, otherwise mid). It is approximate and labelled "(approx.)" in the UI; sample companies got hand-set sizes.
+- **Match weights changed** to add a `prefs` part (pay, size, sponsorship): skills .35, role .20, location .18, date .12, prefs .10, recency .05. Parts for preferences the user did not set are neutral (0.5).
+- **`lucide-react`** added as the single icon set for the UI.
+- **UI pass**: fonts are now IBM Plex Sans (text) and IBM Plex Mono (dates, locations, scores, chips) in place of Sora/Inter/JetBrains Mono; tokens still live in `src/index.css`. Radii 4-6 px, 1 px borders, no shadows, four type sizes (12/14/16/20), 4 px spacing scale, accent only on primary buttons, focus, active filters and the score ring. Phone gets a bottom tab bar, bottom-sheet filters and a sticky search field.
+- **Interest chips use whole-word keyword matching** (e.g. "ai" must not match inside "fair"), title hits count fully and snippet-only hits 0.6.

@@ -1,8 +1,8 @@
 [
-  { "name": "Orbit Robotics (sample)", "source": "greenhouse", "slug": "orbitrobotics", "category": "startup" },
-  { "name": "Lumen Cloud India (sample)", "source": "greenhouse", "slug": "lumencloudindia", "category": "india" },
-  { "name": "Cipher Labs (sample)", "source": "lever", "slug": "cipherlabs", "category": "security" },
-  { "name": "Nordlicht Data (sample)", "source": "lever", "slug": "nordlichtdata", "category": "startup" },
-  { "name": "Tessera Pay (sample)", "source": "ashby", "slug": "tesserapay", "category": "fintech" },
-  { "name": "Harbor AI (sample)", "source": "ashby", "slug": "harborai", "category": "ai" }
+ {"name": "Orbit Robotics (sample)", "source": "greenhouse", "slug": "orbitrobotics", "category": "startup", "size": "startup"},
+ {"name": "Lumen Cloud India (sample)", "source": "greenhouse", "slug": "lumencloudindia", "category": "india", "size": "large"},
+ {"name": "Cipher Labs (sample)", "source": "lever", "slug": "cipherlabs", "category": "security", "size": "mid"},
+ {"name": "Nordlicht Data (sample)", "source": "lever", "slug": "nordlichtdata", "category": "startup", "size": "startup"},
+ {"name": "Tessera Pay (sample)", "source": "ashby", "slug": "tesserapay", "category": "fintech", "size": "mid"},
+ {"name": "Harbor AI (sample)", "source": "ashby", "slug": "harborai", "category": "ai", "size": "startup"}
 ]

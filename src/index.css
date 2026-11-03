@@ -17,9 +17,9 @@
   --color-match: #34d399; /* semantic: good match */
   --color-flag: #fbbf24; /* semantic: attention / work-authorization text */
   --color-danger: #f87171;
-  --font-display: 'Sora', ui-sans-serif, system-ui, sans-serif;
-  --font-body: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-display: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 html,
@@ -41,7 +41,7 @@ h3 {
 :focus-visible {
   outline: 2px solid var(--color-accent-soft);
   outline-offset: 2px;
-  border-radius: 6px;
+  border-radius: 4px;
 }
 button,
 a,
@@ -49,11 +49,11 @@ input,
 select,
 textarea {
   transition:
-    background-color 180ms ease-out,
-    border-color 180ms ease-out,
-    color 180ms ease-out,
-    transform 180ms ease-out,
-    opacity 180ms ease-out;
+    background-color 150ms ease-out,
+    border-color 150ms ease-out,
+    color 150ms ease-out,
+    transform 150ms ease-out,
+    opacity 150ms ease-out;
 }
 .skeleton {
   background: linear-gradient(
@@ -64,7 +64,7 @@ textarea {
   );
   background-size: 200% 100%;
   animation: shimmer 1.4s ease-in-out infinite;
-  border-radius: 10px;
+  border-radius: 4px;
 }
 @keyframes shimmer {
   to {
