@@ -47,9 +47,9 @@ export function ListingCard({
       {showScore && match && <ScoreRing value={match.score} />}
       <div className="min-w-0 flex-1">
         <div className="flex items-baseline justify-between gap-2">
-          <h3 className="truncate text-[15px] font-semibold group-hover:text-accent-soft">
+          <h2 className="truncate text-[15px] font-semibold group-hover:text-accent-soft">
             {l.title}
-          </h3>
+          </h2>
           <span className="shrink-0 font-mono text-[11px] text-muted">{timeAgo(l.postedAt)}</span>
         </div>
         <p className="truncate text-sm text-muted">

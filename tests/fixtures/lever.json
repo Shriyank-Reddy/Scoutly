@@ -1,126 +1,114 @@
 {
- "cipherlabs": [
-  {
-   "id": "0b1c4000105-aaaa-4bbb",
-   "text": "Security Engineering Intern",
-   "hostedUrl": "https://example.com/sample/cipherlabs/4000105",
-   "applyUrl": "https://example.com/sample/cipherlabs/4000105/apply",
-   "createdAt": 1793500105000,
-   "categories": {
-    "location": "Washington, DC",
-    "commitment": "Intern",
-    "team": "Engineering",
-    "allLocations": [
-     "Washington, DC"
-    ]
-   },
-   "workplaceType": "unspecified",
-   "descriptionPlain": "Work with our security engineering group on threat modeling, penetration testing and Linux hardening. Familiarity with Python, networking and cryptography helps. This role requires U.S. citizenship and the ability to obtain a security clearance. We will not provide visa sponsorship.",
-   "description": "<div>Work with our security engineering group on threat modeling, penetration testing and Linux hardening. Familiarity with Python, networking and cryptography helps. This role requires U.S. citizenship and the ability to obtain a security clearance. We will not provide visa sponsorship.</div>",
-   "lists": [],
-   "additionalPlain": ""
-  },
-  {
-   "id": "0b1c4000106-aaaa-4bbb",
-   "text": "Security Engineering Intern",
-   "hostedUrl": "https://example.com/sample/cipherlabs/4000106",
-   "applyUrl": "https://example.com/sample/cipherlabs/4000106/apply",
-   "createdAt": 1793500106000,
-   "categories": {
-    "location": "Austin, TX",
-    "commitment": "Intern",
-    "team": "Engineering",
-    "allLocations": [
-     "Austin, TX"
-    ]
-   },
-   "workplaceType": "unspecified",
-   "descriptionPlain": "Work with our security engineering group on threat modeling, penetration testing and Linux hardening. Familiarity with Python, networking and cryptography helps. This role requires U.S. citizenship and the ability to obtain a security clearance. We will not provide visa sponsorship.",
-   "description": "<div>Work with our security engineering group on threat modeling, penetration testing and Linux hardening. Familiarity with Python, networking and cryptography helps. This role requires U.S. citizenship and the ability to obtain a security clearance. We will not provide visa sponsorship.</div>",
-   "lists": [],
-   "additionalPlain": ""
-  },
-  {
-   "id": "0b1c4000107-aaaa-4bbb",
-   "text": "Engineering Manager",
-   "hostedUrl": "https://example.com/sample/cipherlabs/4000107",
-   "applyUrl": "https://example.com/sample/cipherlabs/4000107/apply",
-   "createdAt": 1793500107000,
-   "categories": {
-    "location": "Remote - US",
-    "commitment": "Intern",
-    "team": "Engineering",
-    "allLocations": [
-     "Remote - US"
-    ]
-   },
-   "workplaceType": "remote",
-   "descriptionPlain": "Lead a team of engineers as Engineering Manager.",
-   "description": "<div>Lead a team of engineers as Engineering Manager.</div>",
-   "lists": [],
-   "additionalPlain": ""
-  },
-  {
-   "id": "0b1c4000108-aaaa-4bbb",
-   "text": "Software Engineer Intern - Fall 2027",
-   "hostedUrl": "https://example.com/sample/cipherlabs/4000108",
-   "applyUrl": "https://example.com/sample/cipherlabs/4000108/apply",
-   "createdAt": 1793500108000,
-   "categories": {
-    "location": "Seattle, WA",
-    "commitment": "Intern",
-    "team": "Engineering",
-    "allLocations": [
-     "Seattle, WA"
-    ]
-   },
-   "workplaceType": "unspecified",
-   "descriptionPlain": "Build features for our customer dashboard using React, TypeScript, Node.js and PostgreSQL. You will pair with engineers, write tests with Jest and ship to production. Fall 2027 internship, on-site. Students on CPT or OPT are welcome to apply.",
-   "description": "<div>Build features for our customer dashboard using React, TypeScript, Node.js and PostgreSQL. You will pair with engineers, write tests with Jest and ship to production. Fall 2027 internship, on-site. Students on CPT or OPT are welcome to apply.</div>",
-   "lists": [],
-   "additionalPlain": ""
-  }
- ],
- "nordlichtdata": [
-  {
-   "id": "0b1c4000116-aaaa-4bbb",
-   "text": "Werkstudent Data Engineering",
-   "hostedUrl": "https://example.com/sample/nordlichtdata/4000116",
-   "applyUrl": "https://example.com/sample/nordlichtdata/4000116/apply",
-   "createdAt": 1793500116000,
-   "categories": {
-    "location": "Berlin, Germany",
-    "commitment": "Intern",
-    "team": "Engineering",
-    "allLocations": [
-     "Berlin, Germany"
-    ]
-   },
-   "workplaceType": "unspecified",
-   "descriptionPlain": "Werkstudent (m/w/d) im Bereich Data Engineering. Du arbeitest mit Python, SQL und Docker. Part-time, 20 hours per week, Berlin office.",
-   "description": "<div>Werkstudent (m/w/d) im Bereich Data Engineering. Du arbeitest mit Python, SQL und Docker. Part-time, 20 hours per week, Berlin office.</div>",
-   "lists": [],
-   "additionalPlain": ""
-  },
-  {
-   "id": "0b1c4000117-aaaa-4bbb",
-   "text": "Machine Learning Intern, Summer 2027",
-   "hostedUrl": "https://example.com/sample/nordlichtdata/4000117",
-   "applyUrl": "https://example.com/sample/nordlichtdata/4000117/apply",
-   "createdAt": 1793500117000,
-   "categories": {
-    "location": "Zurich, Switzerland",
-    "commitment": "Intern",
-    "team": "Engineering",
-    "allLocations": [
-     "Zurich, Switzerland"
-    ]
-   },
-   "workplaceType": "unspecified",
-   "descriptionPlain": "Join our applied research team this summer. You will train models with Python and PyTorch, run experiments, and write up results. Strong skills in machine learning, NumPy and Git are a plus. Hybrid role, 3 days a week in our office. Internship runs June 2027 - August 2027. Pay: $48/hour.",
-   "description": "<div>Join our applied research team this summer. You will train models with Python and PyTorch, run experiments, and write up results. Strong skills in machine learning, NumPy and Git are a plus. Hybrid role, 3 days a week in our office. Internship runs June 2027 - August 2027. Pay: $48/hour.</div>",
-   "lists": [],
-   "additionalPlain": ""
-  }
- ]
+  "cipherlabs": [
+    {
+      "id": "0b1c4000105-aaaa-4bbb",
+      "text": "Security Engineering Intern",
+      "hostedUrl": "https://example.com/sample/cipherlabs/4000105",
+      "applyUrl": "https://example.com/sample/cipherlabs/4000105/apply",
+      "createdAt": 1793500105000,
+      "categories": {
+        "location": "Washington, DC",
+        "commitment": "Intern",
+        "team": "Engineering",
+        "allLocations": ["Washington, DC"]
+      },
+      "workplaceType": "unspecified",
+      "descriptionPlain": "Work with our security engineering group on threat modeling, penetration testing and Linux hardening. Familiarity with Python, networking and cryptography helps. This role requires U.S. citizenship and the ability to obtain a security clearance. We will not provide visa sponsorship.",
+      "description": "<div>Work with our security engineering group on threat modeling, penetration testing and Linux hardening. Familiarity with Python, networking and cryptography helps. This role requires U.S. citizenship and the ability to obtain a security clearance. We will not provide visa sponsorship.</div>",
+      "lists": [],
+      "additionalPlain": ""
+    },
+    {
+      "id": "0b1c4000106-aaaa-4bbb",
+      "text": "Security Engineering Intern",
+      "hostedUrl": "https://example.com/sample/cipherlabs/4000106",
+      "applyUrl": "https://example.com/sample/cipherlabs/4000106/apply",
+      "createdAt": 1793500106000,
+      "categories": {
+        "location": "Austin, TX",
+        "commitment": "Intern",
+        "team": "Engineering",
+        "allLocations": ["Austin, TX"]
+      },
+      "workplaceType": "unspecified",
+      "descriptionPlain": "Work with our security engineering group on threat modeling, penetration testing and Linux hardening. Familiarity with Python, networking and cryptography helps. This role requires U.S. citizenship and the ability to obtain a security clearance. We will not provide visa sponsorship.",
+      "description": "<div>Work with our security engineering group on threat modeling, penetration testing and Linux hardening. Familiarity with Python, networking and cryptography helps. This role requires U.S. citizenship and the ability to obtain a security clearance. We will not provide visa sponsorship.</div>",
+      "lists": [],
+      "additionalPlain": ""
+    },
+    {
+      "id": "0b1c4000107-aaaa-4bbb",
+      "text": "Engineering Manager",
+      "hostedUrl": "https://example.com/sample/cipherlabs/4000107",
+      "applyUrl": "https://example.com/sample/cipherlabs/4000107/apply",
+      "createdAt": 1793500107000,
+      "categories": {
+        "location": "Remote - US",
+        "commitment": "Intern",
+        "team": "Engineering",
+        "allLocations": ["Remote - US"]
+      },
+      "workplaceType": "remote",
+      "descriptionPlain": "Lead a team of engineers as Engineering Manager.",
+      "description": "<div>Lead a team of engineers as Engineering Manager.</div>",
+      "lists": [],
+      "additionalPlain": ""
+    },
+    {
+      "id": "0b1c4000108-aaaa-4bbb",
+      "text": "Software Engineer Intern - Fall 2027",
+      "hostedUrl": "https://example.com/sample/cipherlabs/4000108",
+      "applyUrl": "https://example.com/sample/cipherlabs/4000108/apply",
+      "createdAt": 1793500108000,
+      "categories": {
+        "location": "Seattle, WA",
+        "commitment": "Intern",
+        "team": "Engineering",
+        "allLocations": ["Seattle, WA"]
+      },
+      "workplaceType": "unspecified",
+      "descriptionPlain": "Build features for our customer dashboard using React, TypeScript, Node.js and PostgreSQL. You will pair with engineers, write tests with Jest and ship to production. Fall 2027 internship, on-site. Students on CPT or OPT are welcome to apply.",
+      "description": "<div>Build features for our customer dashboard using React, TypeScript, Node.js and PostgreSQL. You will pair with engineers, write tests with Jest and ship to production. Fall 2027 internship, on-site. Students on CPT or OPT are welcome to apply.</div>",
+      "lists": [],
+      "additionalPlain": ""
+    }
+  ],
+  "nordlichtdata": [
+    {
+      "id": "0b1c4000116-aaaa-4bbb",
+      "text": "Werkstudent Data Engineering",
+      "hostedUrl": "https://example.com/sample/nordlichtdata/4000116",
+      "applyUrl": "https://example.com/sample/nordlichtdata/4000116/apply",
+      "createdAt": 1793500116000,
+      "categories": {
+        "location": "Berlin, Germany",
+        "commitment": "Intern",
+        "team": "Engineering",
+        "allLocations": ["Berlin, Germany"]
+      },
+      "workplaceType": "unspecified",
+      "descriptionPlain": "Werkstudent (m/w/d) im Bereich Data Engineering. Du arbeitest mit Python, SQL und Docker. Part-time, 20 hours per week, Berlin office.",
+      "description": "<div>Werkstudent (m/w/d) im Bereich Data Engineering. Du arbeitest mit Python, SQL und Docker. Part-time, 20 hours per week, Berlin office.</div>",
+      "lists": [],
+      "additionalPlain": ""
+    },
+    {
+      "id": "0b1c4000117-aaaa-4bbb",
+      "text": "Machine Learning Intern, Summer 2027",
+      "hostedUrl": "https://example.com/sample/nordlichtdata/4000117",
+      "applyUrl": "https://example.com/sample/nordlichtdata/4000117/apply",
+      "createdAt": 1793500117000,
+      "categories": {
+        "location": "Zurich, Switzerland",
+        "commitment": "Intern",
+        "team": "Engineering",
+        "allLocations": ["Zurich, Switzerland"]
+      },
+      "workplaceType": "unspecified",
+      "descriptionPlain": "Join our applied research team this summer. You will train models with Python and PyTorch, run experiments, and write up results. Strong skills in machine learning, NumPy and Git are a plus. Hybrid role, 3 days a week in our office. Internship runs June 2027 - August 2027. Pay: $48/hour.",
+      "description": "<div>Join our applied research team this summer. You will train models with Python and PyTorch, run experiments, and write up results. Strong skills in machine learning, NumPy and Git are a plus. Hybrid role, 3 days a week in our office. Internship runs June 2027 - August 2027. Pay: $48/hour.</div>",
+      "lists": [],
+      "additionalPlain": ""
+    }
+  ]
 }

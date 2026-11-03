@@ -1,0 +1,59 @@
+# Builds the site (fetching fresh listings first) and publishes it to GitHub Pages.
+# Runs on every push to main, on demand, and when called by refresh-data.yml.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      strict:
+        description: 'Fail (and keep the current site) if no job board can be fetched, instead of publishing sample data'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run lint
+      - run: npm run typecheck
+      # Polite-fetch cache: reuse responses < 6h old so re-runs do not hit the APIs again.
+      - uses: actions/cache@v4
+        with:
+          path: data/cache
+          key: job-cache-${{ github.run_id }}
+          restore-keys: job-cache-
+      - name: Fetch listings
+        run: npm run fetch-jobs -- ${{ inputs.strict && '--no-fallback' || '' }}
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

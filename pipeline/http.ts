@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { mkdir, readFile, writeFile, stat } from 'node:fs/promises';
 
 export const USER_AGENT =
-  'Scoutly/0.1 (+https://github.com/shriyank-reddy/scoutly; student portfolio project, polite fetcher)';
+  'Scoutly/0.1 (+https://github.com/Shriyank-Reddy/Scoutly; student portfolio project, polite fetcher)';
 const CACHE_DIR = 'data/cache';
 const MIN_GAP_MS = 400; // rate limit: at most ~2.5 requests per second overall
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));

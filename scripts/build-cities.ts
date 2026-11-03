@@ -5,14 +5,14 @@ import { writeFileSync } from 'node:fs';
 
 const BIG = new Set(['US', 'CA', 'GB', 'IN', 'DE', 'AU']);
 const rows = cities
-  .filter((c) => c.population >= (BIG.has(c.country) ? 25000 : 150000))
+  .filter((c) => c.population >= (BIG.has(c.country) ? 50000 : 250000))
   // [name, countryCode, adminCode, lat, lon, population]
   .map((c) => [
     c.name,
     c.country,
     c.adminCode,
-    +c.loc.coordinates[1].toFixed(3),
-    +c.loc.coordinates[0].toFixed(3),
+    +c.loc.coordinates[1].toFixed(2),
+    +c.loc.coordinates[0].toFixed(2),
     c.population,
   ])
   .sort((a, b) => (b[5] as number) - (a[5] as number));

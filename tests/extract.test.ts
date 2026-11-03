@@ -33,7 +33,8 @@ describe('parseLocation (messy real-world strings)', () => {
   });
   it('picks the right Dublin and London by country/state', () => {
     expect(parseLocation('Dublin, Ireland')[0].country).toBe('IE');
-    expect(parseLocation('Dublin, OH')[0].region).toBe('OH');
+    expect(parseLocation('Portland, ME')[0].region).toBe('ME');
+    expect(parseLocation('Portland, OR')[0].region).toBe('OR');
     expect(parseLocation('London, ON, Canada')[0].country).toBe('CA');
   });
   it('handles remote-with-country and multi-location strings', () => {
