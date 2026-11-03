@@ -3,6 +3,15 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import type { CompanySeed, Meta, RawJob } from '../src/shared/types';
 import { buildListings, buildMeta, parseBoard } from './build';
 import { getJson, HttpError } from './http';
+import {
+  applyFirstSeen,
+  dropDeadLinks,
+  dropStale,
+  loadLinkCache,
+  loadState,
+  saveLinkCache,
+  saveState,
+} from './freshness';
 import { fetchAggregators, fixtureAggregators, type AggResult } from './aggregators';
 import { greenhouseUrl } from './adapters/greenhouse';
 import { leverUrl } from './adapters/lever';
@@ -99,8 +108,31 @@ async function main() {
   }));
   for (const st of agg.status)
     console.log(`aggregator ${st.name}: ${st.status} (${st.detail}), ${st.raw} raw`);
-  const listings = buildListings([...raw, ...agg.raw]);
-  await write(listings, buildMeta(listings, ok, failures, false, new Date(), agg.status));
+  // Freshness: drop stale postings, optionally drop dead links (--check-links), then record first-seen dates.
+  const built = buildListings([...raw, ...agg.raw]);
+  const { kept: fresh, dropped: stale } = dropStale(built);
+  let current = fresh,
+    deadLinks = 0,
+    linksChecked = 0;
+  if (args.has('--check-links')) {
+    const r = await dropDeadLinks(fresh, { cache: await loadLinkCache() });
+    current = r.kept;
+    deadLinks = r.dropped;
+    linksChecked = r.checked;
+    await saveLinkCache(r.cache);
+  }
+  const seen = applyFirstSeen(current, await loadState());
+  await saveState(seen.state);
+  console.log(
+    `freshness: ${stale} stale dropped, ${deadLinks} dead links dropped (${linksChecked} checked)`,
+  );
+  await write(
+    seen.listings,
+    buildMeta(seen.listings, ok, failures, false, new Date(), agg.status, {
+      trackingSince: seen.state.trackingSince,
+      dropped: { stale, deadLinks, linksChecked },
+    }),
+  );
 }
 main().catch((e) => {
   console.error(e);

@@ -44,6 +44,7 @@ export function normalise(raw: RawJob): Listing {
     authFlags: detectAuthFlags(text),
     companySize: raw.companySize,
     via: raw.via,
+    firstSeen: null,
     source: raw.source,
     sourceId: raw.sourceId,
   };

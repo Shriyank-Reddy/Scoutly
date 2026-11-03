@@ -49,7 +49,7 @@ export function Chip({
   title,
 }: {
   children: ReactNode;
-  tone?: 'plain' | 'good' | 'flag' | 'strong';
+  tone?: 'plain' | 'good' | 'flag' | 'strong' | 'new';
   title?: string;
 }) {
   const tones = {
@@ -57,6 +57,7 @@ export function Chip({
     strong: 'border-line text-ink',
     good: 'border-match/40 text-match',
     flag: 'border-flag/50 text-flag',
+    new: 'border-accent text-accent-soft',
   };
   return (
     <span

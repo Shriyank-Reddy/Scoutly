@@ -50,7 +50,8 @@ export interface Listing {
   skills: string[]; // canonical skill names
   authFlags: AuthFlag[];
   companySize: CompanySize | null; // approximate, curated in data/companies.json (not from the posting)
-  via: string | null; // aggregator name to show as "via <source>"; null for a company's own ATS
+  via: string | null;
+  firstSeen: string | null; // when the pipeline first saw this listing (ISO); null in sample data // aggregator name to show as "via <source>"; null for a company's own ATS
   source: SourceName;
   sourceId: string;
 }
@@ -79,6 +80,10 @@ export interface Meta {
   boardsOk: number;
   boardsFailed: { company: string; source: string; slug: string; reason: string }[];
   /** Aggregator runs: ok / skipped (e.g. no API keys) / failed, so a missing source is visible, not silent. */
+  /** When first-seen tracking began; "New" only applies to listings first seen after this. */
+  trackingSince?: string;
+  /** Listings removed by the freshness checks this run. */
+  dropped?: { stale: number; deadLinks: number; linksChecked: number };
   aggregators?: {
     name: string;
     status: 'ok' | 'skipped' | 'failed';

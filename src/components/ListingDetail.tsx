@@ -56,6 +56,7 @@ export function ListingDetail({
         {l.paid === 'unpaid' && <Chip tone="flag">Mentions: unpaid</Chip>}
         {l.paid === 'unknown' && <Chip>Pay not stated</Chip>}
         <Chip>Posted {timeAgo(l.postedAt)}</Chip>
+        {l.firstSeen && <Chip>First seen {l.firstSeen.slice(0, 10)}</Chip>}
       </div>
 
       <div className="flex flex-wrap gap-2">

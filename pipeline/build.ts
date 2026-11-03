@@ -31,6 +31,7 @@ export function buildMeta(
   isSample: boolean,
   now = new Date(),
   aggregators?: Meta['aggregators'],
+  extra: Partial<Pick<Meta, 'trackingSince' | 'dropped'>> = {},
 ): Meta {
   const perSource: Record<string, number> = {};
   const perCountry: Record<string, number> = {};
@@ -48,6 +49,7 @@ export function buildMeta(
     boardsOk,
     boardsFailed: failures,
     ...(aggregators ? { aggregators } : {}),
+    ...extra,
   };
 }
 

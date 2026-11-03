@@ -1,5 +1,7 @@
 import type { Listing } from '../shared/types';
 import type { MatchResult } from '../lib/match';
+import { isNew } from '../shared/fresh';
+import { useApp } from '../state/AppState';
 import { Chip, ModeBadge, ScoreRing, timeAgo } from './ui';
 import { placeLabel } from '../lib/tracker';
 
@@ -36,6 +38,7 @@ export function ListingCard({
   onSelect: () => void;
   showScore: boolean;
 }) {
+  const { meta } = useApp();
   const term = termLabel(l);
   return (
     <button
@@ -54,6 +57,7 @@ export function ListingCard({
           {l.company} <span className="font-mono text-xs">· {placeLabel(l)}</span>
         </p>
         <div className="mt-2 flex h-6 items-start gap-2 overflow-hidden">
+          {isNew(l, meta) && <Chip tone="new">New</Chip>}
           <ModeBadge mode={l.workMode} />
           {l.via && <Chip>via {l.via}</Chip>}
           {term ? <Chip tone="strong">{term}</Chip> : <Chip>Dates not stated</Chip>}
