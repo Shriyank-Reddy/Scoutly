@@ -40,13 +40,17 @@ describe('filters', () => {
     expect(ids({ modes: ['remote'] })).toEqual(['c']);
     expect(ids({ modes: ['onsite', 'hybrid'] })).toEqual(['a', 'b']);
   });
-  it('filters by city radius and keeps remote only when remote is selected', () => {
-    expect(ids({ city: 'Tempe|US|AZ', radius: 50 })).toEqual(['a']);
-    expect(ids({ city: 'Tempe|US|AZ', radius: 50, modes: ['remote', 'onsite'] })).toEqual([
-      'a',
-      'c',
-    ]);
-    expect(ids({ city: 'Tempe|US|AZ', radius: 3000 })).toEqual(['a', 'b']);
+  it('multi-city radius filter: any selected city, within radius', () => {
+    expect(ids({ cities: ['Tempe|US|AZ'], radius: 50 })).toEqual(['a']);
+    expect(ids({ cities: ['Tempe|US|AZ', 'San Francisco|US|CA'], radius: 50 })).toEqual(['a', 'b']);
+    expect(ids({ cities: ['Tempe|US|AZ'], radius: 3000 })).toEqual(['a', 'b']);
+  });
+  it('Remote chip adds remote postings; country chip matches by country; nothing selected = anywhere', () => {
+    expect(ids({ cities: ['Tempe|US|AZ'], radius: 50, remote: true })).toEqual(['a', 'c']);
+    expect(ids({ remote: true })).toEqual(['c']);
+    expect(ids({ countries: ['US'] })).toEqual(['a', 'b']);
+    expect(ids({ countries: ['IN'] })).toEqual([]);
+    expect(ids({})).toEqual(['a', 'b', 'c', 'd']);
   });
   it('availability filter hides known non-overlaps but never hides unknown dates', () => {
     const me = profile({ availableFrom: '2027-05-10', availableTo: '2027-08-15' });
@@ -62,7 +66,10 @@ describe('filters', () => {
       ...DEFAULT_FILTERS,
       q: 'ml',
       modes: ['remote' as const],
-      city: 'Tempe|US|AZ',
+      cities: ['Tempe|US|AZ', 'Austin|US|TX'],
+      countries: ['US', 'IN'],
+      remote: true,
+      view: 'map' as const,
       radius: 120,
       avail: true,
       sort: 'recent' as const,

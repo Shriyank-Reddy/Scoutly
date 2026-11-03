@@ -67,7 +67,7 @@ export function MapView({
     if (!m || !c) return;
     c.clearLayers();
     markers.current.clear();
-    for (const p of pins) {
+    pins.forEach((p, i) => {
       const mk = L.marker([p.lat, p.lon], {
         icon: icon(p.mode, false),
         title: `${p.title} at ${p.company}`,
@@ -75,9 +75,9 @@ export function MapView({
       });
       mk.bindTooltip(`<strong>${esc(p.title)}</strong><br>${esc(p.company)}`);
       mk.on('click', () => onSelectRef.current(p.id));
-      markers.current.set(p.id, mk);
+      markers.current.set(`${p.id}:${i}`, mk); // a listing can have several places, so several pins
       c.addLayer(mk);
-    }
+    });
     circle.current?.remove();
     circle.current = null;
     if (center) {
@@ -98,11 +98,11 @@ export function MapView({
 
   // Highlight the selected pin and bring it into view.
   useEffect(() => {
-    const pinById = new Map(pins.map((p) => [p.id, p]));
-    markers.current.forEach((mk, id) =>
-      mk.setIcon(icon(pinById.get(id)?.mode ?? 'unknown', id === selectedId)),
+    pins.forEach((p, i) =>
+      markers.current.get(`${p.id}:${i}`)?.setIcon(icon(p.mode, p.id === selectedId)),
     );
-    const sel = selectedId ? markers.current.get(selectedId) : null;
+    const at = pins.findIndex((p) => p.id === selectedId);
+    const sel = at >= 0 ? markers.current.get(`${pins[at].id}:${at}`) : null;
     if (sel && cluster.current && map.current)
       cluster.current.zoomToShowLayer(
         sel,

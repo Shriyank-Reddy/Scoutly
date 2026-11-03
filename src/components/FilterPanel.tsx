@@ -1,9 +1,8 @@
 import { useId } from 'react';
 import type { WorkMode } from '../shared/types';
 import { DEFAULT_FILTERS, type Filters } from '../lib/filters';
-import { cityLabel, findCityByKey } from '../shared/locations';
 import { btn, input } from './ui';
-import { CityPicker } from './CityPicker';
+import { LocationBox } from './LocationBox';
 
 const MODES: { id: WorkMode; label: string }[] = [
   { id: 'onsite', label: 'In person' },
@@ -43,14 +42,15 @@ export function FilterPanel({
   set,
   hasAvailability,
   count,
+  countryOptions,
 }: {
   f: Filters;
   set: (patch: Partial<Filters>) => void;
   hasAvailability: boolean;
   count: number;
+  countryOptions: string[];
 }) {
   const id = useId();
-  const city = f.city ? findCityByKey(f.city) : null;
   return (
     <form className="space-y-5" onSubmit={(e) => e.preventDefault()} aria-label="Filters">
       <div>
@@ -82,36 +82,13 @@ export function FilterPanel({
         ))}
       </fieldset>
 
-      <div className="space-y-2">
-        <CityPicker label="Near city" onPick={(key) => set({ city: key })} />
-        {city && (
-          <div className="rounded-lg border border-line p-2 text-sm">
-            <div className="flex items-center justify-between">
-              <span>{cityLabel(city)}</span>
-              <button
-                type="button"
-                className="text-xs text-accent-soft"
-                onClick={() => set({ city: '' })}
-              >
-                Clear
-              </button>
-            </div>
-            <label htmlFor={`${id}-r`} className="mt-2 block text-xs text-muted">
-              Within <span className="font-mono">{f.radius} km</span>
-            </label>
-            <input
-              id={`${id}-r`}
-              type="range"
-              min={10}
-              max={500}
-              step={10}
-              value={f.radius}
-              onChange={(e) => set({ radius: +e.target.value })}
-              className="w-full accent-[#2a62f5]"
-            />
-          </div>
-        )}
-      </div>
+      <LocationBox
+        value={{ cities: f.cities, countries: f.countries, remote: f.remote }}
+        radius={f.radius}
+        countryOptions={countryOptions}
+        onChange={(v) => set(v)}
+        onRadius={(radius) => set({ radius })}
+      />
 
       <fieldset className="space-y-2">
         <legend className="mb-1 text-xs font-medium text-muted">Availability</legend>
