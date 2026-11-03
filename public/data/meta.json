@@ -1,0 +1,21 @@
+{
+  "fetchedAt": "2026-11-03T10:17:44.491Z",
+  "isSample": true,
+  "totalListings": 15,
+  "perSource": {
+    "lever": 4,
+    "greenhouse": 4,
+    "ashby": 7
+  },
+  "perCountry": {
+    "CH": 1,
+    "DE": 1,
+    "US": 7,
+    "GB": 1,
+    "CA": 2,
+    "SG": 1,
+    "IN": 2
+  },
+  "boardsOk": 6,
+  "boardsFailed": []
+}

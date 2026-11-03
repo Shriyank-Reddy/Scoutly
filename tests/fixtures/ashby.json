@@ -1,0 +1,117 @@
+{
+  "tesserapay": {
+    "apiVersion": "1",
+    "jobs": [
+      {
+        "id": "a4000109-uuid",
+        "title": "Quantitative Research Intern",
+        "location": "New York, NY",
+        "secondaryLocations": [],
+        "department": "Engineering",
+        "isRemote": false,
+        "workplaceType": "OnSite",
+        "publishedAt": "2026-10-25T09:00:00.000+00:00",
+        "employmentType": "Intern",
+        "descriptionHtml": "<p>Quantitative research intern: apply statistics, Python and C++ to trading strategies. Summer 2027, New York. Unpaid? No: this is a paid internship with competitive pay. Sponsorship available for eligible international students.</p>",
+        "descriptionPlain": "Quantitative research intern: apply statistics, Python and C++ to trading strategies. Summer 2027, New York. Unpaid? No: this is a paid internship with competitive pay. Sponsorship available for eligible international students.",
+        "jobUrl": "https://example.com/sample/tesserapay/4000109",
+        "applyUrl": "https://example.com/sample/tesserapay/4000109/apply"
+      },
+      {
+        "id": "a4000110-uuid",
+        "title": "Data Engineering Intern",
+        "location": "Remote - Canada",
+        "secondaryLocations": [],
+        "department": "Engineering",
+        "isRemote": true,
+        "workplaceType": "Remote",
+        "publishedAt": "2026-10-26T09:00:00.000+00:00",
+        "employmentType": "Intern",
+        "descriptionHtml": "<p>Help our data team build ETL pipelines with SQL, Airflow and Spark and dashboards in Tableau. Pandas and statistics experience preferred. Fully remote position. Dates are flexible.</p>",
+        "descriptionPlain": "Help our data team build ETL pipelines with SQL, Airflow and Spark and dashboards in Tableau. Pandas and statistics experience preferred. Fully remote position. Dates are flexible.",
+        "jobUrl": "https://example.com/sample/tesserapay/4000110",
+        "applyUrl": "https://example.com/sample/tesserapay/4000110/apply"
+      },
+      {
+        "id": "a4000111-uuid",
+        "title": "Product Management Intern",
+        "location": "Toronto, ON, Canada",
+        "secondaryLocations": [],
+        "department": "Engineering",
+        "isRemote": false,
+        "workplaceType": "OnSite",
+        "publishedAt": "2026-10-27T09:00:00.000+00:00",
+        "employmentType": "Intern",
+        "descriptionHtml": "<p>Support our product team with research, roadmap documents and user interviews. Strong communication and Excel skills required. Location flexible.</p>",
+        "descriptionPlain": "Support our product team with research, roadmap documents and user interviews. Strong communication and Excel skills required. Location flexible.",
+        "jobUrl": "https://example.com/sample/tesserapay/4000111",
+        "applyUrl": "https://example.com/sample/tesserapay/4000111/apply"
+      },
+      {
+        "id": "a4000112-uuid",
+        "title": "Software Engineering Intern, Summer 2027",
+        "location": "London, United Kingdom",
+        "secondaryLocations": [],
+        "department": "Engineering",
+        "isRemote": false,
+        "workplaceType": "OnSite",
+        "publishedAt": "2026-10-28T09:00:00.000+00:00",
+        "employmentType": "Intern",
+        "descriptionHtml": "<p>Build features for our customer dashboard using React, TypeScript, Node.js and PostgreSQL. You will pair with engineers, write tests with Jest and ship to production. Summer 2027 internship, on-site. Students on CPT or OPT are welcome to apply.</p>",
+        "descriptionPlain": "Build features for our customer dashboard using React, TypeScript, Node.js and PostgreSQL. You will pair with engineers, write tests with Jest and ship to production. Summer 2027 internship, on-site. Students on CPT or OPT are welcome to apply.",
+        "jobUrl": "https://example.com/sample/tesserapay/4000112",
+        "applyUrl": "https://example.com/sample/tesserapay/4000112/apply"
+      }
+    ]
+  },
+  "harborai": {
+    "apiVersion": "1",
+    "jobs": [
+      {
+        "id": "a4000118-uuid",
+        "title": "Research Intern, Summer 2027",
+        "location": "San Francisco, CA",
+        "secondaryLocations": [],
+        "department": "Engineering",
+        "isRemote": true,
+        "workplaceType": "Remote",
+        "publishedAt": "2026-10-25T09:00:00.000+00:00",
+        "employmentType": "Intern",
+        "descriptionHtml": "<p>Join our applied research team this summer. You will train models with Python and PyTorch, run experiments, and write up results. Strong skills in machine learning, NumPy and Git are a plus. This is a fully remote internship. Internship runs June 2027 - August 2027. Pay: $48/hour.</p>",
+        "descriptionPlain": "Join our applied research team this summer. You will train models with Python and PyTorch, run experiments, and write up results. Strong skills in machine learning, NumPy and Git are a plus. This is a fully remote internship. Internship runs June 2027 - August 2027. Pay: $48/hour.",
+        "jobUrl": "https://example.com/sample/harborai/4000118",
+        "applyUrl": "https://example.com/sample/harborai/4000118/apply"
+      },
+      {
+        "id": "a4000119-uuid",
+        "title": "Frontend Engineering Intern",
+        "location": "Singapore",
+        "secondaryLocations": [],
+        "department": "Engineering",
+        "isRemote": false,
+        "workplaceType": "OnSite",
+        "publishedAt": "2026-10-26T09:00:00.000+00:00",
+        "employmentType": "Intern",
+        "descriptionHtml": "<p>Build features for our customer dashboard using React, TypeScript, Node.js and PostgreSQL. You will pair with engineers, write tests with Jest and ship to production. Fall 2027 internship, on-site. Students on CPT or OPT are welcome to apply.</p>",
+        "descriptionPlain": "Build features for our customer dashboard using React, TypeScript, Node.js and PostgreSQL. You will pair with engineers, write tests with Jest and ship to production. Fall 2027 internship, on-site. Students on CPT or OPT are welcome to apply.",
+        "jobUrl": "https://example.com/sample/harborai/4000119",
+        "applyUrl": "https://example.com/sample/harborai/4000119/apply"
+      },
+      {
+        "id": "a4000120-uuid",
+        "title": "Software Engineering Intern (Part-time)",
+        "location": "Boston, MA",
+        "secondaryLocations": [],
+        "department": "Engineering",
+        "isRemote": false,
+        "workplaceType": "OnSite",
+        "publishedAt": "2026-10-27T09:00:00.000+00:00",
+        "employmentType": "Intern",
+        "descriptionHtml": "<p>Build features for our customer dashboard using React, TypeScript, Node.js and PostgreSQL. You will pair with engineers, write tests with Jest and ship to production. Part-time internship during the semester. Students on CPT or OPT are welcome to apply.</p>",
+        "descriptionPlain": "Build features for our customer dashboard using React, TypeScript, Node.js and PostgreSQL. You will pair with engineers, write tests with Jest and ship to production. Part-time internship during the semester. Students on CPT or OPT are welcome to apply.",
+        "jobUrl": "https://example.com/sample/harborai/4000120",
+        "applyUrl": "https://example.com/sample/harborai/4000120/apply"
+      }
+    ]
+  }
+}
