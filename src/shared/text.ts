@@ -1,5 +1,15 @@
 const ENTITIES: Record<string, string> = {
-  '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'", '&apos;': "'", '&nbsp;': ' ', '&ndash;': '-', '&mdash;': '-', '&rsquo;': "'", '&lsquo;': "'",
+  '&amp;': '&',
+  '&lt;': '<',
+  '&gt;': '>',
+  '&quot;': '"',
+  '&#39;': "'",
+  '&apos;': "'",
+  '&nbsp;': ' ',
+  '&ndash;': '-',
+  '&mdash;': '-',
+  '&rsquo;': "'",
+  '&lsquo;': "'",
 };
 
 /** Turn HTML (possibly entity-encoded, as Greenhouse returns it) into plain text. */
@@ -11,7 +21,10 @@ export function htmlToText(html: string): string {
   s = s.replace(/<\/(p|div|li|h[1-6]|ul|ol|br)>|<br\s*\/?>/gi, '\n');
   s = s.replace(/<[^>]+>/g, ' ');
   s = decodeEntities(s);
-  return s.replace(/[ \t ]+/g, ' ').replace(/\s*\n\s*/g, '\n').trim();
+  return s
+    .replace(/[^\S\n]+/g, ' ')
+    .replace(/\s*\n\s*/g, '\n')
+    .trim();
 }
 
 export function decodeEntities(s: string): string {
@@ -29,5 +42,4 @@ export function makeSnippet(text: string, max = 280): string {
   return cut.slice(0, cut.lastIndexOf(' ') > 150 ? cut.lastIndexOf(' ') : max) + '…';
 }
 
-export const norm = (s: string) =>
-  s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+export const norm = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();

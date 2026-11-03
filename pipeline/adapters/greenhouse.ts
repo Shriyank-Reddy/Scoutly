@@ -1,13 +1,24 @@
 import type { CompanySeed, RawJob } from '../../src/shared/types';
 import { htmlToText } from '../../src/shared/text';
 
-export const greenhouseUrl = (slug: string) => `https://boards-api.greenhouse.io/v1/boards/${slug}/jobs?content=true`;
+export const greenhouseUrl = (slug: string) =>
+  `https://boards-api.greenhouse.io/v1/boards/${slug}/jobs?content=true`;
 
-interface GhJob { id: number; title: string; absolute_url: string; location?: { name?: string }; updated_at?: string; first_published?: string; content?: string; offices?: { name?: string }[] }
+interface GhJob {
+  id: number;
+  title: string;
+  absolute_url: string;
+  location?: { name?: string };
+  updated_at?: string;
+  first_published?: string;
+  content?: string;
+  offices?: { name?: string }[];
+}
 
 export function parseGreenhouse(json: unknown, seed: CompanySeed): RawJob[] {
   const jobs = (json as { jobs?: GhJob[] })?.jobs;
-  if (!Array.isArray(jobs)) throw new Error('Greenhouse: unexpected response shape (no "jobs" array)');
+  if (!Array.isArray(jobs))
+    throw new Error('Greenhouse: unexpected response shape (no "jobs" array)');
   return jobs.map((j) => ({
     source: 'greenhouse',
     sourceId: String(j.id),

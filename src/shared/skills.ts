@@ -104,17 +104,29 @@ Computer Architecture|computer architecture|gpu|cuda|hpc
 Bioinformatics|bioinformatics|computational biology
 `;
 
-export interface Skill { name: string; weight: number; re: RegExp }
+export interface Skill {
+  name: string;
+  weight: number;
+  re: RegExp;
+}
 const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&');
 
-export const SKILLS: Skill[] = TABLE.trim().split('\n').map((line) => {
-  const low = line.startsWith('~');
-  const [name, ...aliases] = line.replace(/^~/, '').split('|');
-  const alt = [...new Set([name.toLowerCase(), ...aliases.map((a) => a.toLowerCase())])].map(esc).sort((a, b) => b.length - a.length);
-  // Boundaries that understand c++, c#, node.js, .net (plain \b does not).
-  const pre = alt.every((a) => a.startsWith('\\.')) ? '(?<![a-z0-9])' : '(?<![a-z0-9.])';
-  return { name, weight: low ? 0.5 : 1, re: new RegExp(`${pre}(?:${alt.join('|')})(?![a-z0-9+#])`, 'i') };
-});
+export const SKILLS: Skill[] = TABLE.trim()
+  .split('\n')
+  .map((line) => {
+    const low = line.startsWith('~');
+    const [name, ...aliases] = line.replace(/^~/, '').split('|');
+    const alt = [...new Set([name.toLowerCase(), ...aliases.map((a) => a.toLowerCase())])]
+      .map(esc)
+      .sort((a, b) => b.length - a.length);
+    // Boundaries that understand c++, c#, node.js, .net (plain \b does not).
+    const pre = alt.every((a) => a.startsWith('\\.')) ? '(?<![a-z0-9])' : '(?<![a-z0-9.])';
+    return {
+      name,
+      weight: low ? 0.5 : 1,
+      re: new RegExp(`${pre}(?:${alt.join('|')})(?![a-z0-9+#])`, 'i'),
+    };
+  });
 
 export const SKILL_WEIGHT = new Map(SKILLS.map((s) => [s.name, s.weight]));
 
@@ -126,7 +138,12 @@ export function extractSkills(text: string): string[] {
   const found: string[] = [];
   for (const s of SKILLS) {
     if (AMBIGUOUS.has(s.name)) {
-      const strict = s.name === 'C' ? /\bC(?:\/C\+\+|\s+(?:programming|language))|\bANSI C\b/ : s.name === 'R' ? /\bR\s+(?:programming|language)\b|\bRStudio\b/ : /\bGolang\b|\bGo\s+(?:programming|language)\b|\b(?:in|with|using) Go\b/;
+      const strict =
+        s.name === 'C'
+          ? /\bC(?:\/C\+\+|\s+(?:programming|language))|\bANSI C\b/
+          : s.name === 'R'
+            ? /\bR\s+(?:programming|language)\b|\bRStudio\b/
+            : /\bGolang\b|\bGo\s+(?:programming|language)\b|\b(?:in|with|using) Go\b/;
       if (strict.test(text)) found.push(s.name);
     } else if (s.re.test(text)) found.push(s.name);
   }

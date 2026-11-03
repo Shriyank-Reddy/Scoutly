@@ -16,10 +16,26 @@ export interface TrackedItem {
 }
 
 export const placeLabel = (l: Listing) =>
-  l.workMode === 'remote' && !l.locations.length ? 'Remote' : l.locations.map((p) => [p.city, p.region, p.country].filter(Boolean).join(', ')).filter(Boolean).slice(0, 3).join(' / ') || 'Location not stated';
+  l.workMode === 'remote' && !l.locations.length
+    ? 'Remote'
+    : l.locations
+        .map((p) => [p.city, p.region, p.country].filter(Boolean).join(', '))
+        .filter(Boolean)
+        .slice(0, 3)
+        .join(' / ') || 'Location not stated';
 
 export function newItem(l: Listing, now = new Date()): TrackedItem {
-  return { listingId: l.id, company: l.company, title: l.title, url: l.url, location: placeLabel(l), stage: 'Saved', notes: '', followUp: '', savedAt: now.toISOString() };
+  return {
+    listingId: l.id,
+    company: l.company,
+    title: l.title,
+    url: l.url,
+    location: placeLabel(l),
+    stage: 'Saved',
+    notes: '',
+    followUp: '',
+    savedAt: now.toISOString(),
+  };
 }
 
 const csvCell = (v: string) => {
@@ -30,6 +46,15 @@ const csvCell = (v: string) => {
 
 export function toCsv(items: TrackedItem[]): string {
   const head = ['Company', 'Title', 'Location', 'Stage', 'Follow-up', 'Notes', 'URL', 'Saved'];
-  const rows = items.map((i) => [i.company, i.title, i.location, i.stage, i.followUp, i.notes, i.url, i.savedAt.slice(0, 10)]);
+  const rows = items.map((i) => [
+    i.company,
+    i.title,
+    i.location,
+    i.stage,
+    i.followUp,
+    i.notes,
+    i.url,
+    i.savedAt.slice(0, 10),
+  ]);
   return [head, ...rows].map((r) => r.map(csvCell).join(',')).join('\r\n');
 }

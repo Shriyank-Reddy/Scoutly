@@ -3,7 +3,19 @@ import { htmlToText } from '../../src/shared/text';
 
 export const ashbyUrl = (slug: string) => `https://api.ashbyhq.com/posting-api/job-board/${slug}`;
 
-interface AbJob { id: string; title: string; location?: string; secondaryLocations?: { location?: string }[]; isRemote?: boolean; workplaceType?: string; publishedAt?: string; descriptionPlain?: string; descriptionHtml?: string; jobUrl: string; isListed?: boolean }
+interface AbJob {
+  id: string;
+  title: string;
+  location?: string;
+  secondaryLocations?: { location?: string }[];
+  isRemote?: boolean;
+  workplaceType?: string;
+  publishedAt?: string;
+  descriptionPlain?: string;
+  descriptionHtml?: string;
+  jobUrl: string;
+  isListed?: boolean;
+}
 
 export function parseAshby(json: unknown, seed: CompanySeed): RawJob[] {
   const jobs = (json as { jobs?: AbJob[] })?.jobs;
@@ -16,8 +28,15 @@ export function parseAshby(json: unknown, seed: CompanySeed): RawJob[] {
       company: seed.name,
       title: j.title,
       url: j.jobUrl,
-      locationTexts: [j.location, ...(j.secondaryLocations ?? []).map((s) => s.location)].filter((x): x is string => !!x),
-      remoteHint: j.workplaceType === 'Remote' || j.isRemote === true ? true : j.workplaceType === 'OnSite' ? false : null,
+      locationTexts: [j.location, ...(j.secondaryLocations ?? []).map((s) => s.location)].filter(
+        (x): x is string => !!x,
+      ),
+      remoteHint:
+        j.workplaceType === 'Remote' || j.isRemote === true
+          ? true
+          : j.workplaceType === 'OnSite'
+            ? false
+            : null,
       text: j.descriptionPlain ?? htmlToText(j.descriptionHtml ?? ''),
       postedAt: j.publishedAt ?? null,
     }));

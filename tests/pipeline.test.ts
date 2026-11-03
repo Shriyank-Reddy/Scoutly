@@ -10,11 +10,19 @@ import { htmlToText } from '../src/shared/text';
 import type { CompanySeed } from '../src/shared/types';
 
 const fx = (n: string) => JSON.parse(readFileSync(`tests/fixtures/${n}.json`, 'utf8'));
-const seed = (source: CompanySeed['source'], slug: string, name: string): CompanySeed => ({ name, source, slug, category: 'test' });
+const seed = (source: CompanySeed['source'], slug: string, name: string): CompanySeed => ({
+  name,
+  source,
+  slug,
+  category: 'test',
+});
 
 describe('adapters (recorded-shape fixtures)', () => {
   it('parses Greenhouse and decodes escaped HTML content', () => {
-    const jobs = parseGreenhouse(fx('greenhouse').orbitrobotics, seed('greenhouse', 'orbitrobotics', 'Orbit'));
+    const jobs = parseGreenhouse(
+      fx('greenhouse').orbitrobotics,
+      seed('greenhouse', 'orbitrobotics', 'Orbit'),
+    );
     expect(jobs).toHaveLength(4);
     expect(jobs[0].text).toContain('PyTorch');
     expect(jobs[0].text).not.toContain('<p>');
@@ -50,13 +58,20 @@ describe('internship filter', () => {
     ['Student Loan Specialist', false],
     ['Internal Tools Engineer', false],
   ])('%s -> %s', (title, expected) => expect(isInternship(title)).toBe(expected));
-  it('accepts "Student Researcher" style titles', () => expect(isInternship('Student Researcher', 'university program')).toBe(true));
+  it('accepts "Student Researcher" style titles', () =>
+    expect(isInternship('Student Researcher', 'university program')).toBe(true));
 });
 
 describe('buildListings', () => {
   const raw = [
-    ...parseGreenhouse(fx('greenhouse').orbitrobotics, seed('greenhouse', 'orbitrobotics', 'Orbit')),
-    ...parseGreenhouse(fx('greenhouse').lumencloudindia, seed('greenhouse', 'lumencloudindia', 'Lumen')),
+    ...parseGreenhouse(
+      fx('greenhouse').orbitrobotics,
+      seed('greenhouse', 'orbitrobotics', 'Orbit'),
+    ),
+    ...parseGreenhouse(
+      fx('greenhouse').lumencloudindia,
+      seed('greenhouse', 'lumencloudindia', 'Lumen'),
+    ),
     ...parseLever(fx('lever').cipherlabs, seed('lever', 'cipherlabs', 'Cipher')),
   ];
   const listings = buildListings(raw);
@@ -90,12 +105,21 @@ describe('http', () => {
     expect(backoffMs(20)).toBe(30000);
   });
   it('retries 5xx then succeeds, sending a User-Agent without an email', async () => {
-    let calls = 0; const delays: number[] = []; let ua = '';
+    let calls = 0;
+    const delays: number[] = [];
+    let ua = '';
     const fetchImpl = (async (_u: string, init: RequestInit) => {
       ua = (init.headers as Record<string, string>)['User-Agent'];
-      return ++calls < 3 ? new Response('x', { status: 503 }) : new Response('{"ok":true}', { status: 200 });
+      return ++calls < 3
+        ? new Response('x', { status: 503 })
+        : new Response('{"ok":true}', { status: 200 });
     }) as unknown as typeof fetch;
-    const out = await getJson(`https://example.test/retry-${Math.random()}`, { fetchImpl, sleepImpl: async (ms) => { delays.push(ms); } });
+    const out = await getJson(`https://example.test/retry-${Math.random()}`, {
+      fetchImpl,
+      sleepImpl: async (ms) => {
+        delays.push(ms);
+      },
+    });
     expect(out).toEqual({ ok: true });
     expect(delays).toEqual([1000, 2000]);
     expect(ua).toContain('github.com');
@@ -103,14 +127,21 @@ describe('http', () => {
   });
   it('does not retry a 404', async () => {
     let calls = 0;
-    const fetchImpl = (async () => { calls++; return new Response('', { status: 404 }); }) as unknown as typeof fetch;
-    await expect(getJson(`https://example.test/nf-${Math.random()}`, { fetchImpl, sleepImpl: async () => {} })).rejects.toBeInstanceOf(HttpError);
+    const fetchImpl = (async () => {
+      calls++;
+      return new Response('', { status: 404 });
+    }) as unknown as typeof fetch;
+    await expect(
+      getJson(`https://example.test/nf-${Math.random()}`, { fetchImpl, sleepImpl: async () => {} }),
+    ).rejects.toBeInstanceOf(HttpError);
     expect(calls).toBe(1);
   });
 });
 
 describe('htmlToText', () => {
   it('strips tags and decodes entities', () => {
-    expect(htmlToText('<p>R&amp;D &lt;intern&gt;</p><ul><li>One</li><li>Two</li></ul>')).toBe('R&D <intern>\nOne\nTwo');
+    expect(htmlToText('<p>R&amp;D &lt;intern&gt;</p><ul><li>One</li><li>Two</li></ul>')).toBe(
+      'R&D <intern>\nOne\nTwo',
+    );
   });
 });

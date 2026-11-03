@@ -12,6 +12,7 @@
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
     "fetch-jobs": "tsx pipeline/run.ts",
+    "e2e": "NODE_PATH=$(npm root -g) node e2e/smoke.mjs",
     "verify-slugs": "tsx pipeline/run.ts --verify"
   },
   "dependencies": {

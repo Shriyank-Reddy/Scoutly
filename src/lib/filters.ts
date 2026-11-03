@@ -14,7 +14,17 @@ export interface Filters {
   sort: 'match' | 'recent';
 }
 
-export const DEFAULT_FILTERS: Filters = { q: '', modes: [], city: '', radius: 50, avail: false, paidOnly: false, engagement: '', hideFlagged: false, sort: 'match' };
+export const DEFAULT_FILTERS: Filters = {
+  q: '',
+  modes: [],
+  city: '',
+  radius: 50,
+  avail: false,
+  paidOnly: false,
+  engagement: '',
+  hideFlagged: false,
+  sort: 'match',
+};
 
 export function filtersToParams(f: Filters): URLSearchParams {
   const p = new URLSearchParams();
@@ -31,15 +41,21 @@ export function filtersToParams(f: Filters): URLSearchParams {
 }
 
 export function paramsToFilters(p: URLSearchParams): Filters {
-  const modes = (p.get('mode') ?? '').split(',').filter((m): m is WorkMode => ['remote', 'hybrid', 'onsite'].includes(m));
+  const modes = (p.get('mode') ?? '')
+    .split(',')
+    .filter((m): m is WorkMode => ['remote', 'hybrid', 'onsite'].includes(m));
   const r = Number(p.get('r'));
   const type = p.get('type');
   return {
-    q: p.get('q') ?? '', modes, city: p.get('city') ?? '',
+    q: p.get('q') ?? '',
+    modes,
+    city: p.get('city') ?? '',
     radius: r >= 5 && r <= 500 ? r : DEFAULT_FILTERS.radius,
-    avail: p.get('avail') === '1', paidOnly: p.get('paid') === '1',
+    avail: p.get('avail') === '1',
+    paidOnly: p.get('paid') === '1',
     engagement: type === 'co-op' || type === 'part-time' ? type : '',
-    hideFlagged: p.get('hideflags') === '1', sort: p.get('sort') === 'recent' ? 'recent' : 'match',
+    hideFlagged: p.get('hideflags') === '1',
+    sort: p.get('sort') === 'recent' ? 'recent' : 'match',
   };
 }
 
@@ -47,7 +63,12 @@ const haystack = (l: Listing) =>
   `${l.title} ${l.company} ${l.snippet} ${l.skills.join(' ')} ${l.locations.map((p) => `${p.city ?? ''} ${p.region ?? ''} ${p.country ?? ''}`).join(' ')}`.toLowerCase();
 
 /** City membership: any geocoded place within radius, or (when `includeRemote`) remote postings. */
-export function inCity(l: Listing, cityKey: string, radius: number, includeRemote = false): boolean {
+export function inCity(
+  l: Listing,
+  cityKey: string,
+  radius: number,
+  includeRemote = false,
+): boolean {
   const c = findCityByKey(cityKey);
   if (!c) return true;
   const d = minDistanceKm(l.locations, c.lat, c.lon);
@@ -55,7 +76,11 @@ export function inCity(l: Listing, cityKey: string, radius: number, includeRemot
   return includeRemote && l.workMode === 'remote';
 }
 
-export function applyFilters(listings: Listing[], f: Filters, profile: Pick<Profile, 'availableFrom' | 'availableTo'>): Listing[] {
+export function applyFilters(
+  listings: Listing[],
+  f: Filters,
+  profile: Pick<Profile, 'availableFrom' | 'availableTo'>,
+): Listing[] {
   const terms = f.q.toLowerCase().split(/\s+/).filter(Boolean);
   return listings.filter((l) => {
     if (terms.length && !terms.every((t) => haystack(l).includes(t))) return false;
@@ -68,7 +93,11 @@ export function applyFilters(listings: Listing[], f: Filters, profile: Pick<Prof
     }
     if (f.paidOnly && l.paid !== 'paid') return false;
     if (f.engagement && !l.engagement.includes(f.engagement)) return false;
-    if (f.hideFlagged && l.authFlags.some((a) => ['no-sponsorship', 'citizenship', 'clearance'].includes(a.id))) return false;
+    if (
+      f.hideFlagged &&
+      l.authFlags.some((a) => ['no-sponsorship', 'citizenship', 'clearance'].includes(a.id))
+    )
+      return false;
     return true;
   });
 }

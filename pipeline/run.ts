@@ -17,7 +17,15 @@ async function loadBoards(seeds: CompanySeed[], useFixtures: boolean) {
   let ok = 0;
   let netFails = 0; // consecutive network-level failures (no HTTP status): abort early instead of waiting on every board
   for (const seed of seeds) {
-    if (netFails >= 3) { failures.push({ company: seed.name, source: seed.source, slug: seed.slug, reason: 'skipped: network unreachable' }); continue; }
+    if (netFails >= 3) {
+      failures.push({
+        company: seed.name,
+        source: seed.source,
+        slug: seed.slug,
+        reason: 'skipped: network unreachable',
+      });
+      continue;
+    }
     try {
       const json = useFixtures
         ? (await readJson<Record<string, unknown>>(`tests/fixtures/${seed.source}.json`))[seed.slug]
@@ -28,7 +36,12 @@ async function loadBoards(seeds: CompanySeed[], useFixtures: boolean) {
       netFails = 0;
     } catch (e) {
       netFails = e instanceof HttpError ? 0 : netFails + 1;
-      failures.push({ company: seed.name, source: seed.source, slug: seed.slug, reason: (e as Error).message });
+      failures.push({
+        company: seed.name,
+        source: seed.source,
+        slug: seed.slug,
+        reason: (e as Error).message,
+      });
     }
   }
   return { raw, failures, ok };
@@ -38,7 +51,9 @@ async function write(listings: ReturnType<typeof buildListings>, meta: Meta) {
   await mkdir('public/data', { recursive: true });
   await writeFile('public/data/listings.json', JSON.stringify(listings));
   await writeFile('public/data/meta.json', JSON.stringify(meta, null, 2));
-  console.log(`Wrote ${listings.length} listings (${meta.isSample ? 'SAMPLE data' : 'live data'}), ${meta.boardsOk} boards ok, ${meta.boardsFailed.length} failed.`);
+  console.log(
+    `Wrote ${listings.length} listings (${meta.isSample ? 'SAMPLE data' : 'live data'}), ${meta.boardsOk} boards ok, ${meta.boardsFailed.length} failed.`,
+  );
 }
 
 async function main() {
@@ -55,13 +70,18 @@ async function main() {
     console.log(`Verified ${ok}/${seeds.length} boards. Failures:`);
     for (const f of failures) console.log(`  ${f.source}/${f.slug}: ${f.reason}`);
     await mkdir('data', { recursive: true });
-    await writeFile('data/slug-report.json', JSON.stringify({ checkedAt: new Date().toISOString(), ok, failures }, null, 2));
+    await writeFile(
+      'data/slug-report.json',
+      JSON.stringify({ checkedAt: new Date().toISOString(), ok, failures }, null, 2),
+    );
     return;
   }
   if (ok === 0) {
     console.error(`No board could be fetched (${failures[0]?.reason ?? 'no boards'}).`);
     if (args.has('--no-fallback')) process.exit(1);
-    console.error('Falling back to bundled SAMPLE fixtures. The site will be labelled "Sample data".');
+    console.error(
+      'Falling back to bundled SAMPLE fixtures. The site will be labelled "Sample data".',
+    );
     const sample = await readJson<CompanySeed[]>('data/companies.sample.json');
     const fx = await loadBoards(sample, true);
     const listings = buildListings(fx.raw);
@@ -70,4 +90,7 @@ async function main() {
   const listings = buildListings(raw);
   await write(listings, buildMeta(listings, ok, failures, false));
 }
-main().catch((e) => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
