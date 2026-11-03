@@ -93,7 +93,7 @@ export default function TrackerPage() {
       <EmptyState
         title="Nothing saved yet"
         action={
-          <Link to="/" className={btn.primary}>
+          <Link to="/search" className={btn.primary}>
             Find internships
           </Link>
         }

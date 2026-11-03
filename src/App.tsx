@@ -3,13 +3,15 @@ import { HashRouter, NavLink, Route, Routes } from 'react-router-dom';
 import { AppProvider, useApp } from './state/AppState';
 import { Skeleton } from './components/ui';
 
+const HomePage = lazy(() => import('./pages/HomePage'));
 const SearchPage = lazy(() => import('./pages/SearchPage'));
 const CityPage = lazy(() => import('./pages/CityPage'));
 const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 const TrackerPage = lazy(() => import('./pages/TrackerPage'));
 
 const NAV = [
-  { to: '/', label: 'Search' },
+  { to: '/', label: 'Start' },
+  { to: '/search', label: 'Search' },
   { to: '/city', label: 'City' },
   { to: '/profile', label: 'Profile' },
   { to: '/tracker', label: 'Tracker' },
@@ -72,7 +74,15 @@ function Shell() {
           }
         >
           <Routes>
-            <Route path="/" element={<SearchPage />} />
+            <Route
+              path="/"
+              element={
+                <div className="h-full overflow-y-auto">
+                  <HomePage />
+                </div>
+              }
+            />
+            <Route path="/search" element={<SearchPage />} />
             <Route
               path="/city"
               element={

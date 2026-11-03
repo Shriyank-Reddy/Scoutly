@@ -54,3 +54,6 @@ npm run preview -- --port 4173 & npm run e2e
 2. Settings → Pages → Source: **GitHub Actions**.
 3. Run **Actions → Refresh data → Run workflow** once. If it fails with "No board could be fetched", check the log; if boards 404, prune `data/companies.json` using `data/slug-report.json` from `npm run verify-slugs`.
 4. Once a live run succeeds, the banner disappears automatically. Add the live URL and screenshots to the README.
+
+## Round 2 (priority list)
+- [x] 1. Resume first: home page (`/`) is a large drop zone (PDF/DOCX, or "Paste text instead"), parse progress, editable summary (name, school, degree, grad year, skills, links), privacy line directly under it. Search moved to `/search`.

@@ -16,12 +16,15 @@ const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
 await page.goto(URL);
 await page.getByText('Sample data.').waitFor(); // honest labelling while data is sample
-await page.getByText('Upload your resume to see match scores').waitFor();
-
-await page.getByRole('link', { name: 'Profile', exact: true }).click();
+await page.getByText('Drop your resume (PDF or DOCX)').waitFor(); // first thing a new visitor sees
+await page.getByText('Your resume stays in your browser.').waitFor();
+await page.getByRole('button', { name: 'Paste text instead' }).click();
 await page.getByLabel('Paste resume text').fill(RESUME);
 await page.getByRole('button', { name: 'Extract from pasted text' }).click();
-await page.getByText(/Found \d+ skills/).waitFor();
+await page.getByText(/Extracted \d+ skills/).waitFor();
+await page.getByLabel('Name', { exact: true }).waitFor();
+
+await page.getByRole('link', { name: 'Profile', exact: true }).click();
 await page.getByLabel('Available from').fill('2027-05-10');
 await page.getByLabel('Available until').fill('2027-08-15');
 

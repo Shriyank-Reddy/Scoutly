@@ -58,12 +58,29 @@ export function parseResumeText(text: string): ParsedResume {
 }
 
 /** Read a PDF, DOCX or text file in the browser. Libraries are loaded on demand to keep the first page fast. */
-export async function readResumeFile(file: File): Promise<string> {
+export const MAX_RESUME_BYTES = 5 * 1024 * 1024;
+
+/** Cheap pre-checks so we can show a friendly message before parsing anything. */
+export function validateResumeFile(f: { name: string; size: number }): string | null {
+  const ext = f.name.toLowerCase().split('.').pop();
+  if (!['pdf', 'docx', 'txt'].includes(ext ?? ''))
+    return 'Please choose a PDF or DOCX file (or paste the text).';
+  if (f.size > MAX_RESUME_BYTES)
+    return 'That file is over 5 MB. Try a smaller export or paste the text.';
+  if (f.size === 0) return 'That file is empty.';
+  return null;
+}
+
+export type Progress = (percent: number, label: string) => void;
+
+export async function readResumeFile(file: File, onProgress: Progress = () => {}): Promise<string> {
   const ext = file.name.toLowerCase().split('.').pop();
+  onProgress(10, 'Opening file');
   if (ext === 'pdf' || file.type === 'application/pdf') {
     const pdfjs = await import('pdfjs-dist');
     const worker = (await import('pdfjs-dist/build/pdf.worker.min.mjs?url')).default;
     pdfjs.GlobalWorkerOptions.workerSrc = worker;
+    onProgress(25, 'Reading PDF');
     const doc = await pdfjs.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
     const pages: string[] = [];
     for (let n = 1; n <= doc.numPages; n++) {
@@ -74,11 +91,16 @@ export async function readResumeFile(file: File): Promise<string> {
         line += item.str + (item.hasEOL ? '\n' : ' ');
       }
       pages.push(line);
+      onProgress(
+        25 + Math.round((n / doc.numPages) * 65),
+        `Extracting text (page ${n} of ${doc.numPages})`,
+      );
     }
     return pages.join('\n');
   }
   if (ext === 'docx') {
     const mammoth = await import('mammoth/mammoth.browser');
+    onProgress(50, 'Extracting text');
     return (await mammoth.extractRawText({ arrayBuffer: await file.arrayBuffer() })).value;
   }
   return file.text();

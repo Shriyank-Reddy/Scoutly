@@ -5,7 +5,7 @@ import {
   filtersToParams,
   paramsToFilters,
 } from '../src/lib/filters';
-import { parseResumeText } from '../src/lib/resume';
+import { parseResumeText, validateResumeFile } from '../src/lib/resume';
 import { toCsv, newItem } from '../src/lib/tracker';
 import { mk, profile, TEMPE, SF } from './helpers';
 
@@ -121,5 +121,15 @@ describe('tracker csv', () => {
     expect(csv).toContain(`"'=HYPERLINK(""evil"")"`);
     expect(csv).toContain('"A, ""B"""');
     expect(csv).toContain('"line1\nline2"');
+  });
+});
+
+describe('resume file validation', () => {
+  it('accepts pdf/docx and rejects others, big and empty files', () => {
+    expect(validateResumeFile({ name: 'cv.PDF', size: 1000 })).toBeNull();
+    expect(validateResumeFile({ name: 'cv.docx', size: 1000 })).toBeNull();
+    expect(validateResumeFile({ name: 'cv.exe', size: 1000 })).toMatch(/PDF or DOCX/);
+    expect(validateResumeFile({ name: 'cv.pdf', size: 6 * 1024 * 1024 })).toMatch(/5 MB/);
+    expect(validateResumeFile({ name: 'cv.pdf', size: 0 })).toMatch(/empty/);
   });
 });
