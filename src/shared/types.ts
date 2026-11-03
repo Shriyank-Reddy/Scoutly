@@ -73,6 +73,7 @@ export interface CompanySeed {
   slug: string;
   category: string;
   size?: CompanySize;
+  discoveredFrom?: string; // set by `npm run discover`: which public list the company was found in
 }
 
 export interface Profile {

@@ -67,3 +67,7 @@ npm run preview -- --port 4173 & npm run e2e
 - 85 tests pass; lint, typecheck, build clean; Playwright smoke test passes (home → paste resume → preferences → location search + map toggle → rank → save → tracker → delete all).
 - Lighthouse on `/#/search` (local preview, mobile emulation): Performance 83, Accessibility 100, Best Practices 100 (FCP 2.4 s, LCP 3.2 s, TBT 300 ms, CLS 0.048). Lower than round 1 because that run measured the lighter Start page and this one loads the Search page's chunks. Not tuned yet.
 - Still no live data (job APIs unreachable from the build sandbox); site shows the Sample data banner. Map tiles could not load in the sandbox, so the screenshots show no basemap.
+
+## Round 3: maximum coverage
+
+- [x] A. Discovery: `npm run discover` (`pipeline/discover.ts`), weekly PR workflow (`.github/workflows/discover.yml`; needs the repo setting "Allow GitHub Actions to create and approve pull requests"). Only licence-permitted lists are used (see `docs/DATA_SOURCES.md`); only one qualifying list was found (MIT, redirect links), others have no licence and are skipped. Tested offline with fake fetch (9 tests). **Live outcome:** licence check passed against GitHub; the redirect host was unreachable from the build sandbox, so 0 boards resolved here. First real discovery run happens on GitHub.

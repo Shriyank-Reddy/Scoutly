@@ -34,7 +34,7 @@ export function parseLever(json: unknown, seed: CompanySeed): RawJob[] {
         .join('\n')
         .trim(),
       companySize: seed.size ?? null,
- postedAt: j.createdAt ? new Date(j.createdAt).toISOString() : null,
+      postedAt: j.createdAt ? new Date(j.createdAt).toISOString() : null,
     };
   });
 }

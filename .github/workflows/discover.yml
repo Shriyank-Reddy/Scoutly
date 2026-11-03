@@ -1,0 +1,46 @@
+# Weekly company discovery: finds new job boards in permissively-licensed public lists, verifies each with one
+# request, and opens a pull request so a human reviews every addition. Never commits to main directly.
+# One-time setting needed: Settings > Actions > General > "Allow GitHub Actions to create and approve pull requests".
+name: Discover companies
+
+on:
+  schedule:
+    - cron: '41 5 * * 1' # Mondays 05:41 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: actions/cache@v4
+        with:
+          path: data/cache
+          key: discover-cache-${{ github.run_id }}
+          restore-keys: discover-cache-
+      - run: npm run discover
+      - name: Open a pull request if anything was added
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet -- data/companies.json; then
+            echo "No new companies this week."; exit 0
+          fi
+          branch="discover/$(date +%Y-%m-%d)"
+          git config user.name "scoutly-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add data/companies.json data/discovery-report.json data/discovery-report.md
+          git commit -m "Discover new companies ($(date +%Y-%m-%d))"
+          git push origin "$branch"
+          gh pr create --title "Discover new companies ($(date +%Y-%m-%d))" \
+            --body "$(cat data/discovery-report.md)"

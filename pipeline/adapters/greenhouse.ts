@@ -29,6 +29,6 @@ export function parseGreenhouse(json: unknown, seed: CompanySeed): RawJob[] {
     remoteHint: j.location?.name ? /remote/i.test(j.location.name) || null : null,
     text: htmlToText(j.content ?? ''),
     companySize: seed.size ?? null,
- postedAt: j.first_published ?? j.updated_at ?? null,
+    postedAt: j.first_published ?? j.updated_at ?? null,
   }));
 }

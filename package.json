@@ -13,6 +13,7 @@
     "format": "prettier --write .",
     "fetch-jobs": "tsx pipeline/run.ts",
     "e2e": "NODE_PATH=$(npm root -g) node e2e/smoke.mjs",
+    "discover": "tsx pipeline/discover.ts",
     "verify-slugs": "tsx pipeline/run.ts --verify"
   },
   "dependencies": {

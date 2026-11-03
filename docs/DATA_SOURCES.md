@@ -21,6 +21,20 @@ These endpoints are documented by each vendor so a company's own listings can be
 - **Always link out**: "Apply" opens the company's original posting.
 - **Once a day**: the scheduled workflow runs daily; nothing runs per visitor.
 
+## Company discovery (`npm run discover`)
+
+Finds new Greenhouse / Lever / Ashby boards from public community internship lists. Before a list is read, the script fetches its licence file and **skips the list unless the licence is permissive** (MIT, Apache-2.0, BSD, CC0, Unlicense). Each new slug is verified with one request before being added, tagged `discoveredFrom`, and a weekly workflow opens a pull request for human review. Output: `data/discovery-report.md` (found / verified / rejected and why).
+
+| List                                                 | URL                                                    | Licence (checked)     | Used?                                                                                                                                |
+| ---------------------------------------------------- | ------------------------------------------------------ | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| vanshb03/Summer2026-Internships                      | https://github.com/vanshb03/Summer2026-Internships     | MIT (`LICENSE.txt`)   | **Yes.** Its links are redirects (`go.vansh.nyc`), so slugs are found by following them: capped (300/run), 1 request/second, cached. |
+| SimplifyJobs/Summer2026-Internships                  | https://github.com/SimplifyJobs/Summer2026-Internships | no licence file found | **No**: without a licence, reuse is not permitted.                                                                                   |
+| SimplifyJobs/New-Grad-Positions                      | https://github.com/SimplifyJobs/New-Grad-Positions     | no licence file found | **No.**                                                                                                                              |
+| ReaVNaiL/New-Grad-2024, coderQuad/New-Grad-Positions | (same pattern)                                         | no licence file found | **No.**                                                                                                                              |
+| j-delaney/easy-application                           | https://github.com/j-delaney/easy-application          | MIT                   | No: last updated years ago; not useful.                                                                                              |
+
+Licences were checked on 2026-11-03 by fetching `raw.githubusercontent.com/<repo>/<branch>/LICENSE*`. The script re-checks on every run, so a list that changes licence is skipped automatically.
+
 ## Other data
 
 - **City coordinates**: GeoNames (via the `all-the-cities` npm package), licensed **CC BY 4.0**, https://www.geonames.org. Bundled offline in `src/data/cities.json`; no geocoding API is called.

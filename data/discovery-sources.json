@@ -1,0 +1,10 @@
+[
+  {
+    "id": "vanshb03/Summer2026-Internships",
+    "branch": "main",
+    "listingsPath": ".github/scripts/listings.json",
+    "licenseFiles": ["LICENSE.txt", "LICENSE", "LICENSE.md"],
+    "resolveRedirects": true,
+    "note": "MIT. Its apply links are redirects (go.vansh.nyc), so slugs are only found by following them (capped, rate-limited, cached)."
+  }
+]
