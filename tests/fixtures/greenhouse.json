@@ -1,0 +1,80 @@
+{
+ "orbitrobotics": {
+  "jobs": [
+   {
+    "id": 4000101,
+    "title": "Machine Learning Intern, Summer 2027",
+    "absolute_url": "https://example.com/sample/orbitrobotics/4000101",
+    "location": {
+     "name": "Tempe, AZ"
+    },
+    "updated_at": "2026-10-26T10:00:00-04:00",
+    "content": "&lt;p&gt;Join our applied research team this summer. You will train models with Python and PyTorch, run experiments, and write up results. Strong skills in machine learning, NumPy and Git are a plus. Hybrid role, 3 days a week in our office. Internship runs June 2027 - August 2027. Pay: $48/hour.&lt;/p&gt;"
+   },
+   {
+    "id": 4000102,
+    "title": "Senior Software Engineer",
+    "absolute_url": "https://example.com/sample/orbitrobotics/4000102",
+    "location": {
+     "name": "San Francisco, CA"
+    },
+    "updated_at": "2026-10-27T10:00:00-04:00",
+    "content": "&lt;p&gt;We are hiring a Senior Software Engineer with 8+ years of experience in distributed systems, Go and Kubernetes.&lt;/p&gt;"
+   },
+   {
+    "id": 4000103,
+    "title": "Embedded Systems Co-op (January 2027)",
+    "absolute_url": "https://example.com/sample/orbitrobotics/4000103",
+    "location": {
+     "name": "Phoenix, AZ, United States"
+    },
+    "updated_at": "2026-10-28T10:00:00-04:00",
+    "content": "&lt;p&gt;Six-month co-op placement for students in engineering programs. Work on embedded firmware in C and C++, RTOS and hardware bring-up. Starting January 2027. Paid position.&lt;/p&gt;"
+   },
+   {
+    "id": 4000104,
+    "title": "Student Loan Specialist",
+    "absolute_url": "https://example.com/sample/orbitrobotics/4000104",
+    "location": {
+     "name": "Remote"
+    },
+    "updated_at": "2026-10-20T10:00:00-04:00",
+    "content": "&lt;p&gt;Help customers with student loan questions in our call centre.&lt;/p&gt;"
+   }
+  ]
+ },
+ "lumencloudindia": {
+  "jobs": [
+   {
+    "id": 4000113,
+    "title": "Software Development Intern",
+    "absolute_url": "https://example.com/sample/lumencloudindia/4000113",
+    "location": {
+     "name": "Bengaluru, Karnataka, India"
+    },
+    "updated_at": "2026-10-20T10:00:00-04:00",
+    "content": "&lt;p&gt;Software Development Intern for our Bengaluru office. Work on Java, Spring Boot, microservices and Kafka. Duration of 6 months. Stipend provided.&lt;/p&gt;"
+   },
+   {
+    "id": 4000114,
+    "title": "Software Development Intern",
+    "absolute_url": "https://example.com/sample/lumencloudindia/4000114",
+    "location": {
+     "name": "Hyderabad, India"
+    },
+    "updated_at": "2026-10-21T10:00:00-04:00",
+    "content": "&lt;p&gt;Software Development Intern for our Bengaluru office. Work on Java, Spring Boot, microservices and Kafka. Duration of 6 months. Stipend provided.&lt;/p&gt;"
+   },
+   {
+    "id": 4000115,
+    "title": "Data Science Intern",
+    "absolute_url": "https://example.com/sample/lumencloudindia/4000115",
+    "location": {
+     "name": "Bangalore"
+    },
+    "updated_at": "2026-10-22T10:00:00-04:00",
+    "content": "&lt;p&gt;Help our data team build ETL pipelines with SQL, Airflow and Spark and dashboards in Tableau. Pandas and statistics experience preferred. Fully remote position. Dates are flexible.&lt;/p&gt;"
+   }
+  ]
+ }
+}

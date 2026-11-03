@@ -1,0 +1,1222 @@
+{
+  "fetchedAt": "2026-11-03T10:07:55.660Z",
+  "isSample": true,
+  "totalListings": 15,
+  "perSource": {
+    "greenhouse": 4,
+    "ashby": 7,
+    "lever": 4
+  },
+  "perCountry": {
+    "US": 7,
+    "GB": 1,
+    "CA": 2,
+    "SG": 1,
+    "IN": 2,
+    "CH": 1,
+    "DE": 1
+  },
+  "boardsOk": 6,
+  "boardsFailed": [
+    {
+      "company": "Anthropic",
+      "source": "greenhouse",
+      "slug": "anthropic",
+      "reason": "fetch failed"
+    },
+    {
+      "company": "OpenAI",
+      "source": "ashby",
+      "slug": "openai",
+      "reason": "fetch failed"
+    },
+    {
+      "company": "Cohere",
+      "source": "ashby",
+      "slug": "cohere",
+      "reason": "fetch failed"
+    },
+    {
+      "company": "Perplexity",
+      "source": "ashby",
+      "slug": "perplexity-ai",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Scale AI",
+      "source": "greenhouse",
+      "slug": "scaleai",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Databricks",
+      "source": "greenhouse",
+      "slug": "databricks",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Stability AI",
+      "source": "greenhouse",
+      "slug": "stabilityai",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Character.AI",
+      "source": "ashby",
+      "slug": "character",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Mistral AI",
+      "source": "lever",
+      "slug": "mistral",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Runway",
+      "source": "greenhouse",
+      "slug": "runwayml",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "ElevenLabs",
+      "source": "ashby",
+      "slug": "elevenlabs",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Hugging Face",
+      "source": "ashby",
+      "slug": "huggingface",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Glean",
+      "source": "greenhouse",
+      "slug": "glean",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Harvey",
+      "source": "ashby",
+      "slug": "harvey",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Cursor",
+      "source": "ashby",
+      "slug": "anysphere",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Cognition",
+      "source": "ashby",
+      "slug": "cognition",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Waymo",
+      "source": "greenhouse",
+      "slug": "waymo",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Cruise",
+      "source": "greenhouse",
+      "slug": "cruise",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Nuro",
+      "source": "greenhouse",
+      "slug": "nuro",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Aurora",
+      "source": "greenhouse",
+      "slug": "aurora",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "SambaNova",
+      "source": "greenhouse",
+      "slug": "sambanovasystems",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Cerebras",
+      "source": "greenhouse",
+      "slug": "cerebrassystems",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Weights & Biases",
+      "source": "greenhouse",
+      "slug": "wandb",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Modal",
+      "source": "ashby",
+      "slug": "modal",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Replicate",
+      "source": "ashby",
+      "slug": "replicate",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "CrowdStrike",
+      "source": "greenhouse",
+      "slug": "crowdstrike",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Cloudflare",
+      "source": "greenhouse",
+      "slug": "cloudflare",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Okta",
+      "source": "greenhouse",
+      "slug": "okta",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "SentinelOne",
+      "source": "greenhouse",
+      "slug": "sentinelone",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Tanium",
+      "source": "greenhouse",
+      "slug": "tanium",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Snyk",
+      "source": "greenhouse",
+      "slug": "snyk",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Wiz",
+      "source": "lever",
+      "slug": "wiz",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "1Password",
+      "source": "greenhouse",
+      "slug": "1password",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Zscaler",
+      "source": "greenhouse",
+      "slug": "zscaler",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Rapid7",
+      "source": "greenhouse",
+      "slug": "rapid7",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Tenable",
+      "source": "greenhouse",
+      "slug": "tenable",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Abnormal Security",
+      "source": "greenhouse",
+      "slug": "abnormalsecurity",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Arctic Wolf",
+      "source": "greenhouse",
+      "slug": "arcticwolf",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Huntress",
+      "source": "greenhouse",
+      "slug": "huntress",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Vanta",
+      "source": "greenhouse",
+      "slug": "vanta",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Drata",
+      "source": "ashby",
+      "slug": "drata",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Trail of Bits",
+      "source": "greenhouse",
+      "slug": "trailofbits",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Duo Security",
+      "source": "greenhouse",
+      "slug": "duosecurity",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Lacework",
+      "source": "greenhouse",
+      "slug": "lacework",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Cybereason",
+      "source": "greenhouse",
+      "slug": "cybereason",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Airbnb",
+      "source": "greenhouse",
+      "slug": "airbnb",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Pinterest",
+      "source": "greenhouse",
+      "slug": "pinterest",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Lyft",
+      "source": "greenhouse",
+      "slug": "lyft",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Dropbox",
+      "source": "greenhouse",
+      "slug": "dropbox",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Reddit",
+      "source": "greenhouse",
+      "slug": "reddit",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Discord",
+      "source": "greenhouse",
+      "slug": "discord",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Figma",
+      "source": "greenhouse",
+      "slug": "figma",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Asana",
+      "source": "greenhouse",
+      "slug": "asana",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Twilio",
+      "source": "greenhouse",
+      "slug": "twilio",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Datadog",
+      "source": "greenhouse",
+      "slug": "datadog",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "MongoDB",
+      "source": "greenhouse",
+      "slug": "mongodb",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "GitLab",
+      "source": "greenhouse",
+      "slug": "gitlab",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "HubSpot",
+      "source": "greenhouse",
+      "slug": "hubspot",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Elastic",
+      "source": "greenhouse",
+      "slug": "elastic",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Vercel",
+      "source": "greenhouse",
+      "slug": "vercel",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Instacart",
+      "source": "greenhouse",
+      "slug": "instacart",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "DoorDash",
+      "source": "greenhouse",
+      "slug": "doordash",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Roblox",
+      "source": "greenhouse",
+      "slug": "roblox",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Unity",
+      "source": "greenhouse",
+      "slug": "unity3d",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Epic Games",
+      "source": "greenhouse",
+      "slug": "epicgames",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Slack",
+      "source": "greenhouse",
+      "slug": "slack",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Squarespace",
+      "source": "greenhouse",
+      "slug": "squarespace",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Etsy",
+      "source": "greenhouse",
+      "slug": "etsy",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Peloton",
+      "source": "greenhouse",
+      "slug": "peloton",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Duolingo",
+      "source": "greenhouse",
+      "slug": "duolingo",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Grammarly",
+      "source": "greenhouse",
+      "slug": "grammarly",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Spotify",
+      "source": "lever",
+      "slug": "spotify",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Palantir",
+      "source": "lever",
+      "slug": "palantir",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "NVIDIA",
+      "source": "greenhouse",
+      "slug": "nvidia",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Samsara",
+      "source": "greenhouse",
+      "slug": "samsara",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Rubrik",
+      "source": "greenhouse",
+      "slug": "rubrik",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Nutanix",
+      "source": "greenhouse",
+      "slug": "nutanix",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Splunk",
+      "source": "greenhouse",
+      "slug": "splunk",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Fivetran",
+      "source": "greenhouse",
+      "slug": "fivetran",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "dbt Labs",
+      "source": "greenhouse",
+      "slug": "dbtlabs",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Confluent",
+      "source": "greenhouse",
+      "slug": "confluent",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "HashiCorp",
+      "source": "greenhouse",
+      "slug": "hashicorp",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "PagerDuty",
+      "source": "greenhouse",
+      "slug": "pagerduty",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "New Relic",
+      "source": "greenhouse",
+      "slug": "newrelic",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Sumo Logic",
+      "source": "greenhouse",
+      "slug": "sumologic",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Stripe",
+      "source": "greenhouse",
+      "slug": "stripe",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Coinbase",
+      "source": "greenhouse",
+      "slug": "coinbase",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Robinhood",
+      "source": "greenhouse",
+      "slug": "robinhood",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Affirm",
+      "source": "greenhouse",
+      "slug": "affirm",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Chime",
+      "source": "greenhouse",
+      "slug": "chime",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Brex",
+      "source": "greenhouse",
+      "slug": "brex",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Ramp",
+      "source": "ashby",
+      "slug": "ramp",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Plaid",
+      "source": "lever",
+      "slug": "plaid",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "SoFi",
+      "source": "greenhouse",
+      "slug": "sofi",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Marqeta",
+      "source": "greenhouse",
+      "slug": "marqeta",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Toast",
+      "source": "greenhouse",
+      "slug": "toast",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Block",
+      "source": "greenhouse",
+      "slug": "block",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Carta",
+      "source": "greenhouse",
+      "slug": "carta",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Gusto",
+      "source": "greenhouse",
+      "slug": "gusto",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Mercury",
+      "source": "ashby",
+      "slug": "mercury",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Betterment",
+      "source": "greenhouse",
+      "slug": "betterment",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Wealthfront",
+      "source": "greenhouse",
+      "slug": "wealthfront",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Flywire",
+      "source": "greenhouse",
+      "slug": "flywire",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Bill.com",
+      "source": "greenhouse",
+      "slug": "bill",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Addepar",
+      "source": "greenhouse",
+      "slug": "addepar",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "IMC Trading",
+      "source": "greenhouse",
+      "slug": "imc",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Jane Street",
+      "source": "greenhouse",
+      "slug": "janestreet",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "DRW",
+      "source": "greenhouse",
+      "slug": "drweng",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Hudson River Trading",
+      "source": "greenhouse",
+      "slug": "hudsonrivertrading",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Citadel",
+      "source": "greenhouse",
+      "slug": "citadel",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Two Sigma",
+      "source": "greenhouse",
+      "slug": "twosigma",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Point72",
+      "source": "greenhouse",
+      "slug": "point72",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Belvedere Trading",
+      "source": "lever",
+      "slug": "belvederetrading",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Optiver",
+      "source": "greenhouse",
+      "slug": "optiver",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Akuna Capital",
+      "source": "greenhouse",
+      "slug": "akunacapital",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Notion",
+      "source": "ashby",
+      "slug": "notion",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Linear",
+      "source": "ashby",
+      "slug": "linear",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Retool",
+      "source": "ashby",
+      "slug": "retool",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Airtable",
+      "source": "greenhouse",
+      "slug": "airtable",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Webflow",
+      "source": "greenhouse",
+      "slug": "webflow",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Supabase",
+      "source": "ashby",
+      "slug": "supabase",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "PostHog",
+      "source": "ashby",
+      "slug": "posthog",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Miro",
+      "source": "greenhouse",
+      "slug": "miro",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Canva",
+      "source": "greenhouse",
+      "slug": "canva",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Benchling",
+      "source": "greenhouse",
+      "slug": "benchling",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Lattice",
+      "source": "greenhouse",
+      "slug": "lattice",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Rippling",
+      "source": "greenhouse",
+      "slug": "rippling",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Deel",
+      "source": "ashby",
+      "slug": "deel",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Flexport",
+      "source": "greenhouse",
+      "slug": "flexport",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Anduril",
+      "source": "greenhouse",
+      "slug": "anduril",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Relativity Space",
+      "source": "greenhouse",
+      "slug": "relativity",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "SpaceX",
+      "source": "greenhouse",
+      "slug": "spacex",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Rocket Lab",
+      "source": "greenhouse",
+      "slug": "rocketlab",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Scribd",
+      "source": "greenhouse",
+      "slug": "scribd",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Thumbtack",
+      "source": "greenhouse",
+      "slug": "thumbtack",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Faire",
+      "source": "greenhouse",
+      "slug": "faire",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Checkr",
+      "source": "greenhouse",
+      "slug": "checkr",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Amplitude",
+      "source": "greenhouse",
+      "slug": "amplitude",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Segment",
+      "source": "greenhouse",
+      "slug": "segment",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Mixpanel",
+      "source": "greenhouse",
+      "slug": "mixpanel",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "ClickHouse",
+      "source": "ashby",
+      "slug": "clickhouse",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "PlanetScale",
+      "source": "ashby",
+      "slug": "planetscale",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Neon",
+      "source": "ashby",
+      "slug": "neon",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Cockroach Labs",
+      "source": "greenhouse",
+      "slug": "cockroachlabs",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Yugabyte",
+      "source": "greenhouse",
+      "slug": "yugabyte",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Sourcegraph",
+      "source": "greenhouse",
+      "slug": "sourcegraph",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Grafana Labs",
+      "source": "greenhouse",
+      "slug": "grafanalabs",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Temporal",
+      "source": "greenhouse",
+      "slug": "temporal",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Tailscale",
+      "source": "greenhouse",
+      "slug": "tailscale",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Fastly",
+      "source": "greenhouse",
+      "slug": "fastly",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Netlify",
+      "source": "greenhouse",
+      "slug": "netlify",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "DigitalOcean",
+      "source": "greenhouse",
+      "slug": "digitalocean",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "PhonePe",
+      "source": "greenhouse",
+      "slug": "phonepe",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "CRED",
+      "source": "lever",
+      "slug": "cred",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Meesho",
+      "source": "lever",
+      "slug": "meesho",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Razorpay",
+      "source": "greenhouse",
+      "slug": "razorpay",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Swiggy",
+      "source": "greenhouse",
+      "slug": "swiggy",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Zomato",
+      "source": "greenhouse",
+      "slug": "zomato",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Groww",
+      "source": "lever",
+      "slug": "groww",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Freshworks",
+      "source": "greenhouse",
+      "slug": "freshworks",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Zoho",
+      "source": "greenhouse",
+      "slug": "zoho",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Postman",
+      "source": "greenhouse",
+      "slug": "postman",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "BrowserStack",
+      "source": "greenhouse",
+      "slug": "browserstack",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Druva",
+      "source": "greenhouse",
+      "slug": "druva",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "ThoughtSpot",
+      "source": "greenhouse",
+      "slug": "thoughtspot",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Uber",
+      "source": "greenhouse",
+      "slug": "uber",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Atlassian",
+      "source": "greenhouse",
+      "slug": "atlassian",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Intuit",
+      "source": "greenhouse",
+      "slug": "intuit",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Adobe",
+      "source": "greenhouse",
+      "slug": "adobe",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "VMware",
+      "source": "greenhouse",
+      "slug": "vmware",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Sprinklr",
+      "source": "greenhouse",
+      "slug": "sprinklr",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Hotstar",
+      "source": "greenhouse",
+      "slug": "hotstar",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Dream11",
+      "source": "lever",
+      "slug": "dream11",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "ShareChat",
+      "source": "greenhouse",
+      "slug": "sharechat",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Urban Company",
+      "source": "greenhouse",
+      "slug": "urbancompany",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Slice",
+      "source": "lever",
+      "slug": "slice",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Juspay",
+      "source": "greenhouse",
+      "slug": "juspay",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "ClearTax",
+      "source": "greenhouse",
+      "slug": "cleartax",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Zeta",
+      "source": "lever",
+      "slug": "zeta",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Mindtickle",
+      "source": "greenhouse",
+      "slug": "mindtickle",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Whatfix",
+      "source": "greenhouse",
+      "slug": "whatfix",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Innovaccer",
+      "source": "greenhouse",
+      "slug": "innovaccer",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Grab",
+      "source": "greenhouse",
+      "slug": "grab",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Revolut",
+      "source": "greenhouse",
+      "slug": "revolut",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Wise",
+      "source": "greenhouse",
+      "slug": "wise",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Monzo",
+      "source": "greenhouse",
+      "slug": "monzo",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Klarna",
+      "source": "greenhouse",
+      "slug": "klarna",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Delivery Hero",
+      "source": "greenhouse",
+      "slug": "deliveryhero",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Zalando",
+      "source": "greenhouse",
+      "slug": "zalando",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "N26",
+      "source": "greenhouse",
+      "slug": "n26",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Celonis",
+      "source": "greenhouse",
+      "slug": "celonis",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Shopify",
+      "source": "greenhouse",
+      "slug": "shopify",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Wealthsimple",
+      "source": "greenhouse",
+      "slug": "wealthsimple",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Cohesity",
+      "source": "greenhouse",
+      "slug": "cohesity",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Wix",
+      "source": "greenhouse",
+      "slug": "wix",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "monday.com",
+      "source": "greenhouse",
+      "slug": "monday",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Payoneer",
+      "source": "lever",
+      "slug": "payoneer",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Taboola",
+      "source": "greenhouse",
+      "slug": "taboola",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Gojek",
+      "source": "greenhouse",
+      "slug": "gojek",
+      "reason": "skipped: network unreachable"
+    },
+    {
+      "company": "Sea Limited",
+      "source": "greenhouse",
+      "slug": "sea",
+      "reason": "skipped: network unreachable"
+    }
+  ]
+}
