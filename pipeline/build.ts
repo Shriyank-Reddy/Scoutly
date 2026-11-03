@@ -1,4 +1,10 @@
-import type { CompanySeed, Listing, Meta, RawJob } from '../src/shared/types';
+import {
+  AGGREGATORS,
+  type CompanySeed,
+  type Listing,
+  type Meta,
+  type RawJob,
+} from '../src/shared/types';
 import { isInternship } from '../src/shared/internship';
 import { normalise, dedupe } from '../src/shared/normalise';
 import { parseGreenhouse } from './adapters/greenhouse';
@@ -13,9 +19,9 @@ export const PARSERS = {
 
 /** Keep internship-like roles, normalise, dedupe. Pure function: easy to test. */
 export function buildListings(raw: RawJob[]): Listing[] {
-  return dedupe(raw.filter((r) => isInternship(r.title, r.text)).map(normalise)).sort((a, b) =>
-    (b.postedAt ?? '').localeCompare(a.postedAt ?? ''),
-  );
+  return dedupeAcrossSources(
+    dedupe(raw.filter((r) => isInternship(r.title, r.text)).map(normalise)),
+  ).sort((a, b) => (b.postedAt ?? '').localeCompare(a.postedAt ?? ''));
 }
 
 export function buildMeta(
@@ -24,6 +30,7 @@ export function buildMeta(
   failures: Meta['boardsFailed'],
   isSample: boolean,
   now = new Date(),
+  aggregators?: Meta['aggregators'],
 ): Meta {
   const perSource: Record<string, number> = {};
   const perCountry: Record<string, number> = {};
@@ -40,9 +47,48 @@ export function buildMeta(
     perCountry,
     boardsOk,
     boardsFailed: failures,
+    ...(aggregators ? { aggregators } : {}),
   };
 }
 
 export function parseBoard(seed: CompanySeed, json: unknown): RawJob[] {
   return PARSERS[seed.source](json, seed);
+}
+
+const normCompany = (c: string) =>
+  c
+    .toLowerCase()
+    .replace(/\(.*?\)/g, ' ')
+    .replace(/\b(inc|llc|ltd|limited|corp|corporation|gmbh|co|the|plc|pvt)\b\.?/g, ' ')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+const normTitle = (t: string) =>
+  t
+    .toLowerCase()
+    .replace(/\((m|f|w|d|x|\/)+\)/g, ' ')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+
+/**
+ * Same company + title + city seen under several sources: keep one. A company's own ATS listing beats an aggregator copy;
+ * among equals the first seen wins. A listing with no city is keyed "remote" so remote copies collapse too.
+ */
+export function dedupeAcrossSources(listings: Listing[]): Listing[] {
+  const rank = (l: Listing) => (AGGREGATORS.includes(l.source) ? 1 : 0);
+  const keysOf = (l: Listing) => {
+    const base = `${normCompany(l.company)}|${normTitle(l.title)}|`;
+    const cities = l.locations.map((p) => p.city?.toLowerCase()).filter((c): c is string => !!c);
+    return (cities.length ? cities : ['remote']).map((c) => base + c);
+  };
+  const winner = new Map<string, Listing>();
+  const dropped = new Set<Listing>();
+  for (const l of [...listings].sort((a, b) => rank(a) - rank(b))) {
+    const keys = keysOf(l);
+    if (keys.some((k) => winner.has(k))) {
+      dropped.add(l);
+      continue;
+    }
+    for (const k of keys) winner.set(k, l);
+  }
+  return listings.filter((l) => !dropped.has(l));
 }

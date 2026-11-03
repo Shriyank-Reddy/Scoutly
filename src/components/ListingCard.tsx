@@ -55,6 +55,7 @@ export function ListingCard({
         </p>
         <div className="mt-2 flex h-6 items-start gap-2 overflow-hidden">
           <ModeBadge mode={l.workMode} />
+          {l.via && <Chip>via {l.via}</Chip>}
           {term ? <Chip tone="strong">{term}</Chip> : <Chip>Dates not stated</Chip>}
           {l.authFlags.length > 0 && (
             <Chip tone="flag">

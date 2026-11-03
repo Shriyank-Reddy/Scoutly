@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { ResumeIntake } from '../components/ResumeIntake';
 import { btn } from '../components/ui';
+import { Credits } from '../components/Credits';
 import { useApp } from '../state/AppState';
 
 export default function HomePage() {
@@ -30,6 +31,7 @@ export default function HomePage() {
           <span className="font-mono text-xs text-muted">{listings.length} listings loaded</span>
         )}
       </div>
+      <Credits className="md:hidden" />
     </div>
   );
 }

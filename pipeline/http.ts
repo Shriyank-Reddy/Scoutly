@@ -8,9 +8,9 @@ const MIN_GAP_MS = 400; // rate limit: at most ~2.5 requests per second overall
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 let lastRequest = 0;
-async function rateLimit() {
-  const wait = lastRequest + MIN_GAP_MS - Date.now();
-  lastRequest = Math.max(Date.now(), lastRequest + MIN_GAP_MS);
+async function rateLimit(gap = MIN_GAP_MS) {
+  const wait = lastRequest + gap - Date.now();
+  lastRequest = Math.max(Date.now(), lastRequest + gap);
   if (wait > 0) await sleep(wait);
 }
 
@@ -22,6 +22,7 @@ interface Opts {
   cacheTtlMs?: number;
   fetchImpl?: typeof fetch;
   sleepImpl?: (ms: number) => Promise<void>;
+  gapMs?: number;
 }
 
 /** GET JSON politely: cache on disk, rate-limit, retry 429/5xx/network errors with backoff. */
@@ -38,7 +39,7 @@ export async function getJson(url: string, opts: Opts = {}): Promise<unknown> {
   let lastErr: unknown;
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
-      await rateLimit();
+      await rateLimit(opts.gapMs);
       const res = await fetchImpl(url, {
         headers: { 'User-Agent': USER_AGENT, Accept: 'application/json' },
         signal: AbortSignal.timeout(30_000),

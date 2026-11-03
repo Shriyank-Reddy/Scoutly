@@ -1,0 +1,54 @@
+{
+  "us": {
+    "count": 3,
+    "results": [
+      {
+        "id": "4400001",
+        "title": "Machine Learning Intern, Summer 2027",
+        "description": "Join our applied research team this summer. You will train models with Python and PyTorch. Hybrid role, 3 days a week in our office. Internship runs June 2027 - August 2027.",
+        "created": "2026-10-30T08:00:00Z",
+        "redirect_url": "https://example.com/sample/adzuna/4400001",
+        "company": { "display_name": "Orbit Robotics (sample)" },
+        "location": { "display_name": "Tempe, Maricopa County" },
+        "salary_min": 70000,
+        "salary_max": 90000,
+        "salary_is_predicted": "1"
+      },
+      {
+        "id": "4400002",
+        "title": "Data Analyst Intern",
+        "description": "Support our analytics team with SQL, Excel and Tableau dashboards. Paid summer internship in Phoenix. Salary: $22 per hour.",
+        "created": "2026-10-28T08:00:00Z",
+        "redirect_url": "https://example.com/sample/adzuna/4400002",
+        "company": { "display_name": "Canyon Health (sample)" },
+        "location": { "display_name": "Phoenix, Maricopa County" },
+        "salary_min": 45760,
+        "salary_is_predicted": "0"
+      },
+      {
+        "id": "4400003",
+        "title": "Senior Data Engineer",
+        "description": "Seven years of experience building data platforms.",
+        "created": "2026-10-20T08:00:00Z",
+        "redirect_url": "https://example.com/sample/adzuna/4400003",
+        "company": { "display_name": "Canyon Health (sample)" },
+        "location": { "display_name": "Phoenix, Maricopa County" }
+      }
+    ]
+  },
+  "in": {
+    "count": 1,
+    "results": [
+      {
+        "id": "4400101",
+        "title": "Software Engineering Intern",
+        "description": "Work on Java and Spring Boot services with our Pune team. Six month internship with stipend.",
+        "created": "2026-10-27T08:00:00Z",
+        "redirect_url": "https://example.com/sample/adzuna/4400101",
+        "company": { "display_name": "Kaveri Systems (sample)" },
+        "location": { "display_name": "Pune, Maharashtra" },
+        "salary_is_predicted": "1"
+      }
+    ]
+  }
+}

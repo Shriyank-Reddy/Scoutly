@@ -1,0 +1,40 @@
+{
+  "data": [
+    {
+      "slug": "praktikum-softwareentwicklung-rhein-software-1",
+      "company_name": "Rhein Software (sample)",
+      "title": "Praktikum Softwareentwicklung (m/w/d)",
+      "description": "<p>Praktikum im Bereich Softwareentwicklung mit Python und Docker. Vor Ort in Köln.</p>",
+      "remote": false,
+      "url": "https://example.com/sample/arbeitnow/1",
+      "location": "Köln",
+      "created_at": 1793200000,
+      "tags": ["Software"],
+      "job_types": ["internship"]
+    },
+    {
+      "slug": "werkstudent-marketing-hanse-media-2",
+      "company_name": "Hanse Media (sample)",
+      "title": "Werkstudent Marketing",
+      "description": "<p>Werkstudent (20 Stunden pro Woche) in Hamburg.</p>",
+      "remote": false,
+      "url": "https://example.com/sample/arbeitnow/2",
+      "location": "Hamburg",
+      "created_at": 1793100000,
+      "tags": [],
+      "job_types": []
+    },
+    {
+      "slug": "account-manager-3",
+      "company_name": "Hanse Media (sample)",
+      "title": "Account Manager",
+      "description": "<p>Erfahrung im Vertrieb.</p>",
+      "remote": false,
+      "url": "https://example.com/sample/arbeitnow/3",
+      "location": "Hamburg",
+      "created_at": 1793000000,
+      "tags": [],
+      "job_types": []
+    }
+  ]
+}

@@ -1,21 +1,44 @@
 {
-  "fetchedAt": "2026-11-03T18:33:52.424Z",
+  "fetchedAt": "2026-11-03T19:10:35.984Z",
   "isSample": true,
-  "totalListings": 15,
+  "totalListings": 20,
   "perSource": {
     "lever": 4,
+    "remotive": 1,
+    "arbeitnow": 2,
     "greenhouse": 4,
-    "ashby": 7
+    "ashby": 7,
+    "adzuna": 2
   },
   "perCountry": {
     "CH": 1,
-    "DE": 1,
-    "US": 7,
+    "DE": 3,
+    "US": 8,
     "GB": 1,
     "CA": 2,
-    "SG": 1,
-    "IN": 2
+    "IN": 3,
+    "SG": 1
   },
   "boardsOk": 6,
-  "boardsFailed": []
+  "boardsFailed": [],
+  "aggregators": [
+    {
+      "name": "adzuna",
+      "status": "ok",
+      "detail": "fixture",
+      "raw": 4
+    },
+    {
+      "name": "remotive",
+      "status": "ok",
+      "detail": "fixture",
+      "raw": 2
+    },
+    {
+      "name": "arbeitnow",
+      "status": "ok",
+      "detail": "fixture",
+      "raw": 3
+    }
+  ]
 }

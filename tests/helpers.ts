@@ -21,6 +21,7 @@ export function mk(over: Partial<Listing> & { id: string }): Listing {
     skills: [],
     authFlags: [],
     companySize: null,
+    via: null,
     source: 'greenhouse',
     sourceId: over.id,
     ...over,

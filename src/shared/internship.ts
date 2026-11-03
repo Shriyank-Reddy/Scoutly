@@ -1,5 +1,5 @@
 const INCLUDE =
-  /\b(interns?|internships?|co-?ops?|students?|working student|werkstudent|apprentices?|apprenticeships?|placement|trainee)\b/i;
+  /\b(interns?|internships?|co-?ops?|students?|working student|werkstudent|apprentices?|apprenticeships?|placement|trainee|praktikum|praktikant(?:in)?|stagiaire)\b/i;
 const EXCLUDE =
   /\b(senior|sr\.?|staff|principal|manager|director|head of|lead|vp|vice president|president|chief|architect)\b/i;
 // "Student" alone is ambiguous (e.g. "Student Loan Specialist"), so require extra signals for it.

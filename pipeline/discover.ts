@@ -2,7 +2,7 @@
 // Finds new Greenhouse / Lever / Ashby boards in public, permissively-licensed internship lists, verifies each
 // with one request, and appends them to data/companies.json (a weekly workflow opens a PR for human review).
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
-import type { CompanySeed, SourceName } from '../src/shared/types';
+import type { BoardSource, CompanySeed } from '../src/shared/types';
 import { getJson, HttpError, USER_AGENT } from './http';
 import { buildListings, parseBoard } from './build';
 import { greenhouseUrl } from './adapters/greenhouse';
@@ -13,7 +13,7 @@ const URLS = { greenhouse: greenhouseUrl, lever: leverUrl, ashby: ashbyUrl };
 const RESERVED = new Set(['embed', 'jobs', 'api', 'v1', 'login', 'www']);
 
 /** Platform + slug from an apply link, or null. Pure, so it is unit-tested. */
-export function extractBoard(raw: string): { source: SourceName; slug: string } | null {
+export function extractBoard(raw: string): { source: BoardSource; slug: string } | null {
   let u: URL;
   try {
     u = new URL(raw);
@@ -57,7 +57,7 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 export async function resolveToBoard(
   url: string,
   fetchImpl: Fetcher = fetch,
-): Promise<{ source: SourceName; slug: string } | null> {
+): Promise<{ source: BoardSource; slug: string } | null> {
   let cur = url;
   for (let hop = 0; hop < 5; hop++) {
     const direct = extractBoard(cur);
@@ -114,13 +114,13 @@ export async function discover(
     maxResolve?: number;
     maxVerify?: number;
     fetchImpl?: Fetcher;
-    verifyImpl?: (s: SourceName, slug: string) => Promise<unknown>;
+    verifyImpl?: (s: BoardSource, slug: string) => Promise<unknown>;
   } = {},
 ): Promise<Report> {
   const { dryRun = false, maxResolve = 300, maxVerify = 200, fetchImpl = fetch } = opts;
   const verifyImpl =
     opts.verifyImpl ??
-    ((s: SourceName, slug: string) => getJson(URLS[s](slug), { retries: 1, fetchImpl }));
+    ((s: BoardSource, slug: string) => getJson(URLS[s](slug), { retries: 1, fetchImpl }));
   const sources: SourceCfg[] = JSON.parse(await readFile('data/discovery-sources.json', 'utf8'));
   const companies: CompanySeed[] = JSON.parse(await readFile('data/companies.json', 'utf8'));
   const known = new Set(companies.map((c) => `${c.source}:${c.slug.toLowerCase()}`));
@@ -131,7 +131,7 @@ export async function discover(
     verified: [],
     rejected: [],
   };
-  let redirectCache: Record<string, { source: SourceName; slug: string } | null> = {};
+  let redirectCache: Record<string, { source: BoardSource; slug: string } | null> = {};
   try {
     redirectCache = JSON.parse(await readFile('data/cache/redirects.json', 'utf8'));
   } catch {
@@ -139,7 +139,7 @@ export async function discover(
   }
   const candidates = new Map<
     string,
-    { source: SourceName; slug: string; name: string; from: string }
+    { source: BoardSource; slug: string; name: string; from: string }
   >();
   let resolveBudget = maxResolve;
 

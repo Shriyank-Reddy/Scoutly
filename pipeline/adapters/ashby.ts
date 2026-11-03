@@ -39,6 +39,7 @@ export function parseAshby(json: unknown, seed: CompanySeed): RawJob[] {
             : null,
       text: j.descriptionPlain ?? htmlToText(j.descriptionHtml ?? ''),
       companySize: seed.size ?? null,
+      via: null,
       postedAt: j.publishedAt ?? null,
     }));
 }

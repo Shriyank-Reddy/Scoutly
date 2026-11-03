@@ -3,6 +3,7 @@ import { Bookmark, FileText, MapPin, Search, SlidersHorizontal } from 'lucide-re
 import { HashRouter, NavLink, Route, Routes } from 'react-router-dom';
 import { AppProvider, useApp } from './state/AppState';
 import { Skeleton } from './components/ui';
+import { Credits } from './components/Credits';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
 const SearchPage = lazy(() => import('./pages/SearchPage'));
@@ -114,6 +115,9 @@ function Shell() {
           </Routes>
         </Suspense>
       </main>
+      <footer className="hidden border-t border-line px-4 py-2 md:block">
+        <Credits />
+      </footer>
       <nav aria-label="Main" className="grid grid-cols-5 border-t border-line bg-bg md:hidden">
         {NAV.map(({ to, label, Icon }) => (
           <NavLink

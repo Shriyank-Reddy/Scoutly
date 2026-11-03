@@ -59,7 +59,7 @@ The only network requests are for the site's own files, the Google Fonts stylesh
 
 ## Data sources and attribution
 
-Listings come from the public job-board APIs that companies publish for their own listings: **Greenhouse**, **Lever** and **Ashby**. Only a short snippet is stored and every listing links to the original posting. Details, endpoints and how terms are respected: [docs/DATA_SOURCES.md](docs/DATA_SOURCES.md).
+Listings come from the public job-board APIs that companies publish for their own listings (**Greenhouse**, **Lever**, **Ashby**) and, as second-hand copies that lose to the company's own listing when duplicated, from **[Jobs by Adzuna](https://www.adzuna.com)** (needs a free key; skipped if absent), **[Remotive](https://remotive.com)** and **[Arbeitnow](https://www.arbeitnow.com)**. Aggregator listings are labelled "via <source>". Only a short snippet is stored and every listing links to the original posting. Details, endpoints and how terms are respected: [docs/DATA_SOURCES.md](docs/DATA_SOURCES.md).
 
 - City data: [GeoNames](https://www.geonames.org), CC BY 4.0.
 - Map: © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors, via [Leaflet](https://leafletjs.com).

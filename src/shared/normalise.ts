@@ -43,6 +43,7 @@ export function normalise(raw: RawJob): Listing {
     skills: extractSkills(`${raw.title}\n${text}`),
     authFlags: detectAuthFlags(text),
     companySize: raw.companySize,
+    via: raw.via,
     source: raw.source,
     sourceId: raw.sourceId,
   };
@@ -52,7 +53,7 @@ export function normalise(raw: RawJob): Listing {
 export function dedupe(listings: Listing[]): Listing[] {
   const map = new Map<string, Listing>();
   for (const l of listings) {
-    const key = `${l.company.toLowerCase()}|${l.title
+    const key = `${l.source}|${l.company.toLowerCase()}|${l.title
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, ' ')
       .trim()}|${(l.snippet || '').slice(0, 80).toLowerCase()}`;

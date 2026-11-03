@@ -42,6 +42,10 @@ jobs:
           key: job-cache-${{ github.run_id }}
           restore-keys: job-cache-
       - name: Fetch listings
+        env:
+          # Optional. Without these, Adzuna is skipped and logged (the run does not fail).
+          ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
+          ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
         run: npm run fetch-jobs -- ${{ inputs.strict && '--no-fallback' || '' }}
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3

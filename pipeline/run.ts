@@ -3,6 +3,7 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import type { CompanySeed, Meta, RawJob } from '../src/shared/types';
 import { buildListings, buildMeta, parseBoard } from './build';
 import { getJson, HttpError } from './http';
+import { fetchAggregators, fixtureAggregators, type AggResult } from './aggregators';
 import { greenhouseUrl } from './adapters/greenhouse';
 import { leverUrl } from './adapters/lever';
 import { ashbyUrl } from './adapters/ashby';
@@ -61,8 +62,9 @@ async function main() {
   if (fixturesOnly) {
     const seeds = await readJson<CompanySeed[]>('data/companies.sample.json');
     const { raw, failures, ok } = await loadBoards(seeds, true);
-    const listings = buildListings(raw);
-    return write(listings, buildMeta(listings, ok, failures, true));
+    const agg = await fixtureAggregators();
+    const listings = buildListings([...raw, ...agg.raw]);
+    return write(listings, buildMeta(listings, ok, failures, true, new Date(), agg.status));
   }
   const seeds = await readJson<CompanySeed[]>('data/companies.json');
   const { raw, failures, ok } = await loadBoards(seeds, false);
@@ -84,11 +86,21 @@ async function main() {
     );
     const sample = await readJson<CompanySeed[]>('data/companies.sample.json');
     const fx = await loadBoards(sample, true);
-    const listings = buildListings(fx.raw);
-    return write(listings, buildMeta(listings, fx.ok, failures, true));
+    const agg = await fixtureAggregators();
+    const listings = buildListings([...fx.raw, ...agg.raw]);
+    return write(listings, buildMeta(listings, fx.ok, failures, true, new Date(), agg.status));
   }
-  const listings = buildListings(raw);
-  await write(listings, buildMeta(listings, ok, failures, false));
+  // Aggregators are optional extras: a missing key or a failure is recorded in meta.json, never fatal.
+  const agg: AggResult = await fetchAggregators().catch((e) => ({
+    raw: [],
+    status: [
+      { name: 'aggregators', status: 'failed' as const, detail: (e as Error).message, raw: 0 },
+    ],
+  }));
+  for (const st of agg.status)
+    console.log(`aggregator ${st.name}: ${st.status} (${st.detail}), ${st.raw} raw`);
+  const listings = buildListings([...raw, ...agg.raw]);
+  await write(listings, buildMeta(listings, ok, failures, false, new Date(), agg.status));
 }
 main().catch((e) => {
   console.error(e);

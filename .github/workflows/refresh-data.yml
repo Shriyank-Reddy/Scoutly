@@ -15,5 +15,6 @@ permissions:
 jobs:
   refresh:
     uses: ./.github/workflows/deploy.yml
+    secrets: inherit
     with:
       strict: true

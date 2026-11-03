@@ -1,3 +1,4 @@
+import { SOURCE_LABEL } from '../shared/types';
 import type { Listing } from '../shared/types';
 import type { MatchResult } from '../lib/match';
 import { WEIGHTS } from '../config/weights';
@@ -163,7 +164,8 @@ export function ListingDetail({
         <h3 className="mb-1 text-sm font-semibold">Snippet</h3>
         <p className="text-sm leading-relaxed text-muted">{l.snippet}</p>
         <p className="mt-2 text-xs text-muted">
-          Short excerpt only. The full description is on the original posting ({l.source}).
+          Short excerpt only. The full description is on the original posting (
+          {l.via ? `via ${l.via}` : SOURCE_LABEL[l.source]}).
         </p>
       </section>
     </article>
