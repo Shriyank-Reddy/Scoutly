@@ -1,13 +1,14 @@
 import { useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useApp } from '../state/AppState';
+import { ExternalSearch } from '../components/ExternalSearch';
 import { CityPicker } from '../components/CityPicker';
 import { MapView, type Pin } from '../components/MapView';
 import { ListingCard } from '../components/ListingCard';
 import { Drawer } from '../components/Drawer';
 import { ListingDetail } from '../components/ListingDetail';
 import { btn, Chip, EmptyState, ListSkeleton } from '../components/ui';
-import { cityLabel, findCityByKey, haversineKm } from '../shared/locations';
+import { COUNTRY_NAMES, cityLabel, findCityByKey, haversineKm } from '../shared/locations';
 
 export default function CityPage() {
   const { listings, loading, profile, hasProfile, scores } = useApp();
@@ -121,6 +122,16 @@ export default function CityPage() {
             </Chip>
             {counts.unknown > 0 && <Chip>{counts.unknown} mode not stated</Chip>}
           </p>
+        )}
+        {city && (
+          <ExternalSearch
+            keywords={profile.targetRoles[0] ?? profile.keywords[0] ?? ''}
+            location={`${city.name}, ${city.country === 'US' || city.country === 'CA' ? city.admin : (COUNTRY_NAMES[city.country] ?? '')}`.replace(
+              /, $/,
+              '',
+            )}
+            country={city.country}
+          />
         )}
         <div className="flex gap-2 lg:hidden" role="tablist" aria-label="View">
           {(['list', 'map'] as const).map((t) => (

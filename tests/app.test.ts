@@ -124,7 +124,9 @@ describe('tracker csv', () => {
       notes: 'line1\nline2',
     };
     const csv = toCsv([it]);
-    expect(csv.split('\r\n')[0]).toBe('Company,Title,Location,Stage,Follow-up,Notes,URL,Saved');
+    expect(csv.split('\r\n')[0]).toBe(
+      'Company,Title,Location,Stage,Follow-up,Notes,Site,URL,Saved',
+    );
     expect(csv).toContain(`"'=HYPERLINK(""evil"")"`);
     expect(csv).toContain('"A, ""B"""');
     expect(csv).toContain('"line1\nline2"');

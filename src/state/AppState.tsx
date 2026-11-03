@@ -31,6 +31,7 @@ interface AppCtx {
   tracker: TrackedItem[];
   isTracked: (id: string) => boolean;
   track: (l: Listing) => void;
+  addTracked: (item: TrackedItem) => void;
   updateTracked: (id: string, patch: Partial<TrackedItem>) => void;
   untrack: (id: string) => void;
   deleteAll: () => void;
@@ -98,6 +99,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     isTracked: (id) => tracker.some((t) => t.listingId === id),
     track: (l) =>
       mutateTracker((t) => (t.some((x) => x.listingId === l.id) ? t : [newItem(l), ...t])),
+    addTracked: (item) =>
+      mutateTracker((t) => (t.some((x) => x.listingId === item.listingId) ? t : [item, ...t])),
     updateTracked: (id, patch) =>
       mutateTracker((t) => t.map((x) => (x.listingId === id ? { ...x, ...patch } : x))),
     untrack: (id) => mutateTracker((t) => t.filter((x) => x.listingId !== id)),

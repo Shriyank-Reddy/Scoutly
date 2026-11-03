@@ -13,6 +13,7 @@ export interface TrackedItem {
   notes: string;
   followUp: string; // ISO date or ''
   savedAt: string;
+  site?: string; // where a manually added link points (LinkedIn, Indeed, ...)
 }
 
 export const placeLabel = (l: Listing) =>
@@ -44,8 +45,76 @@ const csvCell = (v: string) => {
   return /[",\n\r]/.test(safe) ? `"${safe.replace(/"/g, '""')}"` : safe;
 };
 
+const SITES: [RegExp, string][] = [
+  [/(^|\.)linkedin\.com$/, 'LinkedIn'],
+  [/(^|\.)indeed\.[a-z.]+$/, 'Indeed'],
+  [/(^|\.)joinhandshake\.com$/, 'Handshake'],
+  [/(^|\.)internshala\.com$/, 'Internshala'],
+  [/(^|\.)greenhouse\.io$/, 'Greenhouse'],
+  [/(^|\.)lever\.co$/, 'Lever'],
+  [/(^|\.)ashbyhq\.com$/, 'Ashby'],
+  [/(^|\.)myworkdayjobs\.com$/, 'Workday'],
+  [/(^|\.)glassdoor\.[a-z.]+$/, 'Glassdoor'],
+  [/(^|\.)adzuna\.[a-z.]+$/, 'Adzuna'],
+  [/(^|\.)remotive\.com$/, 'Remotive'],
+  [/(^|\.)arbeitnow\.com$/, 'Arbeitnow'],
+];
+
+/** A pasted link: only http(s) is accepted (no javascript: etc.). */
+export function parseJobLink(raw: string): URL | null {
+  try {
+    const u = new URL(raw.trim());
+    return u.protocol === 'https:' || u.protocol === 'http:' ? u : null;
+  } catch {
+    return null;
+  }
+}
+/** Site name from the domain; falls back to the bare domain. Never fetches the page. */
+export function detectSite(raw: string): string | null {
+  const u = parseJobLink(raw);
+  if (!u) return null;
+  const host = u.hostname.toLowerCase().replace(/^www\./, '');
+  return SITES.find(([re]) => re.test(host))?.[1] ?? host;
+}
+
+const hash = (s: string) => {
+  let h = 5381;
+  for (const c of s) h = ((h << 5) + h + c.charCodeAt(0)) | 0;
+  return (h >>> 0).toString(36);
+};
+/** A tracked item for a link the user pasted. Title and company are typed by the user, never scraped. */
+export function newManualItem(
+  i: { url: string; title: string; company: string; location?: string },
+  now = new Date(),
+): TrackedItem | null {
+  const u = parseJobLink(i.url);
+  if (!u || !i.title.trim() || !i.company.trim()) return null;
+  return {
+    listingId: `manual:${hash(u.toString())}`,
+    company: i.company.trim(),
+    title: i.title.trim(),
+    url: u.toString(),
+    location: i.location?.trim() || 'Location not stated',
+    stage: 'Saved',
+    notes: '',
+    followUp: '',
+    savedAt: now.toISOString(),
+    site: detectSite(u.toString()) ?? undefined,
+  };
+}
+
 export function toCsv(items: TrackedItem[]): string {
-  const head = ['Company', 'Title', 'Location', 'Stage', 'Follow-up', 'Notes', 'URL', 'Saved'];
+  const head = [
+    'Company',
+    'Title',
+    'Location',
+    'Stage',
+    'Follow-up',
+    'Notes',
+    'Site',
+    'URL',
+    'Saved',
+  ];
   const rows = items.map((i) => [
     i.company,
     i.title,
@@ -53,6 +122,7 @@ export function toCsv(items: TrackedItem[]): string {
     i.stage,
     i.followUp,
     i.notes,
+    i.site ?? '',
     i.url,
     i.savedAt.slice(0, 10),
   ]);

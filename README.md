@@ -32,6 +32,7 @@ Map tiles are blank in these captures because the capture environment had no acc
 - **Availability**: each listing is tagged with its season/dates _only when the posting states them_ (Summer 2027, co-op, part-time). Unknown dates show "Dates not stated" and are never hidden or guessed.
 - **Location search**: one box with offline autocomplete for several cities and countries, a radius slider, and Remote / Anywhere chips; list, map and URL update together.
 - **City view**: pick any city and radius; list and map stay in sync, with in-person / hybrid / remote clearly marked.
+- **Search elsewhere**: pre-filled "Search on LinkedIn / Internshala / Handshake / Indeed" links (plain links; Scoutly never scrapes them), and **Add from link** in the tracker for postings found anywhere.
 - **Tracker**: Saved → Applied → Interviewing → Offer → Rejected, notes, follow-up dates, CSV export.
 - **Work-authorization flags**: postings mentioning citizenship, "no sponsorship", security clearance or CPT/OPT get a "Mentions: …" badge. These are text matches, not legal advice.
 - Keyboard shortcuts (`/` search, `j`/`k` move through results, `Esc` close), skeleton loaders, reduced-motion support.

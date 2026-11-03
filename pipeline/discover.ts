@@ -3,6 +3,7 @@
 // with one request, and appends them to data/companies.json (a weekly workflow opens a PR for human review).
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import type { BoardSource, CompanySeed } from '../src/shared/types';
+import { extractBoard } from '../src/shared/boards';
 import { getJson, HttpError, USER_AGENT } from './http';
 import { buildListings, parseBoard } from './build';
 import { greenhouseUrl } from './adapters/greenhouse';
@@ -10,34 +11,7 @@ import { leverUrl } from './adapters/lever';
 import { ashbyUrl } from './adapters/ashby';
 
 const URLS = { greenhouse: greenhouseUrl, lever: leverUrl, ashby: ashbyUrl };
-const RESERVED = new Set(['embed', 'jobs', 'api', 'v1', 'login', 'www']);
-
-/** Platform + slug from an apply link, or null. Pure, so it is unit-tested. */
-export function extractBoard(raw: string): { source: BoardSource; slug: string } | null {
-  let u: URL;
-  try {
-    u = new URL(raw);
-  } catch {
-    return null;
-  }
-  const host = u.hostname.toLowerCase();
-  const first = decodeURIComponent(u.pathname.split('/').filter(Boolean)[0] ?? '');
-  const ok = (slug: string | null | undefined) =>
-    slug && /^[A-Za-z0-9._-]{2,60}$/.test(slug) && !RESERVED.has(slug.toLowerCase()) ? slug : null;
-  if (/^(boards|job-boards)(\.eu)?\.greenhouse\.io$/.test(host)) {
-    const slug = ok(first === 'embed' ? u.searchParams.get('for') : first);
-    return slug ? { source: 'greenhouse', slug } : null;
-  }
-  if (/^jobs(\.eu)?\.lever\.co$/.test(host)) {
-    const slug = ok(first);
-    return slug ? { source: 'lever', slug } : null;
-  }
-  if (host === 'jobs.ashbyhq.com') {
-    const slug = ok(first);
-    return slug ? { source: 'ashby', slug } : null;
-  }
-  return null;
-}
+export { extractBoard };
 
 /** Only reuse lists under a permissive licence. Returns the licence name or null (= skip the list). */
 export function licenseAllows(text: string): string | null {

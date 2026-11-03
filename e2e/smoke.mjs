@@ -49,6 +49,22 @@ assert.equal(
   1,
 );
 
+// Add from link: any job URL, user types title + company.
+await page.getByLabel('Job link').fill('https://www.linkedin.com/jobs/view/123456');
+await page.getByText(/Detected: LinkedIn/).waitFor();
+await page.getByLabel('Title').fill('Data Intern');
+await page.getByLabel('Company', { exact: true }).fill('Acme');
+await page.getByRole('button', { name: 'Add to tracker' }).click();
+await page.getByText(/Saved to Saved: Data Intern at Acme/).waitFor();
+assert.equal(
+  await page.getByRole('region', { name: 'Saved column' }).getByRole('listitem').count(),
+  2,
+);
+await page.getByRole('link', { name: 'Search', exact: true }).click();
+await page
+  .getByRole('link', { name: /LinkedIn/ })
+  .first()
+  .waitFor(); // "Search on" buttons are plain links
 await page.getByRole('link', { name: 'Profile', exact: true }).click();
 await page.getByRole('button', { name: 'Delete all my data' }).click();
 await page.getByRole('button', { name: 'Yes, delete' }).click();

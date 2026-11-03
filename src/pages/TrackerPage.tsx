@@ -1,7 +1,17 @@
-import { ArrowUpRight } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowUpRight, Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useApp } from '../state/AppState';
-import { STAGES, toCsv, type Stage, type TrackedItem } from '../lib/tracker';
+import { extractBoard } from '../shared/boards';
+import {
+  STAGES,
+  detectSite,
+  newManualItem,
+  parseJobLink,
+  toCsv,
+  type Stage,
+  type TrackedItem,
+} from '../lib/tracker';
 import { btn, Chip, EmptyState, input } from '../components/ui';
 
 function download(name: string, text: string) {
@@ -87,59 +97,183 @@ function Card({ it }: { it: TrackedItem }) {
   );
 }
 
+function AddFromLink() {
+  const { addTracked } = useApp();
+  const [url, setUrl] = useState('');
+  const [title, setTitle] = useState('');
+  const [company, setCompany] = useState('');
+  const [location, setLocation] = useState('');
+  const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
+  const site = url ? detectSite(url) : null;
+  const board = url ? extractBoard(url) : null;
+
+  const onUrl = (v: string) => {
+    setUrl(v);
+    const b = extractBoard(v);
+    if (b && !company) setCompany(b.slug.replace(/[-_]/g, ' ')); // a guess from the board name; the user can edit it
+  };
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const item = newManualItem({ url, title, company, location });
+    if (!item)
+      return setMsg({
+        ok: false,
+        text: !parseJobLink(url)
+          ? 'Paste a full link starting with https://'
+          : 'Title and company are required.',
+      });
+    addTracked(item);
+    setMsg({ ok: true, text: `Saved to Saved: ${item.title} at ${item.company}.` });
+    setUrl('');
+    setTitle('');
+    setCompany('');
+    setLocation('');
+  };
+
+  return (
+    <form
+      onSubmit={submit}
+      className="rounded-md border border-line bg-surface p-4"
+      aria-label="Add from link"
+    >
+      <h2 className="text-base font-semibold">Add from link</h2>
+      <p className="mt-1 text-xs text-muted">
+        Found a posting elsewhere (LinkedIn, Handshake, Indeed, a company site)? Paste the link and
+        type the title and company. Scoutly never opens or reads the page.
+      </p>
+      <div className="mt-3 grid gap-3 md:grid-cols-2">
+        <div className="md:col-span-2">
+          <label htmlFor="al-url" className="mb-1 block text-xs text-muted">
+            Job link
+          </label>
+          <input
+            id="al-url"
+            type="url"
+            inputMode="url"
+            className={input}
+            placeholder="https://www.linkedin.com/jobs/view/…"
+            value={url}
+            onChange={(e) => onUrl(e.target.value)}
+          />
+          {site && (
+            <p className="mt-1 font-mono text-xs text-muted" aria-live="polite">
+              Detected: {site}
+              {board ? ` (board “${board.slug}”)` : ''}
+            </p>
+          )}
+        </div>
+        <div>
+          <label htmlFor="al-title" className="mb-1 block text-xs text-muted">
+            Title
+          </label>
+          <input
+            id="al-title"
+            className={input}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="al-company" className="mb-1 block text-xs text-muted">
+            Company
+          </label>
+          <input
+            id="al-company"
+            className={input}
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="al-loc" className="mb-1 block text-xs text-muted">
+            Location (optional)
+          </label>
+          <input
+            id="al-loc"
+            className={input}
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+          />
+        </div>
+        <div className="flex items-end">
+          <button type="submit" className={btn.primary}>
+            <Plus size={16} aria-hidden="true" />
+            Add to tracker
+          </button>
+        </div>
+      </div>
+      {msg && (
+        <p
+          className={`mt-3 text-sm ${msg.ok ? 'text-match' : 'text-danger'}`}
+          role={msg.ok ? 'status' : 'alert'}
+        >
+          {msg.text}
+        </p>
+      )}
+    </form>
+  );
+}
+
 export default function TrackerPage() {
   const { tracker } = useApp();
-  if (tracker.length === 0)
-    return (
-      <EmptyState
-        title="Nothing saved yet"
-        action={
-          <Link to="/search" className={btn.primary}>
-            Find internships
-          </Link>
-        }
-      >
-        Open any listing and choose “Save to tracker”. Move it through Saved, Applied, Interviewing,
-        Offer and Rejected, with notes and follow-up dates. Everything stays on this device.
-      </EmptyState>
-    );
   return (
-    <div className="mx-auto max-w-[1400px] space-y-4 overflow-y-auto p-4">
+    <div className="mx-auto max-w-[1400px] space-y-4 p-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h1 className="text-xl font-bold">
-          Tracker <span className="font-mono text-sm text-muted">{tracker.length} saved</span>
+        <h1 className="text-xl font-semibold">
+          Tracker{' '}
+          {tracker.length > 0 && (
+            <span className="font-mono text-sm font-normal text-muted">{tracker.length} saved</span>
+          )}
         </h1>
-        <button
-          type="button"
-          className={btn.ghost}
-          onClick={() => download('scoutly-tracker.csv', toCsv(tracker))}
+        {tracker.length > 0 && (
+          <button
+            type="button"
+            className={btn.ghost}
+            onClick={() => download('scoutly-tracker.csv', toCsv(tracker))}
+          >
+            Export CSV
+          </button>
+        )}
+      </div>
+      <AddFromLink />
+      {tracker.length === 0 ? (
+        <EmptyState
+          title="Nothing saved yet"
+          action={
+            <Link to="/search" className={btn.primary}>
+              Find internships
+            </Link>
+          }
         >
-          Export CSV
-        </button>
-      </div>
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-        {STAGES.map((s) => {
-          const col = tracker.filter((t) => t.stage === s);
-          return (
-            <section key={s} aria-label={`${s} column`} className="min-w-0 rounded-md bg-bg/60">
-              <h2 className="mb-2 flex items-center justify-between font-mono text-xs uppercase tracking-wide text-muted">
-                <span>{s}</span>
-                <span>{col.length}</span>
-              </h2>
-              <ul className="space-y-3">
-                {col.map((it) => (
-                  <Card key={it.listingId} it={it} />
-                ))}
-              </ul>
-              {col.length === 0 && (
-                <p className="rounded-md border border-dashed border-line p-3 text-center text-xs text-muted">
-                  Empty
-                </p>
-              )}
-            </section>
-          );
-        })}
-      </div>
+          Open any listing and choose “Save to tracker”, or add a link above. Move items through
+          Saved, Applied, Interviewing, Offer and Rejected, with notes and follow-up dates.
+          Everything stays on this device.
+        </EmptyState>
+      ) : (
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+          {STAGES.map((st) => {
+            const col = tracker.filter((t) => t.stage === st);
+            return (
+              <section key={st} aria-label={`${st} column`} className="min-w-0">
+                <h2 className="mb-2 flex items-center justify-between font-mono text-xs uppercase tracking-wide text-muted">
+                  <span>{st}</span>
+                  <span>{col.length}</span>
+                </h2>
+                <ul className="space-y-3">
+                  {col.map((it) => (
+                    <Card key={it.listingId} it={it} />
+                  ))}
+                </ul>
+                {col.length === 0 && (
+                  <p className="rounded-md border border-dashed border-line p-3 text-xs text-muted">
+                    Empty
+                  </p>
+                )}
+              </section>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

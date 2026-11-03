@@ -10,7 +10,9 @@ import {
 } from '../lib/filters';
 import { FilterPanel } from '../components/FilterPanel';
 import { MapView, type Pin } from '../components/MapView';
-import { COUNTRY_NAMES } from '../shared/locations';
+import { ExternalSearch } from '../components/ExternalSearch';
+import { INTERESTS } from '../shared/interests';
+import { COUNTRY_NAMES, findCityByKey } from '../shared/locations';
 import { ResultsList, useResultKeys } from '../components/ResultsList';
 import { BottomSheet, Drawer } from '../components/Drawer';
 import { ListingDetail } from '../components/ListingDetail';
@@ -62,6 +64,24 @@ export default function SearchPage() {
           });
     return out;
   }, [items, f.view]);
+
+  // Pre-fill "Search on…" links from what the user is looking at right now.
+  const ext = useMemo(() => {
+    const city = f.cities[0] ? findCityByKey(f.cities[0]) : undefined;
+    const cc = city?.country ?? f.countries[0] ?? null;
+    const place = city
+      ? `${city.name}, ${city.country === 'US' || city.country === 'CA' ? city.admin : (COUNTRY_NAMES[city.country] ?? '')}`
+      : f.countries[0]
+        ? (COUNTRY_NAMES[f.countries[0]] ?? '')
+        : '';
+    const kw =
+      f.q ||
+      profile.targetRoles[0] ||
+      INTERESTS.find((i) => i.id === profile.interests[0])?.label ||
+      profile.keywords[0] ||
+      '';
+    return { keywords: kw, location: place.replace(/, $/, ''), country: cc };
+  }, [f.q, f.cities, f.countries, profile.targetRoles, profile.interests, profile.keywords]);
 
   const select = useCallback((id: string) => {
     setSelectedId(id);
@@ -141,6 +161,7 @@ export default function SearchPage() {
               onChange={(e) => set({ q: e.target.value })}
             />
           </div>
+          <ExternalSearch {...ext} />
           {!hasProfile && !loading && (
             <p className="flex flex-wrap items-center gap-2 rounded border border-line bg-surface px-3 py-2 text-xs">
               Upload your resume to see match scores.{' '}
