@@ -8,22 +8,29 @@ Find internships anywhere in the world, matched to your resume and availability.
 
 > **Data status:** until the first scheduled data refresh succeeds on GitHub, the site shows clearly labelled **sample data** (fictional companies). Every number the site shows (counts, "Updated …") comes from real pipeline output in `meta.json`; none are quoted in this README.
 
-## Screenshots to capture
+## Screenshots
 
-_Replace with images in `docs/screenshots/` once the live data is in:_
+Captured from the sample data (fictional listings). Full set in [`docs/screenshots/`](docs/screenshots/), desktop at 1440 px and phone at 390 px, both 2x.
 
-1. Search page: filter rail, ranked results with score rings and reason chips (desktop)
-2. Detail drawer: "Why it matched" breakdown and "Mentions: …" work-authorization box
-3. City view: list + clustered map for a city with radius circle
-4. Profile page: parsed resume, preferences, privacy note
-5. Tracker board with notes and follow-up dates
-6. Phone layout (375 px): results and the filter bottom sheet
+| Screen                            | Desktop                                        | Phone                                        |
+| --------------------------------- | ---------------------------------------------- | -------------------------------------------- |
+| Start: resume drop zone           | ![](docs/screenshots/desktop-home.png)         | ![](docs/screenshots/phone-home.png)         |
+| Extracted profile, editable       | ![](docs/screenshots/desktop-home-summary.png) | ![](docs/screenshots/phone-home-summary.png) |
+| Ranked search                     | ![](docs/screenshots/desktop-search.png)       | ![](docs/screenshots/phone-search.png)       |
+| Listing detail and why it matched | ![](docs/screenshots/desktop-detail.png)       | ![](docs/screenshots/phone-detail.png)       |
+| Filters (bottom sheet on phone)   |                                                | ![](docs/screenshots/phone-filters.png)      |
+| City view                         | ![](docs/screenshots/desktop-city.png)         | ![](docs/screenshots/phone-city.png)         |
+| Preferences                       | ![](docs/screenshots/desktop-preferences.png)  | ![](docs/screenshots/phone-preferences.png)  |
+
+Map tiles are blank in these captures because the capture environment had no access to OpenStreetMap; pins and the radius circle are real. Retake the city view on the live site.
 
 ## Features
 
-- **Profile from your resume**: upload a PDF/DOCX or paste text; skills, education, graduation year and links are extracted in the browser into an editable profile. Add roles, cities, work mode, availability window, pay and sponsorship preferences.
+- **Resume first**: the home page is a drop zone for a PDF/DOCX (or pasted text), with parse progress and an editable summary of the skills, school, graduation year and links found.
+- **Personalised**: interest chips, keywords, work mode, pay, availability months, company size and sponsorship/CPT preferences all feed the score, and each listing shows which of them it meets.
 - **Ranked search** with a short "why it matched" on every result (skills, location, dates).
 - **Availability**: each listing is tagged with its season/dates _only when the posting states them_ (Summer 2027, co-op, part-time). Unknown dates show "Dates not stated" and are never hidden or guessed.
+- **Location search**: one box with offline autocomplete for several cities and countries, a radius slider, and Remote / Anywhere chips; list, map and URL update together.
 - **City view**: pick any city and radius; list and map stay in sync, with in-person / hybrid / remote clearly marked.
 - **Tracker**: Saved → Applied → Interviewing → Offer → Rejected, notes, follow-up dates, CSV export.
 - **Work-authorization flags**: postings mentioning citizenship, "no sponsorship", security clearance or CPT/OPT get a "Mentions: …" badge. These are text matches, not legal advice.
@@ -31,15 +38,16 @@ _Replace with images in `docs/screenshots/` once the live data is in:_
 
 ## How matching works (plain words)
 
-Every listing gets five sub-scores between 0 and 1, which are combined with fixed weights (set in `src/config/weights.ts`):
+Every listing gets six sub-scores between 0 and 1, which are combined with fixed weights (set in `src/config/weights.ts`):
 
-| Part            | Weight | In plain words                                                                                                                    |
-| --------------- | ------ | --------------------------------------------------------------------------------------------------------------------------------- |
-| Skills          | 0.40   | How many of the skills the posting mentions are on your profile (common skills like Git count half)                               |
-| Role & keywords | 0.20   | BM25 text similarity between your target roles and the title/snippet                                                              |
-| Location        | 0.20   | Remote if you allow it, otherwise distance to your preferred cities vs your radius; a work mode you did not pick is down-weighted |
-| Dates           | 0.15   | Overlap between your availability window and the posting's dates                                                                  |
-| Recency         | 0.05   | Newer postings first                                                                                                              |
+| Part                       | Weight | In plain words                                                                                                                     |
+| -------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Skills                     | 0.35   | How many of the skills the posting mentions are on your profile (common skills like Git count half)                                |
+| Role, keywords & interests | 0.20   | BM25 text similarity to your target roles and keywords, blended with the interest chips you toggled (Software, AI/ML, Security, …) |
+| Location                   | 0.18   | Remote if you allow it, otherwise distance to your preferred cities vs your radius; a work mode you did not pick is down-weighted  |
+| Dates                      | 0.12   | Overlap between your availability months and the posting's dates                                                                   |
+| Preferences                | 0.10   | Pay, company size (approximate, curated) and sponsorship / CPT-friendly text                                                       |
+| Recency                    | 0.05   | Newer postings first                                                                                                               |
 
 When something is unknown (e.g. no dates in the posting) that part gets a neutral 0.5 instead of a penalty. The detail drawer shows each part. Nothing calls an LLM or any paid API; it all runs in your browser.
 

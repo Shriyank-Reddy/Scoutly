@@ -42,22 +42,20 @@ export function ListingCard({
       type="button"
       onClick={onSelect}
       aria-pressed={selected}
-      className={`group flex h-[104px] w-full gap-3 rounded-xl border p-3 text-left hover:-translate-y-px hover:border-accent-soft/60 ${selected ? 'border-accent bg-surface-2' : 'border-line bg-surface'}`}
+      className={`group flex h-26 w-full gap-3 rounded-md border p-3 text-left hover:border-muted ${selected ? 'border-accent bg-surface-2' : 'border-line bg-surface'}`}
     >
       {showScore && match && <ScoreRing value={match.score} />}
       <div className="min-w-0 flex-1">
         <div className="flex items-baseline justify-between gap-2">
-          <h2 className="truncate text-[15px] font-semibold group-hover:text-accent-soft">
-            {l.title}
-          </h2>
-          <span className="shrink-0 font-mono text-[11px] text-muted">{timeAgo(l.postedAt)}</span>
+          <h2 className="truncate text-sm font-semibold">{l.title}</h2>
+          <span className="shrink-0 font-mono text-xs text-muted">{timeAgo(l.postedAt)}</span>
         </div>
         <p className="truncate text-sm text-muted">
-          {l.company} · {placeLabel(l)}
+          {l.company} <span className="font-mono text-xs">· {placeLabel(l)}</span>
         </p>
-        <div className="mt-1.5 flex h-6 items-start gap-1.5 overflow-hidden">
+        <div className="mt-2 flex h-6 items-start gap-2 overflow-hidden">
           <ModeBadge mode={l.workMode} />
-          {term ? <Chip tone="blue">{term}</Chip> : <Chip>Dates not stated</Chip>}
+          {term ? <Chip tone="strong">{term}</Chip> : <Chip>Dates not stated</Chip>}
           {l.authFlags.length > 0 && (
             <Chip tone="flag">
               Mentions: {l.authFlags[0].label}
@@ -66,12 +64,12 @@ export function ListingCard({
           )}
           {showScore &&
             match?.reasons
-              .filter((r) => r.good)
+              .filter((r) => r.good && r.kind !== 'recency')
               .slice(0, 2)
               .map((r) => (
-                <Chip key={r.text} tone="good">
-                  {r.text}
-                </Chip>
+                <span key={r.text} className="hidden sm:contents">
+                  <Chip tone="good">{r.text}</Chip>
+                </span>
               ))}
         </div>
       </div>

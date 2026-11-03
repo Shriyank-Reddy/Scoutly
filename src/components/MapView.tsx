@@ -116,7 +116,7 @@ export function MapView({
   return (
     <div
       ref={el}
-      className="h-full min-h-[320px] w-full rounded-xl border border-line"
+      className="h-full min-h-[320px] w-full rounded-md border border-line"
       role="application"
       aria-label="Map of internships"
     />

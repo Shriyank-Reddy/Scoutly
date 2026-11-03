@@ -7,7 +7,7 @@ import { useApp } from '../state/AppState';
 export default function HomePage() {
   const { hasProfile, listings } = useApp();
   return (
-    <div className="mx-auto max-w-3xl space-y-6 p-4 pb-24 md:p-6">
+    <div className="max-w-3xl space-y-6 p-4 pb-24 md:p-6">
       <header>
         <h1 className="text-xl font-semibold">Start with your resume</h1>
         <p className="mt-1 max-w-xl text-sm text-muted">

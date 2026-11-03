@@ -39,7 +39,7 @@ await page
   .click();
 await page.getByRole('heading', { name: 'Why it matched' }).waitFor();
 await page.getByRole('button', { name: 'Save to tracker' }).click();
-await page.getByText('✓ In tracker').waitFor();
+await page.getByText('In tracker').waitFor();
 await page.keyboard.press('Escape');
 
 await page.getByRole('link', { name: /Tracker/ }).click();

@@ -14,7 +14,7 @@ import { COUNTRY_NAMES } from '../shared/locations';
 import { ResultsList, useResultKeys } from '../components/ResultsList';
 import { BottomSheet, Drawer } from '../components/Drawer';
 import { ListingDetail } from '../components/ListingDetail';
-import { btn, EmptyState, ListSkeleton } from '../components/ui';
+import { btn, EmptyState, input, ListSkeleton } from '../components/ui';
 
 export default function SearchPage() {
   const { listings, loading, error, profile, hasProfile, scores } = useApp();
@@ -93,10 +93,17 @@ export default function SearchPage() {
         {panel}
       </aside>
       <section className="flex min-w-0 flex-1 flex-col" aria-label="Results">
-        <div className="space-y-2 border-b border-line px-3 py-3">
+        <div className="sticky top-0 z-10 space-y-2 border-b border-line bg-bg px-3 py-3">
           <div className="flex items-center justify-between gap-2">
-            <h1 className="text-lg font-semibold">
-              {loading ? 'Loading…' : `${items.length} internship${items.length === 1 ? '' : 's'}`}
+            <h1 className="flex h-6 items-center text-base font-semibold">
+              {loading ? (
+                <span className="skeleton block h-4 w-32" aria-label="Loading" />
+              ) : (
+                <>
+                  <span className="font-mono">{items.length}</span>
+                  &nbsp;internship{items.length === 1 ? '' : 's'}
+                </>
+              )}
             </h1>
             <div className="flex items-center gap-2">
               <div className="flex" role="group" aria-label="Results view">
@@ -106,7 +113,7 @@ export default function SearchPage() {
                     type="button"
                     aria-pressed={f.view === v}
                     onClick={() => set({ view: v })}
-                    className={`h-10 border px-3 text-sm first:rounded-l last:rounded-r ${f.view === v ? 'border-accent bg-accent/15 text-ink' : 'border-line text-muted hover:text-ink'}`}
+                    className={`min-h-11 border px-3 text-sm first:rounded-l last:rounded-r md:min-h-9 ${f.view === v ? 'border-accent bg-accent/15 text-ink' : 'border-line text-muted hover:text-ink'}`}
                   >
                     {v === 'list' ? 'List' : 'Map'}
                   </button>
@@ -114,15 +121,28 @@ export default function SearchPage() {
               </div>
               <button
                 type="button"
-                className={`${btn.ghost} h-10 lg:hidden`}
+                className={`${btn.ghost} lg:hidden`}
                 onClick={() => setSheet(true)}
               >
                 Filters
               </button>
             </div>
           </div>
+          <div className="lg:hidden">
+            <label htmlFor="search-input-m" className="sr-only">
+              Search internships
+            </label>
+            <input
+              id="search-input-m"
+              type="search"
+              className={input}
+              placeholder="Search title, company, skill"
+              value={f.q}
+              onChange={(e) => set({ q: e.target.value })}
+            />
+          </div>
           {!hasProfile && !loading && (
-            <p className="flex flex-wrap items-center gap-2 rounded-lg border border-accent-soft/30 bg-accent/10 px-3 py-2 text-sm">
+            <p className="flex flex-wrap items-center gap-2 rounded border border-line bg-surface px-3 py-2 text-xs">
               Upload your resume to see match scores.{' '}
               <Link to="/" className="font-medium text-accent-soft underline">
                 Add my resume
@@ -130,7 +150,7 @@ export default function SearchPage() {
             </p>
           )}
           {profile.needsSponsorship && flaggedCount > 0 && !f.hideFlagged && (
-            <p className="flex flex-wrap items-center gap-2 rounded-lg border border-flag/40 bg-flag/5 px-3 py-2 text-sm">
+            <p className="flex flex-wrap items-center gap-2 rounded border border-flag/40 px-3 py-2 text-xs">
               {flaggedCount} shown mention no sponsorship, citizenship or clearance (text match
               only).
               <button

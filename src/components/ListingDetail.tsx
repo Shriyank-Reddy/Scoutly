@@ -4,7 +4,7 @@ import { WEIGHTS } from '../config/weights';
 import { btn, Chip, ModeBadge, ScoreRing, timeAgo } from './ui';
 import { termLabel } from './ListingCard';
 import { placeLabel } from '../lib/tracker';
-import { Check, Minus, X } from 'lucide-react';
+import { ArrowUpRight, Check, Minus, X } from 'lucide-react';
 import { useApp } from '../state/AppState';
 
 const PART_LABEL = {
@@ -40,13 +40,13 @@ export function ListingDetail({
         </div>
       </header>
 
-      <div className="flex flex-wrap gap-1.5">
+      <div className="flex flex-wrap gap-2">
         <ModeBadge mode={l.workMode} />
-        {term ? <Chip tone="blue">{term}</Chip> : <Chip>Dates not stated</Chip>}
+        {term ? <Chip tone="strong">{term}</Chip> : <Chip>Dates not stated</Chip>}
         {l.startDate && (
           <Chip>
             {l.startDate}
-            {l.endDate ? ` → ${l.endDate}` : ''}
+            {l.endDate ? ` to ${l.endDate}` : ''}
           </Chip>
         )}
         {l.paid === 'paid' && (
@@ -59,17 +59,24 @@ export function ListingDetail({
 
       <div className="flex flex-wrap gap-2">
         <a href={l.url} target="_blank" rel="noopener noreferrer" className={btn.primary}>
-          Apply on company site ↗
+          Apply on company site <ArrowUpRight size={16} aria-hidden="true" />
         </a>
         <button type="button" onClick={() => track(l)} disabled={tracked} className={btn.ghost}>
-          {tracked ? '✓ In tracker' : 'Save to tracker'}
+          {tracked ? (
+            <>
+              <Check size={16} aria-hidden="true" />
+              In tracker
+            </>
+          ) : (
+            'Save to tracker'
+          )}
         </button>
       </div>
 
       {l.authFlags.length > 0 && (
         <section
           aria-label="Work authorization text"
-          className="rounded-xl border border-flag/40 bg-flag/5 p-3"
+          className="rounded-md border border-flag/40 bg-flag/5 p-3"
         >
           <h3 className="text-sm font-semibold text-flag">Work-authorization text found</h3>
           <ul className="mt-2 space-y-1 text-sm">
@@ -90,22 +97,22 @@ export function ListingDetail({
       {showScore && match && (
         <section aria-label="Why it matched">
           <h3 className="mb-2 text-sm font-semibold">Why it matched</h3>
-          <div className="mb-3 flex flex-wrap gap-1.5">
+          <div className="mb-3 flex flex-wrap gap-2">
             {match.reasons.map((r) => (
               <Chip key={r.text} tone={r.good ? 'good' : 'plain'}>
                 {r.text}
               </Chip>
             ))}
           </div>
-          <ul className="space-y-1.5">
+          <ul className="space-y-2">
             {(Object.keys(PART_LABEL) as (keyof typeof PART_LABEL)[]).map((k) => (
               <li key={k} className="grid grid-cols-[110px_1fr_40px] items-center gap-2 text-xs">
                 <span className="text-muted">
                   {PART_LABEL[k]} <span className="font-mono">×{WEIGHTS[k]}</span>
                 </span>
-                <span className="h-1.5 overflow-hidden rounded-full bg-line">
+                <span className="h-2 overflow-hidden rounded-sm bg-line">
                   <span
-                    className="block h-full rounded-full bg-accent-soft"
+                    className="block h-full rounded-sm bg-accent-soft"
                     style={{
                       width: `${Math.round(match.parts[k] * 100)}%`,
                       transition: 'width 500ms ease-out',
@@ -142,7 +149,7 @@ export function ListingDetail({
       {l.skills.length > 0 && (
         <section aria-label="Skills mentioned">
           <h3 className="mb-2 text-sm font-semibold">Skills mentioned</h3>
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-2">
             {l.skills.map((s) => (
               <Chip key={s} tone={mine.has(s) ? 'good' : 'plain'}>
                 {s}

@@ -1,3 +1,4 @@
+import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useApp } from '../state/AppState';
 import { STAGES, toCsv, type Stage, type TrackedItem } from '../lib/tracker';
@@ -21,7 +22,7 @@ function Card({ it }: { it: TrackedItem }) {
     it.followUp < new Date().toISOString().slice(0, 10);
   const k = it.listingId;
   return (
-    <li className="space-y-2 rounded-xl border border-line bg-surface p-3">
+    <li className="space-y-2 rounded-md border border-line bg-surface p-3">
       <div>
         <a
           href={it.url}
@@ -29,7 +30,7 @@ function Card({ it }: { it: TrackedItem }) {
           rel="noopener noreferrer"
           className="font-medium hover:text-accent-soft"
         >
-          {it.title} ↗
+          {it.title} <ArrowUpRight size={14} className="inline" aria-hidden="true" />
         </a>
         <p className="text-sm text-muted">
           {it.company} · {it.location}
@@ -37,7 +38,7 @@ function Card({ it }: { it: TrackedItem }) {
       </div>
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label htmlFor={`st-${k}`} className="block text-[11px] text-muted">
+          <label htmlFor={`st-${k}`} className="block text-xs text-muted">
             Stage
           </label>
           <select
@@ -52,7 +53,7 @@ function Card({ it }: { it: TrackedItem }) {
           </select>
         </div>
         <div>
-          <label htmlFor={`fu-${k}`} className="block text-[11px] text-muted">
+          <label htmlFor={`fu-${k}`} className="block text-xs text-muted">
             Follow up
           </label>
           <input
@@ -105,7 +106,7 @@ export default function TrackerPage() {
   return (
     <div className="mx-auto max-w-[1400px] space-y-4 overflow-y-auto p-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h1 className="text-2xl font-bold">
+        <h1 className="text-xl font-bold">
           Tracker <span className="font-mono text-sm text-muted">{tracker.length} saved</span>
         </h1>
         <button
@@ -120,7 +121,7 @@ export default function TrackerPage() {
         {STAGES.map((s) => {
           const col = tracker.filter((t) => t.stage === s);
           return (
-            <section key={s} aria-label={`${s} column`} className="min-w-0 rounded-2xl bg-bg/60">
+            <section key={s} aria-label={`${s} column`} className="min-w-0 rounded-md bg-bg/60">
               <h2 className="mb-2 flex items-center justify-between font-mono text-xs uppercase tracking-wide text-muted">
                 <span>{s}</span>
                 <span>{col.length}</span>
@@ -131,7 +132,7 @@ export default function TrackerPage() {
                 ))}
               </ul>
               {col.length === 0 && (
-                <p className="rounded-xl border border-dashed border-line p-3 text-center text-xs text-muted">
+                <p className="rounded-md border border-dashed border-line p-3 text-center text-xs text-muted">
                   Empty
                 </p>
               )}

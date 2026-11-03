@@ -1,3 +1,4 @@
+import { X } from 'lucide-react';
 import { useEffect, useRef, type ReactNode } from 'react';
 
 /** Right-hand detail drawer on desktop, full screen on phones. Esc closes; focus moves in and returns. */
@@ -40,16 +41,17 @@ export function Drawer({
         role="dialog"
         aria-modal="true"
         aria-label={label}
-        className="anim-slide fixed inset-y-0 right-0 z-40 flex w-full flex-col overflow-y-auto border-l border-line bg-surface shadow-2xl md:w-[480px]"
+        className="anim-slide fixed inset-y-0 right-0 z-40 flex w-full flex-col overflow-y-auto border-l border-line bg-surface md:w-[480px]"
       >
         <div className="sticky top-0 z-10 flex justify-end border-b border-line bg-surface/95 p-2 backdrop-blur">
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg px-3 py-1.5 text-sm text-muted hover:text-ink"
+            className="inline-flex min-h-11 items-center gap-2 rounded px-3 text-sm text-muted hover:text-ink md:min-h-9"
             aria-label="Close details"
           >
-            Close ✕
+            <X size={16} aria-hidden="true" />
+            Close
           </button>
         </div>
         {children}
@@ -86,14 +88,14 @@ export function BottomSheet({
         role="dialog"
         aria-modal="true"
         aria-label={label}
-        className="anim-sheet fixed inset-x-0 bottom-0 z-40 max-h-[85vh] overflow-y-auto rounded-t-2xl border-t border-line bg-surface p-4 pb-8"
+        className="anim-sheet fixed inset-x-0 bottom-0 z-40 max-h-[85vh] overflow-y-auto rounded-t-md border-t border-line bg-surface p-4 pb-8"
       >
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-base font-semibold">{label}</h2>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg px-3 py-1.5 text-sm text-accent-soft"
+            className="rounded px-3 py-2 text-sm text-accent-soft"
           >
             Done
           </button>

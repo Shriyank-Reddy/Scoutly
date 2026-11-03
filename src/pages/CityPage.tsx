@@ -78,7 +78,7 @@ export default function CityPage() {
   return (
     <div className="mx-auto flex h-full max-w-[1400px] flex-col">
       <div className="space-y-3 border-b border-line p-3">
-        <h1 className="text-lg font-semibold">City view</h1>
+        <h1 className="text-xl font-semibold">City view</h1>
         <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_minmax(0,220px)_auto] sm:items-end">
           <CityPicker
             label={city ? `City: ${cityLabel(city)}` : 'Pick a city'}
@@ -110,13 +110,13 @@ export default function CityPage() {
           </label>
         </div>
         {city && !loading && (
-          <p className="flex flex-wrap items-center gap-1.5 text-sm text-muted" aria-live="polite">
+          <p className="flex flex-wrap items-center gap-2 text-sm text-muted" aria-live="polite">
             <span>
               {rows.length} within {radius} km of {city.name}:
             </span>
-            <Chip tone="blue">{counts.onsite} in person</Chip>
-            <Chip tone="blue">{counts.hybrid} hybrid</Chip>
-            <Chip tone="blue">
+            <Chip tone="strong">{counts.onsite} in person</Chip>
+            <Chip tone="strong">{counts.hybrid} hybrid</Chip>
+            <Chip tone="strong">
               {counts.remote} remote{remoteOnly ? ` (${remoteOnly} anywhere)` : ''}
             </Chip>
             {counts.unknown > 0 && <Chip>{counts.unknown} mode not stated</Chip>}
@@ -165,7 +165,7 @@ export default function CityPage() {
                   onSelect={() => select(l.id)}
                   showScore={hasProfile}
                 />
-                <p className="px-1 pt-1 font-mono text-[11px] text-muted">
+                <p className="px-1 pt-1 font-mono text-xs text-muted">
                   {km === null ? 'Remote: any location' : `${Math.round(km)} km from ${city.name}`}
                 </p>
               </div>

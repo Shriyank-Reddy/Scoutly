@@ -1,26 +1,43 @@
 import { useEffect, useState, type ReactNode } from 'react';
+import { Compass } from 'lucide-react';
 import type { WorkMode } from '../shared/types';
 
+// Buttons: accent is reserved for the one primary action; everything else is a 1px outline.
 export const btn = {
   primary:
-    'inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-hover active:scale-[0.98] disabled:opacity-50',
+    'inline-flex min-h-11 items-center justify-center gap-2 rounded bg-accent px-4 text-sm font-medium text-white hover:bg-accent-hover disabled:opacity-50 md:min-h-9',
   ghost:
-    'inline-flex items-center justify-center gap-2 rounded-lg border border-line bg-surface-2 px-3 py-2 text-sm text-ink hover:border-accent-soft active:scale-[0.98]',
+    'inline-flex min-h-11 items-center justify-center gap-2 rounded border border-line px-3 text-sm text-ink hover:border-muted disabled:opacity-50 md:min-h-9',
   danger:
-    'inline-flex items-center justify-center gap-2 rounded-lg border border-danger/50 px-3 py-2 text-sm text-danger hover:bg-danger/10',
+    'inline-flex min-h-11 items-center justify-center gap-2 rounded border border-danger/50 px-3 text-sm text-danger hover:bg-danger/10 md:min-h-9',
 };
 export const input =
-  'w-full rounded-lg border border-line bg-surface-2 px-3 py-2 text-sm text-ink placeholder:text-muted hover:border-accent-soft/60';
+  'w-full min-h-11 rounded border border-line bg-bg px-3 text-sm text-ink placeholder:text-muted hover:border-muted md:min-h-9';
 
 export function Skeleton({ className = '' }: { className?: string }) {
   return <div className={`skeleton ${className}`} aria-hidden="true" />;
 }
 
+/** Same geometry as a real result card (h-26, 12px gap) so nothing shifts when data arrives. */
 export function ListSkeleton() {
   return (
     <div className="space-y-3 p-3" role="status" aria-label="Loading listings">
-      {Array.from({ length: 6 }, (_, i) => (
-        <Skeleton key={i} className="h-28" />
+      {Array.from({ length: 7 }, (_, i) => (
+        <div
+          key={i}
+          className="flex h-26 items-center gap-3 rounded-md border border-line bg-surface p-3"
+        >
+          <div
+            className="skeleton h-12 w-12 shrink-0"
+            style={{ borderRadius: '50%' }}
+            aria-hidden="true"
+          />
+          <div className="min-w-0 flex-1 space-y-2">
+            <Skeleton className="h-4 w-2/3" />
+            <Skeleton className="h-3 w-1/2" />
+            <Skeleton className="h-6 w-3/4" />
+          </div>
+        </div>
       ))}
     </div>
   );
@@ -32,19 +49,19 @@ export function Chip({
   title,
 }: {
   children: ReactNode;
-  tone?: 'plain' | 'good' | 'flag' | 'blue';
+  tone?: 'plain' | 'good' | 'flag' | 'strong';
   title?: string;
 }) {
   const tones = {
     plain: 'border-line text-muted',
-    good: 'border-match/40 bg-match/10 text-match',
-    flag: 'border-flag/40 bg-flag/10 text-flag',
-    blue: 'border-accent-soft/30 bg-accent/10 text-accent-soft',
+    strong: 'border-line text-ink',
+    good: 'border-match/40 text-match',
+    flag: 'border-flag/50 text-flag',
   };
   return (
     <span
       title={title}
-      className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full border px-2 py-0.5 font-mono text-[11px] leading-5 ${tones[tone]}`}
+      className={`inline-flex h-6 shrink-0 items-center whitespace-nowrap rounded-sm border px-2 font-mono text-xs ${tones[tone]}`}
     >
       {children}
     </span>
@@ -58,12 +75,12 @@ const MODE_LABEL: Record<WorkMode, string> = {
   unknown: 'Mode not stated',
 };
 export const ModeBadge = ({ mode }: { mode: WorkMode }) => (
-  <Chip tone={mode === 'unknown' ? 'plain' : 'blue'}>{MODE_LABEL[mode]}</Chip>
+  <Chip tone={mode === 'unknown' ? 'plain' : 'strong'}>{MODE_LABEL[mode]}</Chip>
 );
 export const modeLabel = (m: WorkMode) => MODE_LABEL[m];
 
-/** Animated circular score. The ring fills from 0 on mount (CSS transition; disabled for reduced-motion). */
-export function ScoreRing({ value, size = 52 }: { value: number; size?: number }) {
+/** Animated circular match score: the one place the accent colour is used for data. Fills from 0 on mount. */
+export function ScoreRing({ value, size = 48 }: { value: number; size?: number }) {
   const [shown, setShown] = useState(0);
   useEffect(() => {
     const id = requestAnimationFrame(() => setShown(value));
@@ -72,12 +89,6 @@ export function ScoreRing({ value, size = 52 }: { value: number; size?: number }
   const r = (size - 6) / 2,
     c = 2 * Math.PI * r,
     pct = Math.round(value * 100);
-  const color =
-    value >= 0.7
-      ? 'var(--color-match)'
-      : value >= 0.45
-        ? 'var(--color-accent-soft)'
-        : 'var(--color-muted)';
   return (
     <div
       className="relative shrink-0"
@@ -92,23 +103,23 @@ export function ScoreRing({ value, size = 52 }: { value: number; size?: number }
           r={r}
           fill="none"
           stroke="var(--color-line)"
-          strokeWidth="4"
+          strokeWidth="3"
         />
         <circle
           cx={size / 2}
           cy={size / 2}
           r={r}
           fill="none"
-          stroke={color}
-          strokeWidth="4"
-          strokeLinecap="round"
+          stroke={value >= 0.45 ? 'var(--color-accent-hover)' : 'var(--color-muted)'}
+          strokeWidth="3"
+          strokeLinecap="butt"
           strokeDasharray={c}
           strokeDashoffset={c * (1 - shown)}
-          style={{ transition: 'stroke-dashoffset 700ms ease-out' }}
+          style={{ transition: 'stroke-dashoffset 600ms ease-out' }}
         />
       </svg>
       <span className="absolute inset-0 grid place-items-center font-mono text-xs font-medium">
-        {pct}%
+        {pct}
       </span>
     </div>
   );
@@ -124,16 +135,11 @@ export function EmptyState({
   action?: ReactNode;
 }) {
   return (
-    <div className="mx-auto max-w-md px-6 py-16 text-center">
-      <div
-        className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-2xl bg-accent/15 text-accent-soft"
-        aria-hidden="true"
-      >
-        ✦
-      </div>
-      <h2 className="text-lg font-semibold">{title}</h2>
-      <p className="mt-2 text-sm text-muted">{children}</p>
-      {action && <div className="mt-5 flex justify-center">{action}</div>}
+    <div className="max-w-md px-4 py-12 md:px-6">
+      <Compass size={24} className="mb-3 text-muted" aria-hidden="true" />
+      <h2 className="text-base font-semibold">{title}</h2>
+      <p className="mt-1 text-sm text-muted">{children}</p>
+      {action && <div className="mt-4 flex">{action}</div>}
     </div>
   );
 }
@@ -144,8 +150,8 @@ export function timeAgo(iso: string | null, now = Date.now()): string {
   return d <= 0
     ? 'today'
     : d === 1
-      ? '1 day ago'
+      ? '1d ago'
       : d < 60
-        ? `${d} days ago`
-        : `${Math.round(d / 30)} months ago`;
+        ? `${d}d ago`
+        : `${Math.round(d / 30)}mo ago`;
 }

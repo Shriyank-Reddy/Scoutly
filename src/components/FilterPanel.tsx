@@ -23,11 +23,11 @@ function Check({
 }) {
   return (
     <label
-      className={`flex items-center gap-2 text-sm ${disabled ? 'opacity-50' : 'cursor-pointer'}`}
+      className={`flex items-center gap-2 min-h-8 text-sm ${disabled ? 'opacity-50' : 'cursor-pointer'}`}
     >
       <input
         type="checkbox"
-        className="h-4 w-4 accent-[#2a62f5]"
+        className="h-4 w-4 shrink-0 accent-[#2a62f5]"
         checked={checked}
         disabled={disabled}
         onChange={(e) => onChange(e.target.checked)}
@@ -55,7 +55,7 @@ export function FilterPanel({
     <form className="space-y-5" onSubmit={(e) => e.preventDefault()} aria-label="Filters">
       <div>
         <label htmlFor="search-input" className="mb-1 block text-xs font-medium text-muted">
-          Search <kbd className="rounded border border-line px-1 font-mono text-[10px]">/</kbd>
+          Search <kbd className="rounded border border-line px-1 font-mono text-xs">/</kbd>
         </label>
         <input
           id="search-input"

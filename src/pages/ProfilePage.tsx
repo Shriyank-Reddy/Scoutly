@@ -63,7 +63,7 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="mx-auto max-w-3xl space-y-4 p-4 pb-24 md:p-6">
+    <div className="max-w-3xl space-y-4 p-4 pb-24 md:p-6">
       <header>
         <h1 className="text-xl font-semibold">Preferences</h1>
         <p className="mt-1 text-sm text-muted">
@@ -242,7 +242,7 @@ export default function ProfilePage() {
         <label className="flex items-start gap-3 text-sm">
           <input
             type="checkbox"
-            className="mt-0.5 h-4 w-4 accent-[#2a62f5]"
+            className="mt-1 h-4 w-4 accent-[#2a62f5]"
             checked={profile.needsSponsorship}
             onChange={(e) => updateProfile({ needsSponsorship: e.target.checked })}
           />

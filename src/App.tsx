@@ -1,4 +1,5 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, type ReactNode } from 'react';
+import { Bookmark, FileText, MapPin, Search, SlidersHorizontal } from 'lucide-react';
 import { HashRouter, NavLink, Route, Routes } from 'react-router-dom';
 import { AppProvider, useApp } from './state/AppState';
 import { Skeleton } from './components/ui';
@@ -10,11 +11,11 @@ const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 const TrackerPage = lazy(() => import('./pages/TrackerPage'));
 
 const NAV = [
-  { to: '/', label: 'Start' },
-  { to: '/search', label: 'Search' },
-  { to: '/city', label: 'City' },
-  { to: '/profile', label: 'Profile' },
-  { to: '/tracker', label: 'Tracker' },
+  { to: '/', label: 'Start', Icon: FileText },
+  { to: '/search', label: 'Search', Icon: Search },
+  { to: '/city', label: 'City', Icon: MapPin },
+  { to: '/tracker', label: 'Tracker', Icon: Bookmark },
+  { to: '/profile', label: 'Profile', Icon: SlidersHorizontal },
 ];
 
 function Shell() {
@@ -34,33 +35,36 @@ function Shell() {
         Skip to content
       </a>
       {meta?.isSample && (
-        <div className="bg-flag/15 px-4 py-1.5 text-center text-xs text-flag" role="status">
-          <strong>Sample data.</strong> These are fictional demo listings. Live listings appear
-          after the first scheduled data refresh succeeds.
+        <div
+          className="border-b border-flag/40 px-4 py-1 font-mono text-xs text-flag"
+          role="status"
+        >
+          <strong className="font-medium">Sample data.</strong> Fictional demo listings until the
+          first live refresh.
         </div>
       )}
-      <header className="flex flex-wrap items-center gap-x-6 gap-y-1 border-b border-line px-4 py-2">
-        <NavLink to="/" className="font-display text-lg font-bold tracking-tight">
-          Scout<span className="text-accent-soft">ly</span>
+      <header className="flex items-center gap-6 border-b border-line px-4">
+        <NavLink to="/" className="py-3 text-base font-semibold">
+          Scoutly
         </NavLink>
-        <nav aria-label="Main" className="flex gap-1">
-          {NAV.map((n) => (
+        <nav aria-label="Main" className="hidden gap-1 md:flex">
+          {NAV.map(({ to, label }) => (
             <NavLink
-              key={n.to}
-              to={n.to}
-              end={n.to === '/'}
+              key={to}
+              to={to}
+              end={to === '/'}
               className={({ isActive }) =>
-                `rounded-lg px-3 py-1.5 text-sm ${isActive ? 'bg-accent/20 text-accent-soft' : 'text-muted hover:text-ink'}`
+                `-mb-px border-b-2 px-3 py-3 text-sm ${isActive ? 'border-accent text-ink' : 'border-transparent text-muted hover:text-ink'}`
               }
             >
-              {n.label}
-              {n.to === '/tracker' && tracker.length > 0 ? (
-                <span className="ml-1 font-mono text-[11px]">{tracker.length}</span>
-              ) : null}
+              {label}
+              {to === '/tracker' && tracker.length > 0 && (
+                <span className="ml-2 font-mono text-xs text-muted">{tracker.length}</span>
+              )}
             </NavLink>
           ))}
         </nav>
-        <span className="ml-auto font-mono text-[11px] text-muted">
+        <span className="ml-auto font-mono text-xs text-muted">
           {updated ? `Updated ${updated}` : ''}
         </span>
       </header>
@@ -68,7 +72,7 @@ function Shell() {
         <Suspense
           fallback={
             <div className="space-y-3 p-4">
-              <Skeleton className="h-10 w-1/2" />
+              <Skeleton className="h-6 w-1/3" />
               <Skeleton className="h-40" />
             </div>
           }
@@ -77,42 +81,69 @@ function Shell() {
             <Route
               path="/"
               element={
-                <div className="h-full overflow-y-auto">
+                <Scroll>
                   <HomePage />
-                </div>
+                </Scroll>
               }
             />
             <Route path="/search" element={<SearchPage />} />
             <Route
               path="/city"
               element={
-                <div className="h-full overflow-y-auto lg:overflow-hidden">
+                <Scroll>
                   <CityPage />
-                </div>
+                </Scroll>
               }
             />
             <Route
               path="/profile"
               element={
-                <div className="h-full overflow-y-auto">
+                <Scroll>
                   <ProfilePage />
-                </div>
+                </Scroll>
               }
             />
             <Route
               path="/tracker"
               element={
-                <div className="h-full overflow-y-auto">
+                <Scroll>
                   <TrackerPage />
-                </div>
+                </Scroll>
               }
             />
           </Routes>
         </Suspense>
       </main>
+      <nav aria-label="Main" className="grid grid-cols-5 border-t border-line bg-bg md:hidden">
+        {NAV.map(({ to, label, Icon }) => (
+          <NavLink
+            key={to}
+            to={to}
+            end={to === '/'}
+            className={({ isActive }) =>
+              `flex h-14 flex-col items-center justify-center gap-1 text-xs ${isActive ? 'text-ink' : 'text-muted'}`
+            }
+          >
+            {({ isActive }) => (
+              <>
+                <Icon
+                  size={20}
+                  aria-hidden="true"
+                  className={isActive ? 'text-accent-hover' : ''}
+                />
+                {label}
+              </>
+            )}
+          </NavLink>
+        ))}
+      </nav>
     </div>
   );
 }
+
+const Scroll = ({ children }: { children: ReactNode }) => (
+  <div className="h-full overflow-y-auto">{children}</div>
+);
 
 export default function App() {
   return (
